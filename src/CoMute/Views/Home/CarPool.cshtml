@@ -1,0 +1,25 @@
+@{
+    ViewBag.Title = "Car Pools";
+}
+
+<table class="table table-striped">
+  <thead>
+    <tr>Car Pools created by me</tr>
+    <tr>
+      <th>origin</th>
+      <th>destination</th>
+      <th>departure</th>
+      <th>arrival</th>
+      <th>days</th>
+      <th>notes</th>
+      <th>seats</th>
+    </tr>
+  </thead>
+  <tbody id="car-pools-created">
+    
+  </tbody>
+</table>
+
+@section scripts {
+    <script type="text/javascript" src="~/Content/js/carpoollist.js"></script>
+}

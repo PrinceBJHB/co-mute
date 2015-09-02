@@ -1,4 +1,5 @@
-﻿; (function (root, $) {
+﻿var user;
+(function (root, $) {
     $('#login').on('submit', function (ev) {
         ev.preventDefault();
         var email = $('#inputEmail').val();
@@ -11,8 +12,12 @@
             return;
         }
 
-        $.post('/api/Authentication', { email: email, password: pswd }, function (data) {
-            // TODO: Navigate away...
+        $.post('/api/Authentication', { email: email, password: pswd },function (data) {
+            user = data; // variable containing user email address
+            console.log(user);
+            window.location.href = './Home/NewCarPool';  // should take you to car pool register
+
+           
         }).fail(function (data) {
             var $alert = $("#error");
             var $p = $alert.find("p");
@@ -23,6 +28,8 @@
                 $p.text('');
                 $alert.addClass('hidden');
             }, 3000);
+
+            
         });
     });
 })(window, jQuery);

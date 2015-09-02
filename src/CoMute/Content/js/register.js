@@ -32,12 +32,22 @@
             return;
         }
 
-        $.post('/api/user', { name: name, surname: surname, phoneNumber: phone, emailAddress: email, password: pswd }, function (data) {
-            // TODO: Navigate away...
+        $.post('/user/add', { name: name, surname: surname, phoneNumber: phone, emailAddress: email, password: pswd }, function (data) {
+            var $success = $("#success");
+            var $p = $success.find("p");
+            $p.text('Registration Successful... Redirecting to Login in page');// redirects to login page once user has been successful
+            $success.removeClass('hidden');
+
+            setTimeout(function () {
+                $p.text('');
+                $success.addClass('hidden');
+                window.location.href = '/'
+            }, 6000);
+          
         }).fail(function (data) {
             var $alert = $("#error");
             var $p = $alert.find("p");
-            $p.text('Registration failed');
+            $p.text('Registration failed.If all information has been put correctly  Check if Email Address Has Not Already Been  Registered');
             $alert.removeClass('hidden');
 
             setTimeout(function () {

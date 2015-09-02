@@ -22,5 +22,16 @@ namespace CoMute.Web.Controllers.Web
         {
             return View();
         }
+
+
+        public ActionResult NewCarPool()  // method for car pool
+        {
+            return View();
+        }
+
+        public ActionResult CarPool()  // method for  car pool lists
+        {
+            return View();
+        }
     }
 }
