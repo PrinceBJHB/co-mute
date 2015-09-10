@@ -3,7 +3,8 @@ namespace CoMute.Web.Models.Dto
 {
     public sealed class LoginRequest
     {
-        public string Email { get; set; }
+        public string Username { get; set; }
         public string Password { get; set; }
+        public string grant_type { get; set; }
     }
 }

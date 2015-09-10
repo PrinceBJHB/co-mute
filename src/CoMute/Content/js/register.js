@@ -1,49 +1,89 @@
-﻿; (function (root, $) {
-    $('#register').on('submit', function (ev) {
-        ev.preventDefault();
+﻿
+var FormValidation = function () {
+    var formValidatorVar;
+    var handleValidation = function () {
 
-        var name = $('#name').val();
-        if (!name) {
-            return;
-        }
+        var form1 = $('#register');
 
-        var surname = $('#surname').val();
-        if (!surname) {
-            return;
-        }
+        formValidatorVar = form1.validate({
+            errorClass: "error-class",
+            validClass: "valid-class",
+            rules: {
+                Name: {
+                    minlength: 2,
+                    required: true
+                },
+                Surname: {
+                    minlength: 2,
+                    required: true
+                },
+                PhoneNumber: {
+                    minlength: 10,
+                    required: false,
+                    digits: true
+                },
+                Email: {
+                    email: true,
+                    required: true
+                },
+                Password: {
+                    minlength: 6,
+                    required: true
+                },
+                ConfirmPassword: {
+                    equalTo: "#Password",
+                    required: true
+                }
+            },
 
-        var phone = $('#phone').val();
-        if (!phone) {
-            return;
-        }
+            invalidHandler: function (event, validator) { //display error alert on form submit              
+                var $alert = $("#error");
+                var $p = $alert.find("p");
+                $p.text('You have ' + validator.numberOfInvalids() + ' errors in your form');
+                $alert.removeClass('hidden');
 
-        var email = $('#email').val();
-        if (!email) {
-            return;
-        }
+                setTimeout(function () {
+                    $p.text('');
+                    $alert.addClass('hidden');
+                }, 3000);
+            },
 
-        var pswd = $('#password').val();
-        if (!pswd) {
-            return;
-        }
+            submitHandler: function (form) {
+                $("#sign-in").prop('disabled', true);
+                $.ajax({
+                    type: 'POST',
+                    url: '/api/accounts/create',
+                    data: $('#register').serialize(),
+                    success: function (result) {
 
-        var cpswd = $('#confirm-password').val();
-        if (!email) {
-            return;
-        }
+                        window.location.href = "Index";
+                    },
+                    fail: function (data) {
+                        var $alert = $("#error");
+                        var $p = $alert.find("p");
+                        $p.text(data.val());
+                        $alert.removeClass('hidden');
 
-        $.post('/api/user', { name: name, surname: surname, phoneNumber: phone, emailAddress: email, password: pswd }, function (data) {
-            // TODO: Navigate away...
-        }).fail(function (data) {
-            var $alert = $("#error");
-            var $p = $alert.find("p");
-            $p.text('Registration failed');
-            $alert.removeClass('hidden');
-
-            setTimeout(function () {
-                $p.text('');
-                $alert.addClass('hidden');
-            }, 3000);
+                        setTimeout(function () {
+                            $p.text('');
+                            $alert.addClass('hidden');
+                        }, 3000);
+                    }
+                });
+            }
         });
-    });
-})(window, jQuery);
+
+
+    }
+
+    return {
+        //main function to initiate the module
+        init: function () {
+            handleValidation();
+        },
+
+        resetForm: function () {
+            formValidatorVar.resetForm();
+        }
+    };
+}();

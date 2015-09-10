@@ -1,0 +1,313 @@
+﻿@model CoMute.Web.Models.CarPoolViewModel
+@{
+    ViewBag.Title = "Car Pools";
+}
+
+<h2>Car Pools</h2>
+<br />
+<br />
+<table class="table table-striped table-bordered table-hover" id="carPoolTable">
+    <thead>
+        <tr>
+            <th>
+                OwnerID
+            </th>
+            <th>
+                Origin
+            </th>
+            <th>
+                AvailableSeats
+            </th>
+            <th>
+                CarPoolDays
+            </th>
+            <th>
+                DateCreated
+            </th>
+            <th>
+                DepartureTime
+            </th>
+            <th>
+                Destination
+            </th>
+            <th>
+                ETA
+            </th>
+            <th>
+                Notes
+            </th>
+        </tr>
+    </thead>
+</table>
+
+<div class="modal fade" id="modalCarPool" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h3 class="modal-title" id="myModalLabel">Add New Car Pool: <span id="mw-offense-number"></span></h3>
+            </div>
+            <div class="modal-body form">
+                <form id="frmvehicledetails" class="form-horizontal form-row-seperated">
+                    <div class="form-body">
+                        <div id="error" class="row row-margin hidden">
+                            <div class="col-md-4 col-md-offset-4 alert alert-danger">
+                                <p></p>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label">Registration Number:</label>
+                            <div class="col-sm-8">
+                                <div class="input-group input-icon right">
+                                    <span class="input-group-addon">
+                                        <i class="fa fa-user"></i>
+                                    </span>
+                                    <i class="validatorIcon fa"></i>
+                                    @Html.TextBoxFor(m => m.CarPools.AvailableSeats, new { @class = "form-control" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label">License Disk Number:</label>
+                            <div class="col-sm-8">
+                                <div class="input-group input-icon right">
+                                    <span class="input-group-addon">
+                                        <i class="fa fa-user"></i>
+                                    </span>
+                                    <i class="validatorIcon fa"></i>
+                                    @Html.TextBoxFor(m => m.CarPools.CarPoolDays, new { @class = "form-control" })
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label">Operator Card Number:</label>
+                            <div class="col-sm-8">
+                                <div class="input-group input-icon right">
+                                    <span class="input-group-addon">
+                                        <i class="fa fa-user"></i>
+                                    </span>
+                                    <i class="validatorIcon fa"></i>
+                                    @Html.TextBoxFor(m => m.CarPools.DateCreated, new { @class = "form-control" })
+
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label">Vehicle Make:</label>
+                            <div class="col-sm-8">
+                                <div class="input-group input-icon right">
+                                    <span class="input-group-addon">
+                                        <i class="fa fa-user"></i>
+                                    </span>
+                                    <i class="validatorIcon fa"></i>
+                                    @Html.TextBoxFor(m => m.CarPools.DepartureTime, new { @class = "form-control" })
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label">Vehicle Model:</label>
+                            <div class="col-sm-8">
+                                <div class="input-group input-icon right">
+                                    <span class="input-group-addon">
+                                        <i class="fa fa-user"></i>
+                                    </span>
+                                    <i class="validatorIcon fa"></i>
+                                    @Html.TextBoxFor(m => m.CarPools.Destination, new { @class = "form-control" })
+
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label">Vehicle GVM:</label>
+                            <div class="col-sm-8">
+                                <div class="input-group input-icon right">
+                                    <span class="input-group-addon">
+                                        <i class="fa fa-user"></i>
+                                    </span>
+                                    <i class="validatorIcon fa"></i>
+                                    @Html.TextBoxFor(m => m.CarPools.ETA, new { @class = "form-control" })
+
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label">Color:</label>
+                            <div class="col-sm-8">
+                                <div class="input-group input-icon right">
+                                    <span class="input-group-addon">
+                                        <i class="fa fa-user"></i>
+                                    </span>
+                                    <i class="validatorIcon fa"></i>
+                                    @Html.TextBoxFor(m => m.CarPools.Notes, new { @class = "form-control" })
+
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label">VIN Number:</label>
+                            <div class="col-sm-8">
+                                <div class="input-group input-icon right">
+                                    <span class="input-group-addon">
+                                        <i class="fa fa-user"></i>
+                                    </span>
+                                    <i class="validatorIcon fa"></i>
+                                    @Html.TextBoxFor(m => m.CarPools.Origin, new { @class = "form-control" })
+
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label">Year:</label>
+                            <div class="col-sm-8">
+                                <div class="input-group input-icon right">
+                                    <span class="input-group-addon">
+                                        <i class="fa fa-user"></i>
+                                    </span>
+                                    <i class="validatorIcon fa"></i>
+                                    @Html.TextBoxFor(m => m.CarPoolDays.DayOfWeek, new { @class = "form-control" })
+
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <div class="row">
+                            <div class="col-md-offset-3 col-md-9">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                @Html.HiddenFor(m => m.CarPools.ID)
+                                <input type="submit" onclick="SaveVehicleDetails(this);" class="btn green" value="GO" />
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <script>
+
+        var CarPoolTable = function () {
+
+            var oTable;
+
+            var ShowModalCarPool = function (e) {
+
+                $("#tbVehicle_RegistrationNumber").val(e.cells[1].innerText);
+                $("#tbVehicle_OperatorCardNumber").val(e.cells[3].innerText);
+                $("#tbVehicle_fkVehicleBodyTypeId").val(e.cells[5].innerText);
+                $("#tbVehicle_fkVehicleModelId").val(e.cells[4].innerText);
+                $("#tbVehicle_Colour").val(e.cells[6].innerText);
+                $("#tbVehicle_VINNumber").val(e.cells[8].innerText);
+
+                $("#tbVehicle_YearFirstRegistered").val(e.cells[5].innerText);
+                $("#tbVehicle_VehicleLicenseExpiryMonth").val(e.cells[10].innerText);
+                $("#tbVehicle_fkRegistrationAuthorityId").val(e.cells[9].innerText);
+                $("#tbVehicle_AssetNumber").val(e.cells[2].innerText);
+                $("#tbVehicle_AssetLocation").val(e.cells[7].innerText);
+                $("#tbVehicle_pkVehicleId").val(e.cells[0].innerText);
+
+                $('#modalVehicle').modal();
+            };
+
+            var DestroyTable = function () {
+                oTable.destroy();
+            };
+
+            var initCarPools = function () {
+                var table = $('#carPoolTable');
+
+                oTable = table.DataTable({
+
+                    // Internationalisation. For more info refer to http://datatables.net/manual/i18n
+                    "language": {
+                        "aria": {
+                            "sortAscending": ": activate to sort column ascending",
+                            "sortDescending": ": activate to sort column descending"
+                        },
+                        "emptyTable": "No data available in table",
+                        "info": "Showing _START_ to _END_ of _TOTAL_ entries",
+                        "infoEmpty": "No entries found",
+                        "infoFiltered": "(filtered1 from _MAX_ total entries)",
+                        "lengthMenu": "Show _MENU_ entries",
+                        "search": "Search:",
+                        "zeroRecords": "No matching records found"
+                    },
+                    "order": [
+                        [0, 'asc']
+                    ],
+                    "lengthMenu": [
+                        [5, 15, 20, -1],
+                        [5, 15, 20, "All"] // change per page values here
+                    ],
+                    // set the initial value
+                    "pageLength": 10,
+
+                    "dom": "<'row'<'col-sm-6 addCarPool'><'col-sm-6'<'pull-right'T>>><'row'<'col-sm-6'l><'col-sm-6'f>r><'table-responsive't><'row'<'col-md-5 col-sm-12'i><'col-md-7 col-sm-12'p>>", // horizobtal scrollable datatable
+                    "ajax": {
+                        "url": "/api/carpool/get", // ajax source
+                        "dataSrc": "",
+                        "type": "POST"
+                    },
+                    "columns": [
+                        { "data": "AvailableSeats" },
+                        { "data": "CarPoolDays" },
+                        { "data": "DateCreated" },
+                        { "data": "DepartureTime" },
+                        { "data": "Destination" },
+                        { "data": "ETA" },
+                        { "data": "Notes" },
+                        { "data": "Origin" },
+                        { "data": "OwnerID" }
+
+                    ],
+
+                    "tableTools": {
+                        "sSwfPath": "//cdn.datatables.net/tabletools/2.24/swf/copy_csv_xls_pdf",
+                        "aButtons": [
+                                    "pdf",
+                                    "csv",
+                                    "xls",
+                                    "copy",
+                                    "print"
+                        ],
+                        "container": "DTTT_container"
+                    }
+                });
+
+                //Added the 'Add Driver' button dynamically so that it could be in '#driverList_wrapper' to be inline with the tableTools
+                $('<button id="btn_new_carPool" class="btn green" style="margin-bottom:10px;">Add New <i class="fa fa-plus"></i></button>').appendTo($('div.addCarPool'));
+
+                $("#btn_new_carPool").click(function () {
+                    ShowModalCarPool();
+                });
+
+            }
+            return {
+
+                //main function to initiate the module
+                init: function () {
+                    initCarPools();
+                },
+                destroyTable: function () {
+                    DestroyTable();
+                }
+
+            };
+
+        }();
+
+        CarPoolTable.init();
+
+    </script>
+}

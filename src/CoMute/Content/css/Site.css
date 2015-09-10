@@ -19,3 +19,10 @@
 .row-margin {
     margin-top: 20px;
 }
+
+.error-class {
+    color:red;
+}
+.valid-class {
+    color:green;
+}

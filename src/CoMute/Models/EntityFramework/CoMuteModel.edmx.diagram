@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="22528bc6d2c74d78b43f4479a7ce388d" Name="Diagram1">
+        <EntityTypeShape EntityType="CoMuteModel.C__MigrationHistory" Width="1.5" PointX="5.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="CoMuteModel.AspNetRoles" Width="1.5" PointX="2.75" PointY="6.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="CoMuteModel.AspNetUserClaims" Width="1.5" PointX="7.25" PointY="5" IsExpanded="true" />
+        <EntityTypeShape EntityType="CoMuteModel.AspNetUserLogins" Width="1.5" PointX="7.25" PointY="7.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="CoMuteModel.AspNetUsers" Width="1.5" PointX="5" PointY="5.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="CoMuteModel.CarPoolDays" Width="1.5" PointX="3" PointY="1.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="CoMuteModel.CarPools" Width="1.5" PointX="0.75" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="CoMuteModel.sysdiagrams" Width="1.5" PointX="7.75" PointY="0.75" IsExpanded="true" />
+        <AssociationConnector Association="CoMuteModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" ManuallyRouted="false" />
+        <AssociationConnector Association="CoMuteModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" ManuallyRouted="false" />
+        <AssociationConnector Association="CoMuteModel.FK_CarPoolDays_CarPools" ManuallyRouted="false" />
+        <AssociationConnector Association="CoMuteModel.FK_CarPools_CarPools" ManuallyRouted="false" />
+        <AssociationConnector Association="CoMuteModel.AspNetUserRoles" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

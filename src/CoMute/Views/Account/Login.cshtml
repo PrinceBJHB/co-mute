@@ -1,0 +1,38 @@
+﻿@model CoMute.Web.Models.Dto.LoginRequest
+@{
+    ViewBag.Title = "Login";
+}
+<div id="error" class="row row-margin hidden">
+    <div class="col-md-4 col-md-offset-4 alert alert-danger">
+        <p></p>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-4 col-md-offset-4">
+        <form id="login">
+            <h2 class="text-center">Sign In</h2>
+            <label for="Username">Email Address</label>
+            @Html.TextBoxFor(m => m.Username, new { @class = "form-control", placeholder = "Email address" })
+            <br />
+            <label for="Password">Password</label>
+            @Html.PasswordFor(m => m.Password, new { @class = "form-control", placeholder = "Password" })
+            <button class="btn btn-primary btn-block" type="submit" id="sign-in">Sign in</button>
+            @Html.HiddenFor(m => m.grant_type)
+        </form>
+    </div>
+</div>
+
+<div id="error" class="row row-margin hidden">
+    <div class="col-md-4 col-md-offset-4 alert alert-danger">
+        <p></p>
+    </div>
+</div>
+
+@section scripts {
+    <script type="text/javascript" src="~/Content/js/login.js"></script>
+
+    <script>
+        FormValidation.init();
+    </script>
+}

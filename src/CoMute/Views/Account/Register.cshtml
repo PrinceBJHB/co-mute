@@ -1,0 +1,55 @@
+﻿@model CoMute.Web.Models.Dto.RegistrationRequest
+@{
+    ViewBag.Title = "Register";
+}
+
+<form id="register">
+    <h2>Register</h2>
+
+    <div id="error" class="row row-margin hidden">
+        <div class="col-md-4 col-md-offset-4 alert alert-danger">
+            <p></p>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="Name">Name</label>
+        @Html.TextBoxFor(m => m.Name, new { @class = "form-control", placeholder = "First Name" })
+    </div>
+
+    <div class="form-group">
+        <label for="Surname">Surname</label>
+        @Html.TextBoxFor(m => m.Surname, new { @class = "form-control", placeholder = "Surname" })
+    </div>
+
+    <div class="form-group">
+        <label for="PhoneNumber">Phone</label>
+        @Html.TextBoxFor(m => m.PhoneNumber, new { @class = "form-control", placeholder = "Phone Number" })
+    </div>
+
+    <div class="form-group">
+        <label for="Email">Email</label>
+        @Html.TextBoxFor(m => m.Email, new { @class = "form-control", placeholder = "Email Address" })
+    </div>
+
+    <div class="form-group">
+        <label for="Password">Password</label>
+        @Html.PasswordFor(m => m.Password, new { @class = "form-control", placeholder = "Password" })
+    </div>
+
+    <div class="form-group">
+        <label for="ConfirmPassword">Confirm Password</label>
+        @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control", placeholder = "Confirm Password" })
+    </div>
+
+    <div class="form-group">
+        <button class="btn btn-primary" type="submit" id="sign-in">Register</button>
+    </div>
+</form>
+
+@section scripts {
+    <script type="text/javascript" src="~/Content/js/register.js"></script>
+    <script>
+    FormValidation.init();
+    </script>
+}
