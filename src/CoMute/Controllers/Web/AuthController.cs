@@ -7,8 +7,9 @@ using CustomAuth;
 
 namespace CoMute.Web.Controllers.Web
 {
-    public class AuthController : Controller, CustomAuth.IBasicAuthController<Models.User, Models.Dto.LoginRequest>
+    public class AuthController : Controller, CustomAuth.IBasicAuthController<Models.UserProfile, Models.Dto.LoginRequest>
     {
+        [HttpGet]
         public ActionResult Login(string ReturnUrl)
         {
             ViewBag.redirect = ReturnUrl;
@@ -28,29 +29,31 @@ namespace CoMute.Web.Controllers.Web
         [HttpPost]
         public ActionResult Login(Models.Dto.LoginRequest model, string ReturnUrl)
         {
-            if (AuthHelper<Models.User>.LoginUser(model.emailAddress, model.password, false))
-            {
-                if (!string.IsNullOrEmpty(ReturnUrl) && ReturnUrl.Length > 1)
-                {
-                    return Redirect(ReturnUrl);
-                }
-                else
-                {
-                    return RedirectToAction("/Home/Index");
-                }
-            }
-            else
-            {
-                ViewBag.error = "Login Failed, Invalid username or password";
-                return View();
-            }
+            //if (AuthHelper<Models.User>.LoginUser(model.emailAddress, model.password, false))
+            //{
+            //    if (!string.IsNullOrEmpty(ReturnUrl) && ReturnUrl.Length > 1)
+            //    {
+            //        return Redirect(ReturnUrl);
+            //    }
+            //    else
+            //    {
+            //        return RedirectToAction("/Home/Index");
+            //    }
+            //}
+            //else
+            //{
+            //    ViewBag.error = "Login Failed, Invalid username or password";
+            //    return View();
+            //}
+
+            return View();
         }
 
         public ActionResult Logout()
         {
             if (ControllerContext.HttpContext.User.Identity.IsAuthenticated)
             {
-                AuthHelper<Models.User>.LogoutUser();
+                AuthHelper<Models.UserProfile>.LogoutUser();
                 ViewBag.error = "You have been Logged out";
             }
             return View("Login");

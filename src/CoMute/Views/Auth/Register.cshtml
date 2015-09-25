@@ -7,10 +7,14 @@
 
 <h2>Register</h2>
 
-@using (Html.BeginForm())
+@using (Ajax.BeginForm(new AjaxOptions
 {
-    @Html.AntiForgeryToken()
-    
+    HttpMethod = "POST",
+    Url = "/api/user/add",
+    OnComplete = "userRegisterComplete",
+    OnFailure = "userRegisterComplete"
+}))
+{
     <div class="form-horizontal">
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="form-group">
@@ -63,7 +67,7 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" />
+                <input type="submit" value="Register" class="btn btn-default" />
             </div>
         </div>
     </div>
@@ -72,3 +76,15 @@
 <div>
     @Html.ActionLink("Login", "Login", "Auth")
 </div>
+
+@section scripts {
+    <script type="text/javascript">
+        function userRegisterComplete(e) {
+            if (e.status == 201) {
+                window.location = "/Auth/Login";
+            } else {
+                alert(e.statusText);
+            }
+        }
+    </script>
+}

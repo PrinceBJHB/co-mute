@@ -24,7 +24,7 @@ namespace CoMute.Web
 
         protected void Application_PostAuthenticateRequest(Object sender, EventArgs e)
         {
-            AuthHelper<Models.User>.PostAuthRequest();
+            AuthHelper<Models.UserProfile>.PostAuthRequest();
         }
     }
 }

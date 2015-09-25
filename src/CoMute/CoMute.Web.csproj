@@ -130,6 +130,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\API\AuthenticationController.cs" />
+    <Compile Include="Controllers\API\CarPoolController.cs" />
     <Compile Include="Controllers\API\UserController.cs" />
     <Compile Include="Controllers\Web\AuthController.cs" />
     <Compile Include="Controllers\Web\HomeController.cs" />
@@ -137,9 +138,11 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\CarPool.cs" />
+    <Compile Include="Models\Dto\CarPoolRequest.cs" />
     <Compile Include="Models\Dto\LoginRequest.cs" />
     <Compile Include="Models\Dto\RegistrationRequest.cs" />
-    <Compile Include="Models\User.cs" />
+    <Compile Include="Extensions\Tools.cs" />
+    <Compile Include="Models\UserProfile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -155,6 +158,8 @@
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />

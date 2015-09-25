@@ -13,6 +13,6 @@ namespace CoMute.DAL
     
     public partial class usp_User_Register_Result
     {
-        public Nullable<decimal> UserID { get; set; }
+        public Nullable<int> UserID { get; set; }
     }
 }

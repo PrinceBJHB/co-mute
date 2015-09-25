@@ -8,23 +8,27 @@ using CustomAuth;
 
 namespace CoMute.Web.Models
 {
-    public class User : IProfileModel
+    public class UserProfile : IProfileModel
     {
         public int UserID { get; set; }
 
         [Required(ErrorMessage = "Please provide your name")]
+        [Display(Name="Name")]
         [StringLength(30, ErrorMessage = "Name needs to be between {2} and {1} characters long", MinimumLength = 3)]
         public string firstName { get; set; }
 
         [Required(ErrorMessage = "Please provide your surname")]
+        [Display(Name = "Surname")]
         [StringLength(30, ErrorMessage = "Surname needs to be between {2} and {1} characters long", MinimumLength = 3)]
         public string lastName { get; set; }
 
         [Required(ErrorMessage = "Please provide your email address")]
+        [Display(Name = "Email Address")]
         [DataType(DataType.EmailAddress)]
         public string emailAddress { get; set; }
 
         [DataType(DataType.PhoneNumber)]
+        [Display(Name = "Phone Number")]
         public string phoneNumber { get; set; }
 
         public bool rememberMe { get; set; }
@@ -66,6 +70,21 @@ namespace CoMute.Web.Models
             {
                 return false;
             }
+        }
+
+        public static implicit operator Models.UserProfile(DAL.User model)
+        {
+            if (model == null)
+                return null;
+
+            return new UserProfile()
+            {
+                UserID = model.UserID,
+                firstName = model.firstName,
+                lastName = model.lastName,
+                emailAddress = model.emailAddress,
+                phoneNumber = model.phoneNumber
+            };
         }
     }
 }

@@ -88,6 +88,7 @@
       <DependentUpon>CarPool.tt</DependentUpon>
     </Compile>
     <Content Include="Scripts\v0.1.sql" />
+    <Content Include="Scripts\v0.2.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

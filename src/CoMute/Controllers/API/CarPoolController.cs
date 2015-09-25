@@ -9,10 +9,10 @@ using System.Web.Http;
 
 namespace CoMute.Web.Controllers.API
 {
-    public class UserController : ApiController
+    public class CarPoolController : ApiController
     {
-        [Route("api/user/add")]
-        public HttpResponseMessage Post(RegistrationRequest registrationRequest)
+        [Route("api/carpool/add")]
+        public HttpResponseMessage Post(CarPoolRequest carpoolRequest)
         {
             try
             {
@@ -20,17 +20,10 @@ namespace CoMute.Web.Controllers.API
                 {
                     using (DAL.CoMuteEntities db = new DAL.CoMuteEntities())
                     {
-                        DAL.usp_User_Register_Result result = db.usp_User_Register(
-                            registrationRequest.firstName.FormalFormat(),
-                            registrationRequest.lastName.FormalFormat(),
-                            registrationRequest.emailAddress.ToLower(),
-                            registrationRequest.phoneNumber,
-                            registrationRequest.password).FirstOrDefault();
-
-                        if (result != null && result.UserID > 0)
-                        {
-                            return Request.CreateResponse(HttpStatusCode.Created, "Successfully registered");
-                        }
+                        //if (result != null && result.UserID > 0)
+                        //{
+                        //    return Request.CreateResponse(HttpStatusCode.Created, "Successfully registered");
+                        //}
                     }
                 }
                 else

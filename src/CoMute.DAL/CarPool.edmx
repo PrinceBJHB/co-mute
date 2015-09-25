@@ -259,7 +259,7 @@
           </ReferentialConstraint>
         </Association>
         <ComplexType Name="usp_User_Register_Result">
-          <Property Type="Decimal" Name="UserID" Nullable="true" Precision="38" Scale="0" />
+          <Property Type="Int32" Name="UserID" Nullable="true" />
         </ComplexType>
         <ComplexType Name="usp_CarPool_Create_Result">
           <Property Type="Int32" Name="Success" Nullable="false" />
