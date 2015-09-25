@@ -12,24 +12,16 @@ namespace CoMute.DAL
     using System;
     using System.Collections.Generic;
     
-    public partial class CarPool
+    public partial class DaysOfWeek
     {
-        public CarPool()
+        public DaysOfWeek()
         {
             this.CarPoolDays = new HashSet<CarPoolDay>();
         }
     
-        public int CarPoolID { get; set; }
-        public int UserID { get; set; }
-        public System.TimeSpan departureTime { get; set; }
-        public System.TimeSpan expectedArrivalTime { get; set; }
-        public string origin { get; set; }
-        public string destination { get; set; }
-        public int seatsAvailable { get; set; }
-        public string notes { get; set; }
-        public System.DateTime created { get; set; }
+        public int DayOfWeekID { get; set; }
+        public string nameOfDay { get; set; }
     
         public virtual ICollection<CarPoolDay> CarPoolDays { get; set; }
-        public virtual User User { get; set; }
     }
 }

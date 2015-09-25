@@ -33,12 +33,20 @@ namespace CoMute.Web.Models
         {
             try
             {
-                if (emailAddress.ToLower() == "robin@test.co.za" && password == "password")
+                using (DAL.CoMuteEntities db = new DAL.CoMuteEntities())
                 {
-                    emailAddress = "emailAddress";
-                    userType = "Admin";
+                    DAL.usp_User_Login_Result result = db.usp_User_Login(emailAddress, password).FirstOrDefault();
+                    if (result != null)
+                    {
+                        firstName = result.firstName;
+                        lastName = result.lastName;
+                        emailAddress = result.emailAddress;
+                        phoneNumber = result.phoneNumber;
 
-                    return true;
+                        userType = "Admin";
+
+                        return true;
+                    }
                 }
             }
             catch

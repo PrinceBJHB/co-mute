@@ -41,6 +41,8 @@
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -48,11 +50,68 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CarPool.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CarPool.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CarPool.cs">
+      <DependentUpon>CarPool.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CarPool.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CarPool.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="CarPool1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CarPool.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CarPoolDay.cs">
+      <DependentUpon>CarPool.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DaysOfWeek.cs">
+      <DependentUpon>CarPool.tt</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="User.cs">
+      <DependentUpon>CarPool.tt</DependentUpon>
+    </Compile>
+    <Compile Include="usp_CarPool_Create_Result.cs">
+      <DependentUpon>CarPool.tt</DependentUpon>
+    </Compile>
+    <Compile Include="usp_User_Login_Result.cs">
+      <DependentUpon>CarPool.tt</DependentUpon>
+    </Compile>
+    <Compile Include="usp_User_Register_Result.cs">
+      <DependentUpon>CarPool.tt</DependentUpon>
+    </Compile>
+    <Content Include="Scripts\v0.1.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <EntityDeploy Include="CarPool.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>CarPool.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <None Include="CarPool.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>CarPool.edmx</DependentUpon>
+      <LastGenOutput>CarPool.Context.cs</LastGenOutput>
+    </None>
+    <None Include="CarPool.edmx.diagram">
+      <DependentUpon>CarPool.edmx</DependentUpon>
+    </None>
+    <None Include="CarPool.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>CarPool.edmx</DependentUpon>
+      <LastGenOutput>CarPool1.cs</LastGenOutput>
+    </None>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

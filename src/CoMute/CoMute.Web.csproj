@@ -191,6 +191,10 @@
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\CoMute.DAL\CoMute.DAL.csproj">
+      <Project>{b02340d3-d61b-422f-8156-3b9d2af29489}</Project>
+      <Name>CoMute.DAL</Name>
+    </ProjectReference>
     <ProjectReference Include="..\CustomAuth\CustomAuth.csproj">
       <Project>{05aef08f-29dd-42b5-9e43-c3143b23a55c}</Project>
       <Name>CustomAuth</Name>

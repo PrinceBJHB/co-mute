@@ -4,12 +4,12 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="CoMuteModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="CoMuteModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="CarPoolDays">
           <Key>
-            <PropertyRef Name="CarPoolID" />
-            <PropertyRef Name="DayOfWeekID" />
+            <PropertyRef Name="CarPoolDayID" />
           </Key>
+          <Property Name="CarPoolDayID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="CarPoolID" Type="int" Nullable="false" />
           <Property Name="DayOfWeekID" Type="int" Nullable="false" />
         </EntityType>
@@ -19,15 +19,15 @@
           </Key>
           <Property Name="CarPoolID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="UserID" Type="int" Nullable="false" />
-          <Property Name="departureTime" Type="nchar" MaxLength="10" Nullable="false" />
-          <Property Name="expectedArrivalTime" Type="nchar" MaxLength="10" Nullable="false" />
+          <Property Name="departureTime" Type="time" Precision="7" Nullable="false" />
+          <Property Name="expectedArrivalTime" Type="time" Precision="7" Nullable="false" />
           <Property Name="origin" Type="varchar(max)" Nullable="false" />
           <Property Name="destination" Type="varchar(max)" Nullable="false" />
           <Property Name="seatsAvailable" Type="int" Nullable="false" />
           <Property Name="notes" Type="varchar(max)" />
           <Property Name="created" Type="datetime" Nullable="false" />
         </EntityType>
-        <EntityType Name="DayOfWeek">
+        <EntityType Name="DaysOfWeek">
           <Key>
             <PropertyRef Name="DayOfWeekID" />
           </Key>
@@ -43,7 +43,7 @@
           <Property Name="lastName" Type="varchar" MaxLength="30" Nullable="false" />
           <Property Name="emailAddress" Type="varchar" MaxLength="128" Nullable="false" />
           <Property Name="phoneNumber" Type="varchar" MaxLength="12" Nullable="false" />
-          <Property Name="password" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="password" Type="varchar" MaxLength="32" Nullable="false" />
           <Property Name="active" Type="bit" Nullable="false" />
           <Property Name="created" Type="datetime" Nullable="false" />
         </EntityType>
@@ -60,10 +60,10 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_CarPoolDays_DayOfWeek">
-          <End Role="DayOfWeek" Type="Self.DayOfWeek" Multiplicity="1" />
+          <End Role="DaysOfWeek" Type="Self.DaysOfWeek" Multiplicity="1" />
           <End Role="CarPoolDays" Type="Self.CarPoolDays" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="DayOfWeek">
+            <Principal Role="DaysOfWeek">
               <PropertyRef Name="DayOfWeekID" />
             </Principal>
             <Dependent Role="CarPoolDays">
@@ -83,17 +83,38 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Function Name="usp_CarPool_Create" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="UserID" Type="int" Mode="In" />
+          <Parameter Name="departureTime" Type="time" Mode="In" />
+          <Parameter Name="expectedArrivalTime" Type="time" Mode="In" />
+          <Parameter Name="origin" Type="varchar(max)" Mode="In" />
+          <Parameter Name="destination" Type="varchar(max)" Mode="In" />
+          <Parameter Name="seatsAvailable" Type="int" Mode="In" />
+          <Parameter Name="notes" Type="varchar(max)" Mode="In" />
+          <Parameter Name="days" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="usp_User_Login" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="emailAddress" Type="varchar" Mode="In" />
+          <Parameter Name="password" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="usp_User_Register" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="firstName" Type="varchar" Mode="In" />
+          <Parameter Name="lastName" Type="varchar" Mode="In" />
+          <Parameter Name="emailAddress" Type="varchar" Mode="In" />
+          <Parameter Name="phoneNumber" Type="varchar" Mode="In" />
+          <Parameter Name="password" Type="varchar" Mode="In" />
+        </Function>
         <EntityContainer Name="CoMuteModelStoreContainer">
           <EntitySet Name="CarPoolDays" EntityType="Self.CarPoolDays" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CarPools" EntityType="Self.CarPools" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="DayOfWeek" EntityType="Self.DayOfWeek" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DaysOfWeek" EntityType="Self.DaysOfWeek" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_CarPoolDays_CarPools" Association="Self.FK_CarPoolDays_CarPools">
             <End Role="CarPools" EntitySet="CarPools" />
             <End Role="CarPoolDays" EntitySet="CarPoolDays" />
           </AssociationSet>
           <AssociationSet Name="FK_CarPoolDays_DayOfWeek" Association="Self.FK_CarPoolDays_DayOfWeek">
-            <End Role="DayOfWeek" EntitySet="DayOfWeek" />
+            <End Role="DaysOfWeek" EntitySet="DaysOfWeek" />
             <End Role="CarPoolDays" EntitySet="CarPoolDays" />
           </AssociationSet>
           <AssociationSet Name="FK_CarPools_Users" Association="Self.FK_CarPools_Users">
@@ -101,129 +122,227 @@
             <End Role="CarPools" EntitySet="CarPools" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="CoMuteModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="CoMuteEntities" annotation:LazyLoadingEnabled="true">
+          <FunctionImport Name="usp_CarPool_Create" ReturnType="Collection(CoMuteModel.usp_CarPool_Create_Result)">
+            <Parameter Name="UserID" Mode="In" Type="Int32" />
+            <Parameter Name="departureTime" Mode="In" Type="Time" />
+            <Parameter Name="expectedArrivalTime" Mode="In" Type="Time" />
+            <Parameter Name="origin" Mode="In" Type="String" />
+            <Parameter Name="destination" Mode="In" Type="String" />
+            <Parameter Name="seatsAvailable" Mode="In" Type="Int32" />
+            <Parameter Name="notes" Mode="In" Type="String" />
+            <Parameter Name="days" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="usp_User_Login" ReturnType="Collection(CoMuteModel.usp_User_Login_Result)">
+            <Parameter Name="emailAddress" Mode="In" Type="String" />
+            <Parameter Name="password" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="usp_User_Register" ReturnType="Collection(CoMuteModel.usp_User_Register_Result)">
+            <Parameter Name="firstName" Mode="In" Type="String" />
+            <Parameter Name="lastName" Mode="In" Type="String" />
+            <Parameter Name="emailAddress" Mode="In" Type="String" />
+            <Parameter Name="phoneNumber" Mode="In" Type="String" />
+            <Parameter Name="password" Mode="In" Type="String" />
+          </FunctionImport>
+          <EntitySet Name="CarPoolDays" EntityType="CoMuteModel.CarPoolDay" />
+          <EntitySet Name="CarPools" EntityType="CoMuteModel.CarPool" />
+          <EntitySet Name="DaysOfWeeks" EntityType="CoMuteModel.DaysOfWeek" />
+          <EntitySet Name="Users" EntityType="CoMuteModel.User" />
+          <AssociationSet Name="FK_CarPoolDays_CarPools" Association="CoMuteModel.FK_CarPoolDays_CarPools">
+            <End Role="CarPool" EntitySet="CarPools" />
+            <End Role="CarPoolDay" EntitySet="CarPoolDays" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CarPoolDays_DayOfWeek" Association="CoMuteModel.FK_CarPoolDays_DayOfWeek">
+            <End Role="DaysOfWeek" EntitySet="DaysOfWeeks" />
+            <End Role="CarPoolDay" EntitySet="CarPoolDays" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CarPools_Users" Association="CoMuteModel.FK_CarPools_Users">
+            <End Role="User" EntitySet="Users" />
+            <End Role="CarPool" EntitySet="CarPools" />
+          </AssociationSet>
+        </EntityContainer>
+        <ComplexType Name="usp_User_Login_Result">
+          <Property Type="Int32" Name="UserID" Nullable="false" />
+          <Property Type="String" Name="firstName" Nullable="false" MaxLength="30" />
+          <Property Type="String" Name="lastName" Nullable="false" MaxLength="30" />
+          <Property Type="String" Name="emailAddress" Nullable="false" MaxLength="128" />
+          <Property Type="String" Name="phoneNumber" Nullable="false" MaxLength="12" />
+          <Property Type="Boolean" Name="active" Nullable="false" />
+          <Property Type="DateTime" Name="created" Nullable="false" Precision="23" />
+        </ComplexType>
+        <EntityType Name="CarPoolDay">
+          <Key>
+            <PropertyRef Name="CarPoolDayID" />
+          </Key>
+          <Property Name="CarPoolDayID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CarPoolID" Type="Int32" Nullable="false" />
+          <Property Name="DayOfWeekID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="CarPool" Relationship="CoMuteModel.FK_CarPoolDays_CarPools" FromRole="CarPoolDay" ToRole="CarPool" />
+          <NavigationProperty Name="DaysOfWeek" Relationship="CoMuteModel.FK_CarPoolDays_DayOfWeek" FromRole="CarPoolDay" ToRole="DaysOfWeek" />
+        </EntityType>
         <EntityType Name="CarPool">
           <Key>
             <PropertyRef Name="CarPoolID" />
           </Key>
           <Property Name="CarPoolID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="UserID" Type="Int32" Nullable="false" />
-          <Property Name="departureTime" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
-          <Property Name="expectedArrivalTime" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
-          <Property Name="origin" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="destination" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="departureTime" Type="Time" Nullable="false" Precision="7" />
+          <Property Name="expectedArrivalTime" Type="Time" Nullable="false" Precision="7" />
+          <Property Name="origin" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="destination" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="seatsAvailable" Type="Int32" Nullable="false" />
           <Property Name="notes" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="created" Type="DateTime" Nullable="false" Precision="3" />
-          <NavigationProperty Name="User" Relationship="Self.FK_CarPools_Users" FromRole="CarPools" ToRole="Users" />
-          <NavigationProperty Name="DayOfWeeks" Relationship="Self.CarPoolDays" FromRole="CarPools" ToRole="DayOfWeek" />
+          <NavigationProperty Name="CarPoolDays" Relationship="CoMuteModel.FK_CarPoolDays_CarPools" FromRole="CarPool" ToRole="CarPoolDay" />
+          <NavigationProperty Name="User" Relationship="CoMuteModel.FK_CarPools_Users" FromRole="CarPool" ToRole="User" />
         </EntityType>
-        <EntityType Name="DayOfWeek">
+        <EntityType Name="DaysOfWeek">
           <Key>
             <PropertyRef Name="DayOfWeekID" />
           </Key>
           <Property Name="DayOfWeekID" Type="Int32" Nullable="false" />
-          <Property Name="nameOfDay" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
-          <NavigationProperty Name="CarPools" Relationship="Self.CarPoolDays" FromRole="DayOfWeek" ToRole="CarPools" />
+          <Property Name="nameOfDay" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="CarPoolDays" Relationship="CoMuteModel.FK_CarPoolDays_DayOfWeek" FromRole="DaysOfWeek" ToRole="CarPoolDay" />
         </EntityType>
         <EntityType Name="User">
           <Key>
             <PropertyRef Name="UserID" />
           </Key>
           <Property Name="UserID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="firstName" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="lastName" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="emailAddress" Type="String" MaxLength="128" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="phoneNumber" Type="String" MaxLength="12" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="password" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="firstName" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="lastName" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="emailAddress" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="false" />
+          <Property Name="phoneNumber" Type="String" Nullable="false" MaxLength="12" FixedLength="false" Unicode="false" />
+          <Property Name="password" Type="String" Nullable="false" MaxLength="32" FixedLength="false" Unicode="false" />
           <Property Name="active" Type="Boolean" Nullable="false" />
           <Property Name="created" Type="DateTime" Nullable="false" Precision="3" />
-          <NavigationProperty Name="CarPools" Relationship="Self.FK_CarPools_Users" FromRole="Users" ToRole="CarPools" />
+          <NavigationProperty Name="CarPools" Relationship="CoMuteModel.FK_CarPools_Users" FromRole="User" ToRole="CarPool" />
         </EntityType>
-        <Association Name="FK_CarPools_Users">
-          <End Role="Users" Type="Self.User" Multiplicity="1" />
-          <End Role="CarPools" Type="Self.CarPool" Multiplicity="*" />
+        <Association Name="FK_CarPoolDays_CarPools">
+          <End Type="CoMuteModel.CarPool" Role="CarPool" Multiplicity="1" />
+          <End Type="CoMuteModel.CarPoolDay" Role="CarPoolDay" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Users">
+            <Principal Role="CarPool">
+              <PropertyRef Name="CarPoolID" />
+            </Principal>
+            <Dependent Role="CarPoolDay">
+              <PropertyRef Name="CarPoolID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CarPoolDays_DayOfWeek">
+          <End Type="CoMuteModel.DaysOfWeek" Role="DaysOfWeek" Multiplicity="1" />
+          <End Type="CoMuteModel.CarPoolDay" Role="CarPoolDay" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DaysOfWeek">
+              <PropertyRef Name="DayOfWeekID" />
+            </Principal>
+            <Dependent Role="CarPoolDay">
+              <PropertyRef Name="DayOfWeekID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CarPools_Users">
+          <End Type="CoMuteModel.User" Role="User" Multiplicity="1" />
+          <End Type="CoMuteModel.CarPool" Role="CarPool" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
               <PropertyRef Name="UserID" />
             </Principal>
-            <Dependent Role="CarPools">
+            <Dependent Role="CarPool">
               <PropertyRef Name="UserID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="CarPoolDays">
-          <End Role="CarPools" Type="Self.CarPool" Multiplicity="*" />
-          <End Role="DayOfWeek" Type="Self.DayOfWeek" Multiplicity="*" />
-        </Association>
-        <EntityContainer Name="CoMuteEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="CarPools" EntityType="Self.CarPool" />
-          <EntitySet Name="DayOfWeeks" EntityType="Self.DayOfWeek" />
-          <EntitySet Name="Users" EntityType="Self.User" />
-          <AssociationSet Name="FK_CarPools_Users" Association="Self.FK_CarPools_Users">
-            <End Role="Users" EntitySet="Users" />
-            <End Role="CarPools" EntitySet="CarPools" />
-          </AssociationSet>
-          <AssociationSet Name="CarPoolDays" Association="Self.CarPoolDays">
-            <End Role="CarPools" EntitySet="CarPools" />
-            <End Role="DayOfWeek" EntitySet="DayOfWeeks" />
-          </AssociationSet>
-        </EntityContainer>
+        <ComplexType Name="usp_User_Register_Result">
+          <Property Type="Decimal" Name="UserID" Nullable="true" Precision="38" Scale="0" />
+        </ComplexType>
+        <ComplexType Name="usp_CarPool_Create_Result">
+          <Property Type="Int32" Name="Success" Nullable="false" />
+        </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="CoMuteModelStoreContainer" CdmEntityContainer="CoMuteEntities">
-          <EntitySetMapping Name="CarPools">
-            <EntityTypeMapping TypeName="CoMuteModel.CarPool">
-              <MappingFragment StoreEntitySet="CarPools">
-                <ScalarProperty Name="CarPoolID" ColumnName="CarPoolID" />
+          <FunctionImportMapping FunctionImportName="usp_CarPool_Create" FunctionName="CoMuteModel.Store.usp_CarPool_Create" >
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="CoMuteModel.usp_CarPool_Create_Result">
+                <ScalarProperty Name="Success" ColumnName="Success" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="usp_User_Login" FunctionName="CoMuteModel.Store.usp_User_Login">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="CoMuteModel.usp_User_Login_Result">
                 <ScalarProperty Name="UserID" ColumnName="UserID" />
-                <ScalarProperty Name="departureTime" ColumnName="departureTime" />
-                <ScalarProperty Name="expectedArrivalTime" ColumnName="expectedArrivalTime" />
-                <ScalarProperty Name="origin" ColumnName="origin" />
-                <ScalarProperty Name="destination" ColumnName="destination" />
-                <ScalarProperty Name="seatsAvailable" ColumnName="seatsAvailable" />
-                <ScalarProperty Name="notes" ColumnName="notes" />
+                <ScalarProperty Name="firstName" ColumnName="firstName" />
+                <ScalarProperty Name="lastName" ColumnName="lastName" />
+                <ScalarProperty Name="emailAddress" ColumnName="emailAddress" />
+                <ScalarProperty Name="phoneNumber" ColumnName="phoneNumber" />
+                <ScalarProperty Name="active" ColumnName="active" />
                 <ScalarProperty Name="created" ColumnName="created" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="usp_User_Register" FunctionName="CoMuteModel.Store.usp_User_Register" >
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="CoMuteModel.usp_User_Register_Result">
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="CarPoolDays">
+            <EntityTypeMapping TypeName="CoMuteModel.CarPoolDay">
+              <MappingFragment StoreEntitySet="CarPoolDays">
+                <ScalarProperty Name="DayOfWeekID" ColumnName="DayOfWeekID" />
+                <ScalarProperty Name="CarPoolID" ColumnName="CarPoolID" />
+                <ScalarProperty Name="CarPoolDayID" ColumnName="CarPoolDayID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="DayOfWeeks">
-            <EntityTypeMapping TypeName="CoMuteModel.DayOfWeek">
-              <MappingFragment StoreEntitySet="DayOfWeek">
-                <ScalarProperty Name="DayOfWeekID" ColumnName="DayOfWeekID" />
+          <EntitySetMapping Name="CarPools">
+            <EntityTypeMapping TypeName="CoMuteModel.CarPool">
+              <MappingFragment StoreEntitySet="CarPools">
+                <ScalarProperty Name="created" ColumnName="created" />
+                <ScalarProperty Name="notes" ColumnName="notes" />
+                <ScalarProperty Name="seatsAvailable" ColumnName="seatsAvailable" />
+                <ScalarProperty Name="destination" ColumnName="destination" />
+                <ScalarProperty Name="origin" ColumnName="origin" />
+                <ScalarProperty Name="expectedArrivalTime" ColumnName="expectedArrivalTime" />
+                <ScalarProperty Name="departureTime" ColumnName="departureTime" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="CarPoolID" ColumnName="CarPoolID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DaysOfWeeks">
+            <EntityTypeMapping TypeName="CoMuteModel.DaysOfWeek">
+              <MappingFragment StoreEntitySet="DaysOfWeek">
                 <ScalarProperty Name="nameOfDay" ColumnName="nameOfDay" />
+                <ScalarProperty Name="DayOfWeekID" ColumnName="DayOfWeekID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Users">
             <EntityTypeMapping TypeName="CoMuteModel.User">
               <MappingFragment StoreEntitySet="Users">
-                <ScalarProperty Name="UserID" ColumnName="UserID" />
-                <ScalarProperty Name="firstName" ColumnName="firstName" />
-                <ScalarProperty Name="lastName" ColumnName="lastName" />
-                <ScalarProperty Name="emailAddress" ColumnName="emailAddress" />
-                <ScalarProperty Name="phoneNumber" ColumnName="phoneNumber" />
-                <ScalarProperty Name="password" ColumnName="password" />
-                <ScalarProperty Name="active" ColumnName="active" />
                 <ScalarProperty Name="created" ColumnName="created" />
+                <ScalarProperty Name="active" ColumnName="active" />
+                <ScalarProperty Name="password" ColumnName="password" />
+                <ScalarProperty Name="phoneNumber" ColumnName="phoneNumber" />
+                <ScalarProperty Name="emailAddress" ColumnName="emailAddress" />
+                <ScalarProperty Name="lastName" ColumnName="lastName" />
+                <ScalarProperty Name="firstName" ColumnName="firstName" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <AssociationSetMapping Name="CarPoolDays" TypeName="CoMuteModel.CarPoolDays" StoreEntitySet="CarPoolDays">
-            <EndProperty Name="CarPools">
-              <ScalarProperty Name="CarPoolID" ColumnName="CarPoolID" />
-            </EndProperty>
-            <EndProperty Name="DayOfWeek">
-              <ScalarProperty Name="DayOfWeekID" ColumnName="DayOfWeekID" />
-            </EndProperty>
-          </AssociationSetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

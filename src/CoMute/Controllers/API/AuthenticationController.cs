@@ -2,6 +2,7 @@
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using System.Linq;
 
 namespace CoMute.Web.Controllers.API
 {
@@ -14,7 +15,18 @@ namespace CoMute.Web.Controllers.API
         /// <returns></returns>
         public HttpResponseMessage Post(LoginRequest loginRequest)
         {
-            return Request.CreateResponse(HttpStatusCode.NotFound);
+            using (DAL.CoMuteEntities db = new DAL.CoMuteEntities())
+            {
+                DAL.usp_User_Login_Result result = db.usp_User_Login(loginRequest.emailAddress, loginRequest.password).FirstOrDefault();
+                if (result != null)
+                {
+                    return Request.CreateResponse(HttpStatusCode.OK, result);
+                }
+                else
+                {
+                    return Request.CreateResponse(HttpStatusCode.Forbidden);
+                }
+            }
         }
     }
 }

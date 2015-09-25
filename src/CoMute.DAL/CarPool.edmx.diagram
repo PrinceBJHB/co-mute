@@ -4,12 +4,14 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="432a94b238a240b8a50438ac13c19c96" Name="Diagram1">
-        <EntityTypeShape EntityType="CoMuteModel.CarPool" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
-        <EntityTypeShape EntityType="CoMuteModel.DayOfWeek" Width="1.5" PointX="5.25" PointY="1.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="CoMuteModel.User" Width="1.5" PointX="0.75" PointY="1.125" IsExpanded="true" />
-        <AssociationConnector Association="CoMuteModel.FK_CarPools_Users" ManuallyRouted="false" />
-        <AssociationConnector Association="CoMuteModel.CarPoolDays" ManuallyRouted="false" />
+      <Diagram DiagramId="432a94b238a240b8a50438ac13c19c96" Name="Diagram1" ZoomLevel="100">
+        <EntityTypeShape EntityType="CoMuteModel.CarPoolDay" Width="1.5" PointX="5.25" PointY="1.5" />
+        <EntityTypeShape EntityType="CoMuteModel.CarPool" Width="1.5" PointX="3" PointY="1" />
+        <EntityTypeShape EntityType="CoMuteModel.DaysOfWeek" Width="1.5" PointX="7.25" PointY="1.75" />
+        <EntityTypeShape EntityType="CoMuteModel.User" Width="1.5" PointX="0.75" PointY="1.125" />
+        <AssociationConnector Association="CoMuteModel.FK_CarPoolDays_CarPools" />
+        <AssociationConnector Association="CoMuteModel.FK_CarPoolDays_DayOfWeek" />
+        <AssociationConnector Association="CoMuteModel.FK_CarPools_Users" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

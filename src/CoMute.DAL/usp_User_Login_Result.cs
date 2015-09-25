@@ -10,18 +10,15 @@
 namespace CoMute.DAL
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class DayOfWeek
+    public partial class usp_User_Login_Result
     {
-        public DayOfWeek()
-        {
-            this.CarPools = new HashSet<CarPool>();
-        }
-    
-        public int DayOfWeekID { get; set; }
-        public string nameOfDay { get; set; }
-    
-        public virtual ICollection<CarPool> CarPools { get; set; }
+        public int UserID { get; set; }
+        public string firstName { get; set; }
+        public string lastName { get; set; }
+        public string emailAddress { get; set; }
+        public string phoneNumber { get; set; }
+        public bool active { get; set; }
+        public System.DateTime created { get; set; }
     }
 }
