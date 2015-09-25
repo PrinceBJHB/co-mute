@@ -48,6 +48,7 @@ namespace CoMute.Web.Models
                         emailAddress = result.emailAddress;
                         phoneNumber = result.phoneNumber;
 
+                        rememberMe = false;
                         userType = "Admin";
 
                         return true;

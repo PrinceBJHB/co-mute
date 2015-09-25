@@ -96,6 +96,7 @@
     <Content Include="Scripts\v0.1.sql" />
     <Content Include="Scripts\v0.2.sql" />
     <Content Include="Scripts\v0.3.sql" />
+    <Content Include="Scripts\v0.4.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

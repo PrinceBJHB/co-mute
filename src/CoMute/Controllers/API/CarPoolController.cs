@@ -24,7 +24,29 @@ namespace CoMute.Web.Controllers.API
                     model.UserID = AuthHelper<Models.UserProfile>.userProfile.UserID;
                     return Request.CreateResponse(HttpStatusCode.OK, model);
                 } 
-                else if (ModelState.IsValid)
+                else
+                {
+                    using (DAL.CoMuteEntities db = new DAL.CoMuteEntities())
+                    {
+                        Models.Dto.CarPoolRequest model = db.CarPools.Where(a => a.CarPoolID == id).FirstOrDefault();
+                        return Request.CreateResponse(HttpStatusCode.OK, model);
+                    }
+                }
+            }
+            catch
+            {
+                // Nlog
+            }
+
+            return Request.CreateResponse(HttpStatusCode.BadRequest, "Failed to register new user...");
+        }
+
+        [Route("api/carpool/create")]
+        public HttpResponseMessage Post(Models.Dto.CarPoolRequest carPoolRequest)
+        {
+            try
+            {
+                if (ModelState.IsValid)
                 {
                     using (DAL.CoMuteEntities db = new DAL.CoMuteEntities())
                     {

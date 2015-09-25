@@ -19,8 +19,8 @@
           </Key>
           <Property Name="CarPoolID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="UserID" Type="int" Nullable="false" />
-          <Property Name="departureTime" Type="time" Precision="7" Nullable="false" />
-          <Property Name="expectedArrivalTime" Type="time" Precision="7" Nullable="false" />
+          <Property Name="departureTime" Type="datetime" Nullable="false" />
+          <Property Name="expectedArrivalTime" Type="datetime" Nullable="false" />
           <Property Name="origin" Type="varchar(max)" Nullable="false" />
           <Property Name="destination" Type="varchar(max)" Nullable="false" />
           <Property Name="seatsAvailable" Type="int" Nullable="false" />
@@ -258,8 +258,8 @@
           </Key>
           <Property Name="CarPoolID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="UserID" Type="Int32" Nullable="false" />
-          <Property Name="departureTime" Type="Time" Nullable="false" Precision="7" />
-          <Property Name="expectedArrivalTime" Type="Time" Nullable="false" Precision="7" />
+          <Property Name="departureTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="expectedArrivalTime" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="origin" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="destination" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="seatsAvailable" Type="Int32" Nullable="false" />
@@ -372,7 +372,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-      </Schema>
+        </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>

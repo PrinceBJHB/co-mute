@@ -35,5 +35,30 @@ namespace CoMute.Web.Models.Dto
         public List<DayOfWeek> daysAvaiable { get; set; }
 
         public string notes { get; set; }
+
+        public static implicit operator CarPoolRequest(DAL.CarPool model)
+        {
+            if (model == null)
+                return null;
+
+            CarPoolRequest result = new CarPoolRequest()
+            {
+                UserID = model.UserID,
+                seatsAvailable = model.seatsAvailable,
+                origin = model.origin,
+                notes = model.notes,
+                expectedArrivalTime = model.expectedArrivalTime,
+                destination = model.destination,
+                departureTime = model.departureTime
+            };
+
+            result.daysAvaiable = new List<DayOfWeek>();
+
+            foreach(var item in model.CarPoolDays) {
+                result.daysAvaiable.Add((DayOfWeek)item.DayOfWeekID);
+            }
+
+            return result;
+        }
     }
 }
