@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using CustomAuth;
 
 namespace CoMute.Web.Controllers.Web
 {
+    [BasicAuth]
     public class HomeController : Controller
     {
         public ActionResult Index()
@@ -15,12 +17,7 @@ namespace CoMute.Web.Controllers.Web
 
         public ActionResult About()
         {
-            return View();
-        }
-
-        public ActionResult Register()
-        {
-            return View();
+            return View("About", masterName: "~/Views/Shared/_Layout.cshtml");
         }
     }
 }

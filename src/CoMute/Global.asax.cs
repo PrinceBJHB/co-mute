@@ -7,6 +7,8 @@ using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
 
+using CustomAuth;
+
 namespace CoMute.Web
 {
     public class MvcApplication : System.Web.HttpApplication
@@ -18,6 +20,11 @@ namespace CoMute.Web
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+        }
+
+        protected void Application_PostAuthenticateRequest(Object sender, EventArgs e)
+        {
+            AuthHelper<Models.User>.PostAuthRequest();
         }
     }
 }

@@ -1,9 +1,16 @@
 ﻿
+using System.ComponentModel.DataAnnotations;
 namespace CoMute.Web.Models.Dto
 {
-    public sealed class LoginRequest
+    public sealed class LoginRequest : CustomAuth.IBasicUserDetails
     {
-        public string Email { get; set; }
-        public string Password { get; set; }
+        [Required(ErrorMessage = "Email address is required")]
+        [DataType(DataType.EmailAddress)]
+        public string emailAddress { get; set; }
+
+        [Required(ErrorMessage = "Password is required")]
+        [StringLength(30, ErrorMessage = "Must be between 5 and 30 characters", MinimumLength = 5)]
+        [DataType(DataType.Password)]
+        public string password { get; set; }
     }
 }

@@ -1,0 +1,27 @@
+﻿AppSettings
+	LoginDefaultAction
+	LoginDefaultController
+	(UserProfile)
+		emailAddress
+		password
+
+Global.asax.cs
+	protected void Application_PostAuthenticateRequest(Object sender, EventArgs e)
+	{
+		AuthHelper.PostAuthRequest();
+	}
+
+BasicUserDetails
+UserProfile
+
+BasicAuthController : IBasicAuthController
+	IProfileModel
+		BasicAuth / RolesAuth
+
+Views
+	AccessDenied
+
+web.config <system.web>
+	<authentication mode="Forms">
+      <forms loginUrl="~/Auth/Login" timeout="2880" />
+    </authentication>

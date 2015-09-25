@@ -16,9 +16,10 @@ namespace CoMute.Web.Controllers.API
         {
             var user = new User()
             {
-                Name = registrationRequest.Name,
-                Surname = registrationRequest.Surname,
-                EmailAddress = registrationRequest.EmailAddress
+                firstName = registrationRequest.firstName,
+                lastName = registrationRequest.lastName,
+                emailAddress = registrationRequest.emailAddress,
+                phoneNumber = registrationRequest.phoneNumber
             };
 
             return Request.CreateResponse(HttpStatusCode.Created, user);
