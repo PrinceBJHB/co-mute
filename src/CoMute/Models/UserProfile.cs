@@ -42,6 +42,7 @@ namespace CoMute.Web.Models
                     DAL.usp_User_Login_Result result = db.usp_User_Login(emailAddress, password).FirstOrDefault();
                     if (result != null)
                     {
+                        UserID = result.UserID;
                         firstName = result.firstName;
                         lastName = result.lastName;
                         emailAddress = result.emailAddress;

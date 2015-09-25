@@ -6,11 +6,6 @@ namespace CoMute.Web.Models.Dto
 {
     public class CarPoolRequest
     {
-        [Required(ErrorMessage = "Email address is required")]
-        [Display(Name = "Email Address")]
-        [DataType(DataType.EmailAddress)]
-        public string emailAddress { get; set; }
-
         [Required]
         public int UserID { get; set; }
 

@@ -1,13 +1,20 @@
-﻿
-@{
+﻿@{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Available Car Pool's</h2>
+<h2>Available Car Pool's <input type="button" value="Create" onclick="CarPoolModal(null)" /></h2>
+
+<div id="Modals"></div>
 
 @section scripts {
     <script type="text/javascript">
-
+        function CarPoolModal(id) {
+            CallAPI("/api/carpool/add/" + id, "GET", null, function (e) {
+                LoadPartialView("/CarPool/_CarPool", "POST", e, "#Modals", function (e) {
+                    $('#myModal').modal('show');
+                });
+            });
+        }
     </script>
 }

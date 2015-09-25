@@ -119,19 +119,14 @@ function isFunction(v) {
     return typeof (v) == "function";
 }
 
-function CallAPI(controller, action, data, callback, doLoader, async)
+function CallAPI(uri, method, data, callback)
 {
-	doLoader = doLoader != null ? doLoader : true;
-	async = async != null ? async : true;
-
-	if(doLoader) { AjaxLoaderStart(); }
-
     $.ajax({
-        url: "/" + controller + "/" + action,
-        type: "POST",
-        async: async,
-        data: data,
-        contentType: data ? "application/json" : "text/html",
+        url: uri,
+        type: method,
+        async: true,
+        data: JSON.stringify(data),
+        contentType: "application/json",
         success: function (response, status, request)
         {
             if (response && response.Redirect)
@@ -145,30 +140,21 @@ function CallAPI(controller, action, data, callback, doLoader, async)
                     window[callback](response);
                 }
             }
-
-            AjaxLoaderEnd();
-            	//$( "#content" ).fadeIn();
         },
         error: function (XMLHttpRequest, textStatus, errorThrown)
         {
             alert("Failed to Post Form Data : " + errorThrown);
-            AjaxLoaderEnd();
-            	//$( "#content" ).fadeIn();
         }
     });
 }
 
-function GetPartialView(controller, action, data, dest, callback, doLoader) {
-    doLoader = doLoader != null ? doLoader : true;
-
-    if (doLoader) { AjaxLoaderStart(); }
-
+function LoadPartialView(uri, method, data, dest, callback) {
     $.ajax({
-        url: "/" + controller + "/" + action,
-        type: "POST",
+        url: uri,
+        type: method,
         async: true,
         data: JSON.stringify(data),
-        contentType: data ? "application/json" : "text/html",
+        contentType: "application/json",
         success: function (response, status, request) {
             if (response && response.redirect) {
                 window.location = response.redirect;
@@ -183,14 +169,9 @@ function GetPartialView(controller, action, data, dest, callback, doLoader) {
                     window[callback](response);
                 }
             }
-
-            AjaxLoaderEnd();
-            $("#content-container").animateAuto("height", 200);
         },
         error: function (XMLHttpRequest, textStatus, errorThrown) {
             alert("Failed to Post Form Data : " + errorThrown);
-            AjaxLoaderEnd();
-            $("#content-container").animateAuto("height", 200);
         }
     });
 }

@@ -1,5 +1,6 @@
 ﻿using CoMute.Web.Models;
 using CoMute.Web.Models.Dto;
+using CustomAuth;
 using System;
 using System.Collections.Generic;
 using System.Linq;
