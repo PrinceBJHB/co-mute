@@ -1,0 +1,250 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="CoMuteModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="CarPoolDays">
+          <Key>
+            <PropertyRef Name="CarPoolID" />
+            <PropertyRef Name="DayOfWeekID" />
+          </Key>
+          <Property Name="CarPoolID" Type="int" Nullable="false" />
+          <Property Name="DayOfWeekID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="CarPools">
+          <Key>
+            <PropertyRef Name="CarPoolID" />
+          </Key>
+          <Property Name="CarPoolID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserID" Type="int" Nullable="false" />
+          <Property Name="departureTime" Type="nchar" MaxLength="10" Nullable="false" />
+          <Property Name="expectedArrivalTime" Type="nchar" MaxLength="10" Nullable="false" />
+          <Property Name="origin" Type="varchar(max)" Nullable="false" />
+          <Property Name="destination" Type="varchar(max)" Nullable="false" />
+          <Property Name="seatsAvailable" Type="int" Nullable="false" />
+          <Property Name="notes" Type="varchar(max)" />
+          <Property Name="created" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="DayOfWeek">
+          <Key>
+            <PropertyRef Name="DayOfWeekID" />
+          </Key>
+          <Property Name="DayOfWeekID" Type="int" Nullable="false" />
+          <Property Name="nameOfDay" Type="varchar" MaxLength="10" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="UserID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="firstName" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="lastName" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="emailAddress" Type="varchar" MaxLength="128" Nullable="false" />
+          <Property Name="phoneNumber" Type="varchar" MaxLength="12" Nullable="false" />
+          <Property Name="password" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="active" Type="bit" Nullable="false" />
+          <Property Name="created" Type="datetime" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_CarPoolDays_CarPools">
+          <End Role="CarPools" Type="Self.CarPools" Multiplicity="1" />
+          <End Role="CarPoolDays" Type="Self.CarPoolDays" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CarPools">
+              <PropertyRef Name="CarPoolID" />
+            </Principal>
+            <Dependent Role="CarPoolDays">
+              <PropertyRef Name="CarPoolID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CarPoolDays_DayOfWeek">
+          <End Role="DayOfWeek" Type="Self.DayOfWeek" Multiplicity="1" />
+          <End Role="CarPoolDays" Type="Self.CarPoolDays" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DayOfWeek">
+              <PropertyRef Name="DayOfWeekID" />
+            </Principal>
+            <Dependent Role="CarPoolDays">
+              <PropertyRef Name="DayOfWeekID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CarPools_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="CarPools" Type="Self.CarPools" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="CarPools">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="CoMuteModelStoreContainer">
+          <EntitySet Name="CarPoolDays" EntityType="Self.CarPoolDays" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CarPools" EntityType="Self.CarPools" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DayOfWeek" EntityType="Self.DayOfWeek" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_CarPoolDays_CarPools" Association="Self.FK_CarPoolDays_CarPools">
+            <End Role="CarPools" EntitySet="CarPools" />
+            <End Role="CarPoolDays" EntitySet="CarPoolDays" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CarPoolDays_DayOfWeek" Association="Self.FK_CarPoolDays_DayOfWeek">
+            <End Role="DayOfWeek" EntitySet="DayOfWeek" />
+            <End Role="CarPoolDays" EntitySet="CarPoolDays" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CarPools_Users" Association="Self.FK_CarPools_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="CarPools" EntitySet="CarPools" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="CoMuteModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="CarPool">
+          <Key>
+            <PropertyRef Name="CarPoolID" />
+          </Key>
+          <Property Name="CarPoolID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserID" Type="Int32" Nullable="false" />
+          <Property Name="departureTime" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="expectedArrivalTime" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="origin" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="destination" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="seatsAvailable" Type="Int32" Nullable="false" />
+          <Property Name="notes" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="created" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="User" Relationship="Self.FK_CarPools_Users" FromRole="CarPools" ToRole="Users" />
+          <NavigationProperty Name="DayOfWeeks" Relationship="Self.CarPoolDays" FromRole="CarPools" ToRole="DayOfWeek" />
+        </EntityType>
+        <EntityType Name="DayOfWeek">
+          <Key>
+            <PropertyRef Name="DayOfWeekID" />
+          </Key>
+          <Property Name="DayOfWeekID" Type="Int32" Nullable="false" />
+          <Property Name="nameOfDay" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="CarPools" Relationship="Self.CarPoolDays" FromRole="DayOfWeek" ToRole="CarPools" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="UserID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="firstName" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="lastName" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="emailAddress" Type="String" MaxLength="128" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="phoneNumber" Type="String" MaxLength="12" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="password" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="active" Type="Boolean" Nullable="false" />
+          <Property Name="created" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="CarPools" Relationship="Self.FK_CarPools_Users" FromRole="Users" ToRole="CarPools" />
+        </EntityType>
+        <Association Name="FK_CarPools_Users">
+          <End Role="Users" Type="Self.User" Multiplicity="1" />
+          <End Role="CarPools" Type="Self.CarPool" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="CarPools">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="CarPoolDays">
+          <End Role="CarPools" Type="Self.CarPool" Multiplicity="*" />
+          <End Role="DayOfWeek" Type="Self.DayOfWeek" Multiplicity="*" />
+        </Association>
+        <EntityContainer Name="CoMuteEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="CarPools" EntityType="Self.CarPool" />
+          <EntitySet Name="DayOfWeeks" EntityType="Self.DayOfWeek" />
+          <EntitySet Name="Users" EntityType="Self.User" />
+          <AssociationSet Name="FK_CarPools_Users" Association="Self.FK_CarPools_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="CarPools" EntitySet="CarPools" />
+          </AssociationSet>
+          <AssociationSet Name="CarPoolDays" Association="Self.CarPoolDays">
+            <End Role="CarPools" EntitySet="CarPools" />
+            <End Role="DayOfWeek" EntitySet="DayOfWeeks" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="CoMuteModelStoreContainer" CdmEntityContainer="CoMuteEntities">
+          <EntitySetMapping Name="CarPools">
+            <EntityTypeMapping TypeName="CoMuteModel.CarPool">
+              <MappingFragment StoreEntitySet="CarPools">
+                <ScalarProperty Name="CarPoolID" ColumnName="CarPoolID" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="departureTime" ColumnName="departureTime" />
+                <ScalarProperty Name="expectedArrivalTime" ColumnName="expectedArrivalTime" />
+                <ScalarProperty Name="origin" ColumnName="origin" />
+                <ScalarProperty Name="destination" ColumnName="destination" />
+                <ScalarProperty Name="seatsAvailable" ColumnName="seatsAvailable" />
+                <ScalarProperty Name="notes" ColumnName="notes" />
+                <ScalarProperty Name="created" ColumnName="created" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DayOfWeeks">
+            <EntityTypeMapping TypeName="CoMuteModel.DayOfWeek">
+              <MappingFragment StoreEntitySet="DayOfWeek">
+                <ScalarProperty Name="DayOfWeekID" ColumnName="DayOfWeekID" />
+                <ScalarProperty Name="nameOfDay" ColumnName="nameOfDay" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="CoMuteModel.User">
+              <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="firstName" ColumnName="firstName" />
+                <ScalarProperty Name="lastName" ColumnName="lastName" />
+                <ScalarProperty Name="emailAddress" ColumnName="emailAddress" />
+                <ScalarProperty Name="phoneNumber" ColumnName="phoneNumber" />
+                <ScalarProperty Name="password" ColumnName="password" />
+                <ScalarProperty Name="active" ColumnName="active" />
+                <ScalarProperty Name="created" ColumnName="created" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="CarPoolDays" TypeName="CoMuteModel.CarPoolDays" StoreEntitySet="CarPoolDays">
+            <EndProperty Name="CarPools">
+              <ScalarProperty Name="CarPoolID" ColumnName="CarPoolID" />
+            </EndProperty>
+            <EndProperty Name="DayOfWeek">
+              <ScalarProperty Name="DayOfWeekID" ColumnName="DayOfWeekID" />
+            </EndProperty>
+          </AssociationSetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
