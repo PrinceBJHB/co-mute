@@ -17,6 +17,7 @@ namespace CoMute.DAL
         public CarPool()
         {
             this.CarPoolDays = new HashSet<CarPoolDay>();
+            this.UserCarPools = new HashSet<UserCarPool>();
         }
     
         public int CarPoolID { get; set; }
@@ -31,5 +32,6 @@ namespace CoMute.DAL
     
         public virtual ICollection<CarPoolDay> CarPoolDays { get; set; }
         public virtual User User { get; set; }
+        public virtual ICollection<UserCarPool> UserCarPools { get; set; }
     }
 }

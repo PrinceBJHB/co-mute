@@ -34,6 +34,24 @@
           <Property Name="DayOfWeekID" Type="int" Nullable="false" />
           <Property Name="nameOfDay" Type="varchar" MaxLength="10" Nullable="false" />
         </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="UserCarPools">
+          <Key>
+            <PropertyRef Name="UserCarPoolID" />
+          </Key>
+          <Property Name="UserCarPoolID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CarPoolID" Type="int" Nullable="false" />
+          <Property Name="UserID" Type="int" Nullable="false" />
+        </EntityType>
         <EntityType Name="Users">
           <Key>
             <PropertyRef Name="UserID" />
@@ -83,6 +101,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_UserCarPools_CarPools">
+          <End Role="CarPools" Type="Self.CarPools" Multiplicity="1" />
+          <End Role="UserCarPools" Type="Self.UserCarPools" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CarPools">
+              <PropertyRef Name="CarPoolID" />
+            </Principal>
+            <Dependent Role="UserCarPools">
+              <PropertyRef Name="CarPoolID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserCarPools_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="UserCarPools" Type="Self.UserCarPools" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="UserCarPools">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Function Name="usp_CarPool_Create" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="UserID" Type="int" Mode="In" />
           <Parameter Name="departureTime" Type="time" Mode="In" />
@@ -108,6 +150,8 @@
           <EntitySet Name="CarPoolDays" EntityType="Self.CarPoolDays" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CarPools" EntityType="Self.CarPools" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DaysOfWeek" EntityType="Self.DaysOfWeek" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserCarPools" EntityType="Self.UserCarPools" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_CarPoolDays_CarPools" Association="Self.FK_CarPoolDays_CarPools">
             <End Role="CarPools" EntitySet="CarPools" />
@@ -120,6 +164,14 @@
           <AssociationSet Name="FK_CarPools_Users" Association="Self.FK_CarPools_Users">
             <End Role="Users" EntitySet="Users" />
             <End Role="CarPools" EntitySet="CarPools" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserCarPools_CarPools" Association="Self.FK_UserCarPools_CarPools">
+            <End Role="CarPools" EntitySet="CarPools" />
+            <End Role="UserCarPools" EntitySet="UserCarPools" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserCarPools_Users" Association="Self.FK_UserCarPools_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="UserCarPools" EntitySet="UserCarPools" />
           </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
@@ -151,6 +203,8 @@
           <EntitySet Name="CarPoolDays" EntityType="CoMuteModel.CarPoolDay" />
           <EntitySet Name="CarPools" EntityType="CoMuteModel.CarPool" />
           <EntitySet Name="DaysOfWeeks" EntityType="CoMuteModel.DaysOfWeek" />
+          <EntitySet Name="sysdiagrams" EntityType="CoMuteModel.sysdiagram" />
+          <EntitySet Name="UserCarPools" EntityType="CoMuteModel.UserCarPool" />
           <EntitySet Name="Users" EntityType="CoMuteModel.User" />
           <AssociationSet Name="FK_CarPoolDays_CarPools" Association="CoMuteModel.FK_CarPoolDays_CarPools">
             <End Role="CarPool" EntitySet="CarPools" />
@@ -164,7 +218,15 @@
             <End Role="User" EntitySet="Users" />
             <End Role="CarPool" EntitySet="CarPools" />
           </AssociationSet>
-        </EntityContainer>
+          <AssociationSet Name="FK_UserCarPools_CarPools" Association="CoMuteModel.FK_UserCarPools_CarPools">
+            <End Role="CarPool" EntitySet="CarPools" />
+            <End Role="UserCarPool" EntitySet="UserCarPools" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserCarPools_Users" Association="CoMuteModel.FK_UserCarPools_Users">
+            <End Role="User" EntitySet="Users" />
+            <End Role="UserCarPool" EntitySet="UserCarPools" />
+          </AssociationSet>
+          </EntityContainer>
         <ComplexType Name="usp_User_Login_Result">
           <Property Type="Int32" Name="UserID" Nullable="false" />
           <Property Type="String" Name="firstName" Nullable="false" MaxLength="30" />
@@ -173,6 +235,12 @@
           <Property Type="String" Name="phoneNumber" Nullable="false" MaxLength="12" />
           <Property Type="Boolean" Name="active" Nullable="false" />
           <Property Type="DateTime" Name="created" Nullable="false" Precision="23" />
+        </ComplexType>
+        <ComplexType Name="usp_User_Register_Result">
+          <Property Type="Int32" Name="UserID" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="usp_CarPool_Create_Result">
+          <Property Type="Int32" Name="Success" Nullable="false" />
         </ComplexType>
         <EntityType Name="CarPoolDay">
           <Key>
@@ -199,6 +267,7 @@
           <Property Name="created" Type="DateTime" Nullable="false" Precision="3" />
           <NavigationProperty Name="CarPoolDays" Relationship="CoMuteModel.FK_CarPoolDays_CarPools" FromRole="CarPool" ToRole="CarPoolDay" />
           <NavigationProperty Name="User" Relationship="CoMuteModel.FK_CarPools_Users" FromRole="CarPool" ToRole="User" />
+          <NavigationProperty Name="UserCarPools" Relationship="CoMuteModel.FK_UserCarPools_CarPools" FromRole="CarPool" ToRole="UserCarPool" />
         </EntityType>
         <EntityType Name="DaysOfWeek">
           <Key>
@@ -207,6 +276,26 @@
           <Property Name="DayOfWeekID" Type="Int32" Nullable="false" />
           <Property Name="nameOfDay" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="CarPoolDays" Relationship="CoMuteModel.FK_CarPoolDays_DayOfWeek" FromRole="DaysOfWeek" ToRole="CarPoolDay" />
+        </EntityType>
+        <EntityType Name="sysdiagram">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="UserCarPool">
+          <Key>
+            <PropertyRef Name="UserCarPoolID" />
+          </Key>
+          <Property Name="UserCarPoolID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CarPoolID" Type="Int32" Nullable="false" />
+          <Property Name="UserID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="CarPool" Relationship="CoMuteModel.FK_UserCarPools_CarPools" FromRole="UserCarPool" ToRole="CarPool" />
+          <NavigationProperty Name="User" Relationship="CoMuteModel.FK_UserCarPools_Users" FromRole="UserCarPool" ToRole="User" />
         </EntityType>
         <EntityType Name="User">
           <Key>
@@ -221,6 +310,7 @@
           <Property Name="active" Type="Boolean" Nullable="false" />
           <Property Name="created" Type="DateTime" Nullable="false" Precision="3" />
           <NavigationProperty Name="CarPools" Relationship="CoMuteModel.FK_CarPools_Users" FromRole="User" ToRole="CarPool" />
+          <NavigationProperty Name="UserCarPools" Relationship="CoMuteModel.FK_UserCarPools_Users" FromRole="User" ToRole="UserCarPool" />
         </EntityType>
         <Association Name="FK_CarPoolDays_CarPools">
           <End Type="CoMuteModel.CarPool" Role="CarPool" Multiplicity="1" />
@@ -258,12 +348,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <ComplexType Name="usp_User_Register_Result">
-          <Property Type="Int32" Name="UserID" Nullable="true" />
-        </ComplexType>
-        <ComplexType Name="usp_CarPool_Create_Result">
-          <Property Type="Int32" Name="Success" Nullable="false" />
-        </ComplexType>
+        <Association Name="FK_UserCarPools_CarPools">
+          <End Type="CoMuteModel.CarPool" Role="CarPool" Multiplicity="1" />
+          <End Type="CoMuteModel.UserCarPool" Role="UserCarPool" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CarPool">
+              <PropertyRef Name="CarPoolID" />
+            </Principal>
+            <Dependent Role="UserCarPool">
+              <PropertyRef Name="CarPoolID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserCarPools_Users">
+          <End Type="CoMuteModel.User" Role="User" Multiplicity="1" />
+          <End Type="CoMuteModel.UserCarPool" Role="UserCarPool" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="UserCarPool">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -329,6 +437,26 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="CoMuteModel.sysdiagram">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="definition" ColumnName="definition" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserCarPools">
+            <EntityTypeMapping TypeName="CoMuteModel.UserCarPool">
+              <MappingFragment StoreEntitySet="UserCarPools">
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="CarPoolID" ColumnName="CarPoolID" />
+                <ScalarProperty Name="UserCarPoolID" ColumnName="UserCarPoolID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Users">
             <EntityTypeMapping TypeName="CoMuteModel.User">
               <MappingFragment StoreEntitySet="Users">
@@ -343,7 +471,7 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-        </EntityContainerMapping>
+          </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
   </edmx:Runtime>

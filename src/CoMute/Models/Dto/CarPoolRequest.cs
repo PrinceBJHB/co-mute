@@ -26,19 +26,17 @@ namespace CoMute.Web.Models.Dto
 
         [Required]
         [Display(Name = "Leaving from")]
-        [DataType(DataType.Time)]
         public string origin { get; set; }
 
         [Required]
         [Display(Name = "Destination")]
-        [DataType(DataType.Time)]
         public string destination { get; set; }
 
         [Required]
         [Display(Name = "Available Seats")]
-        [DataType(DataType.Time)]
         public int seatsAvailable { get; set; }
 
+        [Required]
         public List<DayOfWeek> daysAvaiable { get; set; }
 
         public string notes { get; set; }

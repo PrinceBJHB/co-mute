@@ -75,7 +75,13 @@
       <DependentUpon>CarPool.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="sysdiagram.cs">
+      <DependentUpon>CarPool.tt</DependentUpon>
+    </Compile>
     <Compile Include="User.cs">
+      <DependentUpon>CarPool.tt</DependentUpon>
+    </Compile>
+    <Compile Include="UserCarPool.cs">
       <DependentUpon>CarPool.tt</DependentUpon>
     </Compile>
     <Compile Include="usp_CarPool_Create_Result.cs">
@@ -89,6 +95,7 @@
     </Compile>
     <Content Include="Scripts\v0.1.sql" />
     <Content Include="Scripts\v0.2.sql" />
+    <Content Include="Scripts\v0.3.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

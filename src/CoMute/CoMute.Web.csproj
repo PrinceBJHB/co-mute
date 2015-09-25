@@ -133,6 +133,7 @@
     <Compile Include="Controllers\API\CarPoolController.cs" />
     <Compile Include="Controllers\API\UserController.cs" />
     <Compile Include="Controllers\Web\AuthController.cs" />
+    <Compile Include="Controllers\Web\CarPoolController.cs" />
     <Compile Include="Controllers\Web\HomeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -185,6 +186,8 @@
     <Content Include="Views\Shared\About.cshtml" />
     <Content Include="Views\Auth\Login.cshtml" />
     <Content Include="Views\Auth\Register.cshtml" />
+    <Content Include="Views\CarPool\Index.cshtml" />
+    <Content Include="Views\CarPool\_Add.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

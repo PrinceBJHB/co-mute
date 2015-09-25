@@ -17,6 +17,7 @@ namespace CoMute.DAL
         public User()
         {
             this.CarPools = new HashSet<CarPool>();
+            this.UserCarPools = new HashSet<UserCarPool>();
         }
     
         public int UserID { get; set; }
@@ -29,5 +30,6 @@ namespace CoMute.DAL
         public System.DateTime created { get; set; }
     
         public virtual ICollection<CarPool> CarPools { get; set; }
+        public virtual ICollection<UserCarPool> UserCarPools { get; set; }
     }
 }

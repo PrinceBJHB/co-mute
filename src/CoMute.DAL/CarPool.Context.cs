@@ -30,6 +30,8 @@ namespace CoMute.DAL
         public virtual DbSet<CarPoolDay> CarPoolDays { get; set; }
         public virtual DbSet<CarPool> CarPools { get; set; }
         public virtual DbSet<DaysOfWeek> DaysOfWeeks { get; set; }
+        public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
+        public virtual DbSet<UserCarPool> UserCarPools { get; set; }
         public virtual DbSet<User> Users { get; set; }
     
         public virtual ObjectResult<usp_CarPool_Create_Result> usp_CarPool_Create(Nullable<int> userID, Nullable<System.TimeSpan> departureTime, Nullable<System.TimeSpan> expectedArrivalTime, string origin, string destination, Nullable<int> seatsAvailable, string notes, string days)
