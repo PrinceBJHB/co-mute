@@ -1,0 +1,15 @@
+﻿@model IEnumerable<CoMute.Web.Models.Dto.CarPoolRequest>
+@using CustomAuth
+
+<div class="filterbar">
+    <form id="filters">
+        <input name="search" type="text" value="" placeholder="Search" />
+        <input id="dogrid" type="button" value="Search" onclick="DoGrid()" />
+    </form>
+</div>
+
+<br />
+<br />
+
+<table id="Grid"></table>
+<div id="Pager"></div>

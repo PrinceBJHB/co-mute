@@ -19,8 +19,8 @@
           </Key>
           <Property Name="CarPoolID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="UserID" Type="int" Nullable="false" />
-          <Property Name="departureTime" Type="datetime" Nullable="false" />
-          <Property Name="expectedArrivalTime" Type="datetime" Nullable="false" />
+          <Property Name="departureTime" Type="time" Precision="7" Nullable="false" />
+          <Property Name="expectedArrivalTime" Type="time" Precision="7" Nullable="false" />
           <Property Name="origin" Type="varchar(max)" Nullable="false" />
           <Property Name="destination" Type="varchar(max)" Nullable="false" />
           <Property Name="seatsAvailable" Type="int" Nullable="false" />
@@ -51,6 +51,7 @@
           <Property Name="UserCarPoolID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="CarPoolID" Type="int" Nullable="false" />
           <Property Name="UserID" Type="int" Nullable="false" />
+          <Property Name="joinDate" Type="datetime" Nullable="false" />
         </EntityType>
         <EntityType Name="Users">
           <Key>
@@ -179,16 +180,6 @@
     <edmx:ConceptualModels>
       <Schema Namespace="CoMuteModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityContainer Name="CoMuteEntities" annotation:LazyLoadingEnabled="true">
-          <FunctionImport Name="usp_CarPool_Create" ReturnType="Collection(CoMuteModel.usp_CarPool_Create_Result)">
-            <Parameter Name="UserID" Mode="In" Type="Int32" />
-            <Parameter Name="departureTime" Mode="In" Type="Time" />
-            <Parameter Name="expectedArrivalTime" Mode="In" Type="Time" />
-            <Parameter Name="origin" Mode="In" Type="String" />
-            <Parameter Name="destination" Mode="In" Type="String" />
-            <Parameter Name="seatsAvailable" Mode="In" Type="Int32" />
-            <Parameter Name="notes" Mode="In" Type="String" />
-            <Parameter Name="days" Mode="In" Type="String" />
-          </FunctionImport>
           <FunctionImport Name="usp_User_Login" ReturnType="Collection(CoMuteModel.usp_User_Login_Result)">
             <Parameter Name="emailAddress" Mode="In" Type="String" />
             <Parameter Name="password" Mode="In" Type="String" />
@@ -199,6 +190,16 @@
             <Parameter Name="emailAddress" Mode="In" Type="String" />
             <Parameter Name="phoneNumber" Mode="In" Type="String" />
             <Parameter Name="password" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="usp_CarPool_Create" ReturnType="Collection(CoMuteModel.usp_CarPool_Create_Result)">
+            <Parameter Name="UserID" Mode="In" Type="Int32" />
+            <Parameter Name="departureTime" Mode="In" Type="Time" />
+            <Parameter Name="expectedArrivalTime" Mode="In" Type="Time" />
+            <Parameter Name="origin" Mode="In" Type="String" />
+            <Parameter Name="destination" Mode="In" Type="String" />
+            <Parameter Name="seatsAvailable" Mode="In" Type="Int32" />
+            <Parameter Name="notes" Mode="In" Type="String" />
+            <Parameter Name="days" Mode="In" Type="String" />
           </FunctionImport>
           <EntitySet Name="CarPoolDays" EntityType="CoMuteModel.CarPoolDay" />
           <EntitySet Name="CarPools" EntityType="CoMuteModel.CarPool" />
@@ -240,7 +241,7 @@
           <Property Type="Int32" Name="UserID" Nullable="true" />
         </ComplexType>
         <ComplexType Name="usp_CarPool_Create_Result">
-          <Property Type="Int32" Name="Success" Nullable="false" />
+          <Property Type="Boolean" Name="Success" Nullable="true" />
         </ComplexType>
         <EntityType Name="CarPoolDay">
           <Key>
@@ -258,8 +259,8 @@
           </Key>
           <Property Name="CarPoolID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="UserID" Type="Int32" Nullable="false" />
-          <Property Name="departureTime" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="expectedArrivalTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="departureTime" Type="Time" Nullable="false" Precision="7" />
+          <Property Name="expectedArrivalTime" Type="Time" Nullable="false" Precision="7" />
           <Property Name="origin" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="destination" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="seatsAvailable" Type="Int32" Nullable="false" />
@@ -294,6 +295,7 @@
           <Property Name="UserCarPoolID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="CarPoolID" Type="Int32" Nullable="false" />
           <Property Name="UserID" Type="Int32" Nullable="false" />
+          <Property Name="joinDate" Type="DateTime" Nullable="false" Precision="3" />
           <NavigationProperty Name="CarPool" Relationship="CoMuteModel.FK_UserCarPools_CarPools" FromRole="UserCarPool" ToRole="CarPool" />
           <NavigationProperty Name="User" Relationship="CoMuteModel.FK_UserCarPools_Users" FromRole="UserCarPool" ToRole="User" />
         </EntityType>
@@ -378,13 +380,6 @@
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="CoMuteModelStoreContainer" CdmEntityContainer="CoMuteEntities">
-          <FunctionImportMapping FunctionImportName="usp_CarPool_Create" FunctionName="CoMuteModel.Store.usp_CarPool_Create" >
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="CoMuteModel.usp_CarPool_Create_Result">
-                <ScalarProperty Name="Success" ColumnName="Success" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="usp_User_Login" FunctionName="CoMuteModel.Store.usp_User_Login">
             <ResultMapping>
               <ComplexTypeMapping TypeName="CoMuteModel.usp_User_Login_Result">
@@ -402,6 +397,13 @@
             <ResultMapping>
               <ComplexTypeMapping TypeName="CoMuteModel.usp_User_Register_Result">
                 <ScalarProperty Name="UserID" ColumnName="UserID" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="usp_CarPool_Create" FunctionName="CoMuteModel.Store.usp_CarPool_Create" >
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="CoMuteModel.usp_CarPool_Create_Result">
+                <ScalarProperty Name="Success" ColumnName="Success" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
@@ -451,6 +453,7 @@
           <EntitySetMapping Name="UserCarPools">
             <EntityTypeMapping TypeName="CoMuteModel.UserCarPool">
               <MappingFragment StoreEntitySet="UserCarPools">
+                <ScalarProperty Name="joinDate" ColumnName="joinDate" />
                 <ScalarProperty Name="UserID" ColumnName="UserID" />
                 <ScalarProperty Name="CarPoolID" ColumnName="CarPoolID" />
                 <ScalarProperty Name="UserCarPoolID" ColumnName="UserCarPoolID" />

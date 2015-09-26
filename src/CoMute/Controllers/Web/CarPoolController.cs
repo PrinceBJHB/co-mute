@@ -16,7 +16,14 @@ namespace CoMute.Web.Controllers.Web
             return View();
         }
 
-        public ActionResult _CarPool(Models.Dto.CarPoolRequest model)
+        public ActionResult _GetCarpool(Models.Dto.CarPoolRequest model)
+        {
+            int UserID = AuthHelper<Models.UserProfile>.userProfile.UserID;
+            string view = model.UserID == UserID ? "_CarPoolEdit" : "_CarPoolView";
+            return PartialView(view, (Models.CarPool) model);
+        }
+
+        public ActionResult _MyCarPools(List<Models.Dto.CarPool> model)
         {
             return PartialView(model);
         }

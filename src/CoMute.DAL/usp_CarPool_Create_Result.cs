@@ -13,6 +13,6 @@ namespace CoMute.DAL
     
     public partial class usp_CarPool_Create_Result
     {
-        public int Success { get; set; }
+        public Nullable<bool> Success { get; set; }
     }
 }

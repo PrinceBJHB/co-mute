@@ -1,0 +1,9 @@
+﻿@model System.Collections.Generic.IEnumerable<System.DayOfWeek>
+
+<label for="Sunday">Sunday</label> <input @string.Format("{0}", Model.Contains(DayOfWeek.Sunday) ? "checked" : "") type="checkbox" id="Sunday" name="daysAvaiable" value="0" disabled />
+<label for="Sunday">Monday</label> <input @string.Format("{0}", Model.Contains(DayOfWeek.Monday) ? "checked" : "") type="checkbox" id="Monday" name="daysAvaiable" value="1" disabled />
+<label for="Tuesday">Tuesday</label> <input @string.Format("{0}", Model.Contains(DayOfWeek.Tuesday) ? "checked" : "") type="checkbox" id="Tuesday" name="daysAvaiable" value="2" disabled />
+<label for="Wednesday">Wednesday</label> <input @string.Format("{0}", Model.Contains(DayOfWeek.Wednesday) ? "checked" : "") type="checkbox" id="Wednesday" name="daysAvaiable" value="3" disabled />
+<label for="Thursday">Thursday</label> <input @string.Format("{0}", Model.Contains(DayOfWeek.Thursday) ? "checked" : "") type="checkbox" id="Thursday" name="daysAvaiable" value="4" disabled />
+<label for="Friday">Friday</label> <input @string.Format("{0}", Model.Contains(DayOfWeek.Friday) ? "checked" : "") type="checkbox" id="Friday" name="daysAvaiable" value="5" disabled />
+<label for="Saturday">Saturday</label> <input @string.Format("{0}", Model.Contains(DayOfWeek.Saturday) ? "checked" : "") type="checkbox" id="Saturday" name="daysAvaiable" value="6" disabled />

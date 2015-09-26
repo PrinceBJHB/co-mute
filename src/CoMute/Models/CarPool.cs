@@ -1,34 +1,69 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using CoMute.Web.Extensions;
 
 namespace CoMute.Web.Models
 {
     public class CarPool
     {
         [Required]
+        public int CarPoolID { get; set; }
+
+        [Required]
         public int UserID { get; set; }
 
         [Required]
-        public DateTime departureTime { get; set; }
+        [Display(Name = "Departure Time")]
+        [DataType(DataType.Time)] //, DisplayFormat(DataFormatString = "{0:HH:mm}", ApplyFormatInEditMode = true)]
+        public TimeSpan departureTime { get; set; }
 
         [Required]
-        public DateTime expectedArrivalTime { get; set; }
+        [Display(Name = "Expected Arrival Time")]
+        [DataType(DataType.Time)]
+        public TimeSpan expectedArrivalTime { get; set; }
 
         [Required]
+        [Display(Name = "Leaving from")]
         public string origin { get; set; }
 
         [Required]
+        [Display(Name = "Destination")]
         public string destination { get; set; }
 
         [Required]
+        [Display(Name = "Available Seats")]
         public int seatsAvailable { get; set; }
 
+        [Required]
+        [Display(Name = "Days Available")]
+        [UIHint("DayOfWeek")]
+        [EnsureOneElement(ErrorMessage = "Must select at least one day for the carpool")]
         public List<DayOfWeek> daysAvaiable { get; set; }
 
+        [Display(Name = "Travel Notes")]
+        [DataType(DataType.MultilineText)]
         public string notes { get; set; }
+
+        public static implicit operator CarPool(Dto.CarPoolRequest model)
+        {
+            if (model == null)
+                return null;
+
+            CarPool result = new CarPool()
+            {
+                CarPoolID = model.CarPoolID,
+                UserID = model.UserID,
+                seatsAvailable = model.seatsAvailable,
+                origin = model.origin,
+                notes = model.notes,
+                expectedArrivalTime = model.expectedArrivalTime,
+                destination = model.destination,
+                departureTime = model.departureTime,
+                daysAvaiable = model.daysAvaiable
+            };
+
+            return result;
+        }
     }
 }

@@ -1,0 +1,52 @@
+﻿@model IEnumerable<CoMute.Web.Models.Dto.CarPool>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.departureTime)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.expectedArrivalTime)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.origin)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.destination)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.seatsAvailable)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.notes)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.departureTime)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.expectedArrivalTime)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.origin)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.destination)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.seatsAvailable)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.notes)
+        </td>
+        <td>
+            <input type="button" value="Leave" class="btn btn-default" onclick="LeaveCarPool(@item.UserCarPoolID)" />
+        </td>
+    </tr>
+}
+
+</table>

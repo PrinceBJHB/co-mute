@@ -30,7 +30,7 @@ namespace CustomAuth
             if (profileModel.Login(username, password))
             {
                 profileModel.rememberMe = rememberMe;
-                AuthHelper<ProfileModel>.CreateAuthenticationTicket(profileModel, new TimeSpan(365, 0, 0, 0));
+                AuthHelper<ProfileModel>.CreateAuthenticationTicket(profileModel, new TimeSpan(rememberMe ? 365 : 1, 0, 0, 0));
                 return true;
             }
 

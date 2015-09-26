@@ -19,3 +19,24 @@
 .row-margin {
     margin-top: 20px;
 }
+
+.control-label {
+    width: 120px;
+}
+
+.modal-content { 
+width: 780px;
+}
+
+.addBtn {
+    display: inline-block;
+    background-image: url(/Content/images/plus.png);
+    background-size: .8em .8em;
+    width: .8em;
+    height: .8em;
+}
+
+    .addBtn:hover {
+        cursor:pointer;
+        background-image: url(/Content/images/plus_over.png);
+    }

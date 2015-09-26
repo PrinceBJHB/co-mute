@@ -17,6 +17,7 @@ namespace CoMute.DAL
         public int UserCarPoolID { get; set; }
         public int CarPoolID { get; set; }
         public int UserID { get; set; }
+        public System.DateTime joinDate { get; set; }
     
         public virtual CarPool CarPool { get; set; }
         public virtual User User { get; set; }

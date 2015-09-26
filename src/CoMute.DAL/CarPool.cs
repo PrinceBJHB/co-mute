@@ -22,8 +22,8 @@ namespace CoMute.DAL
     
         public int CarPoolID { get; set; }
         public int UserID { get; set; }
-        public System.DateTime departureTime { get; set; }
-        public System.DateTime expectedArrivalTime { get; set; }
+        public System.TimeSpan departureTime { get; set; }
+        public System.TimeSpan expectedArrivalTime { get; set; }
         public string origin { get; set; }
         public string destination { get; set; }
         public int seatsAvailable { get; set; }

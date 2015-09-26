@@ -1,20 +1,49 @@
-﻿@{
+﻿@model IEnumerable<CoMute.Web.Models.CarPool>
+@{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Available Car Pool's <input type="button" value="Create" onclick="CarPoolModal(null)" /></h2>
+<h2>Available Car Pool's <span class="addBtn" onclick="CarPoolModal(null)"></span></h2> 
+<div id="MyCarpools"></div>
+
+@{Html.RenderPartial("_List", Model);}
 
 <div id="Modals"></div>
 
 @section scripts {
+    @Scripts.Render("~/bundles/jqgrid")
     <script type="text/javascript">
         function CarPoolModal(id) {
             CallAPI("/api/carpool/add/" + id, "GET", null, function (e) {
-                LoadPartialView("/CarPool/_CarPool", "POST", e, "#Modals", function (e) {
+                LoadPartialView("/CarPool/_GetCarpool", "POST", e, "#Modals", function (e) {
                     $('#myModal').modal('show');
+                    $.validator.setDefaults(defaultOptions);
+
+                    $.validator.unobtrusive.options = {
+                        errorClass: defaultOptions.errorClass,
+                        validClass: defaultOptions.validClass,
+                    };
+                    $.validator.unobtrusive.parse('#myModal');
+
+                    reloadView();
                 });
             });
         }
+
+        function carpoolComplete(e) {
+            if (e.status == 202) {
+                alert(e.responseText);
+                $('#myModal').modal('toggle');
+            } else {
+                alert(e.responseText);
+            }
+
+            reloadView();
+        }
+
+        (function ($) {
+            reloadView();
+        })(jQuery);
     </script>
 }

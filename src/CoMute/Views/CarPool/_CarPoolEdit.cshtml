@@ -1,20 +1,22 @@
-﻿@model CoMute.Web.Models.Dto.CarPoolRequest
+﻿@model CoMute.Web.Models.CarPool
 
 <div id="myModal" class="modal fade" role="dialog">
     <div class="modal-dialog">
         @using (Ajax.BeginForm(new AjaxOptions
 {
     HttpMethod = "POST",
-    Url = "/api/auth/login",
-    OnComplete = "userLoginComplete",
-    OnFailure = "userLoginComplete"
+    Url = Model.CarPoolID > 0 ? "/api/carpool/update" : "/api/carpool/create",
+    OnComplete = "carpoolComplete",
+    OnFailure = "carpoolComplete"
+
 }))
         {
             @Html.HiddenFor(a => a.UserID)
+            @Html.HiddenFor(a => a.CarPoolID)
 
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title">CarPoolRequest</h4>
+                    <h4 class="modal-title">@string.Format(Model.CarPoolID > 0 ? "Update carpool" : "Create new carpool")</h4>
                 </div>
 
                 <div class="modal-body">
@@ -37,13 +39,8 @@
                     <div class="clearfix"></div>
                     @Html.LabelFor(model => model.daysAvaiable, htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
-                        <label for="Sunday">Sunday</label> <input type="checkbox" id="Sunday" name="daysAvaiable" value="0" />
-                        <label for="Sunday">Monday</label> <input type="checkbox" id="Monday" name="daysAvaiable" value="1" />
-                        <label for="Tuesday">Tuesday</label> <input type="checkbox" id="Tuesday" name="daysAvaiable" value="2" />
-                        <label for="Wednesday">Wednesday</label> <input type="checkbox" id="Wednesday" name="daysAvaiable" value="3" />
-                        <label for="Thursday">Thursday</label> <input type="checkbox" id="Thursday" name="daysAvaiable" value="4" />
-                        <label for="Friday">Friday</label> <input type="checkbox" id="Friday" name="daysAvaiable" value="5" />
-                        <label for="Saturday">Saturday</label> <input type="checkbox" id="Saturday" name="daysAvaiable" value="6" />
+                        @Html.EditorFor(model => model.daysAvaiable, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.daysAvaiable, "", new { @class = "text-danger" })
                     </div>
 
                     <div class="clearfix"></div>
@@ -73,14 +70,12 @@
                         @Html.EditorFor(model => model.notes, new { htmlAttributes = new { @class = "form-control" } })
                         @Html.ValidationMessageFor(model => model.notes, "", new { @class = "text-danger" })
                     </div>
-
                     <div class="clearfix"></div>
-                    <div class="col-md-offset-2 col-md-10">
-                        <input type="submit" value="Create" class="btn btn-default" />
-                    </div>
                 </div>
 
                 <div class="modal-footer">
+                    <br />
+                    <input type="submit" value="@(Model.CarPoolID > 0 ? "Update" : "Create")" class="btn btn-default" />
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                 </div>
             </div>

@@ -7,28 +7,24 @@ namespace CoMute.Web.Models.Dto
     public class CarPoolRequest
     {
         [Required]
+        public int CarPoolID { get; set; }
+
+        [Required]
         public int UserID { get; set; }
 
         [Required]
-        [Display(Name = "Departure Time")]
-        [DataType(DataType.Time)]
-        public DateTime departureTime { get; set; }
+        public TimeSpan departureTime { get; set; }
 
         [Required]
-        [Display(Name = "Expected Arrival Time")]
-        [DataType(DataType.Time)]
-        public DateTime expectedArrivalTime { get; set; }
+        public TimeSpan expectedArrivalTime { get; set; }
 
         [Required]
-        [Display(Name = "Leaving from")]
         public string origin { get; set; }
 
         [Required]
-        [Display(Name = "Destination")]
         public string destination { get; set; }
 
         [Required]
-        [Display(Name = "Available Seats")]
         public int seatsAvailable { get; set; }
 
         [Required]
@@ -40,9 +36,10 @@ namespace CoMute.Web.Models.Dto
         {
             if (model == null)
                 return null;
-
+            
             CarPoolRequest result = new CarPoolRequest()
             {
+                CarPoolID = model.CarPoolID,
                 UserID = model.UserID,
                 seatsAvailable = model.seatsAvailable,
                 origin = model.origin,

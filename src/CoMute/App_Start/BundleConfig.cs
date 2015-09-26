@@ -10,13 +10,20 @@ namespace CoMute.Web
         {
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
                         "~/Scripts/jquery-{version}.js",
+                        "~/Scripts/jquery-migrate-1.2.1.js",
                         "~/Scripts/jquery.unobtrusive-ajax.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
-                        "~/Scripts/jquery.validate*"));
+                        "~/Scripts/jquery.validate*",
+                        "~/Scripts/extensions.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/jqgrid").Include(
+                        "~/Scripts/grid.locale-en.js",
+                        "~/Scripts/jquery.jqGrid.min.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/common").Include(
-                        "~/Content/js/common.js"));
+                        "~/Content/js/common.js",
+                        "~/Content/js/CarPool.js"));
 
             // Use the development version of Modernizr to develop with and learn from. Then, when you're
             // ready for production, use the build tool at http://modernizr.com to pick only the tests you need.
@@ -29,7 +36,9 @@ namespace CoMute.Web
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/css/bootstrap.css",
-                      "~/Content/css/site.css"));
+                      "~/Content/css/site.css",
+                      "~/Content/css/ui.jqgrid.css",
+                      "~/Content/css/jqGrid.bootstrap.css"));
         }
     }
 }
