@@ -5,11 +5,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using CustomAuth;
+using System.Web.Mvc;
 
 namespace CoMute.Web.Models
 {
     public class UserProfile : IProfileModel
     {
+        [HiddenInput()]
         public int UserID { get; set; }
 
         [Required(ErrorMessage = "Please provide your name")]

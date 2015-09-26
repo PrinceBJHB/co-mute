@@ -139,6 +139,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\API\AuthenticationController.cs" />
     <Compile Include="Controllers\API\CarPoolController.cs" />
+    <Compile Include="Controllers\Web\UserController.cs" />
     <Compile Include="Extensions\EnsureMinimumElementsAttribute.cs" />
     <Compile Include="Extensions\EnsureOneElementAttribute.cs" />
     <Compile Include="Models\CarPool.cs" />
@@ -215,6 +216,8 @@
     <Content Include="Views\Shared\DisplayTemplates\DayOfWeek.cshtml" />
     <Content Include="Views\CarPool\_CarPoolView.cshtml" />
     <Content Include="Views\CarPool\_MyCarPools.cshtml" />
+    <Content Include="Views\User\MyProfile.cshtml" />
+    <Content Include="Views\User\EditProfile.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

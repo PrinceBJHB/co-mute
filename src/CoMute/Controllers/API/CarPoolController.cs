@@ -128,6 +128,7 @@ namespace CoMute.Web.Controllers.API
 
                     var model = db.CarPools
                         .Where(a => search != "" ? a.origin.Contains(request.search) : 1 == 1)
+                        .Where(a => !a.UserCarPools.Select(b => b.UserID).Contains(UserID))
                         .OrderBy(request.sidx + " " + request.sord)
                         .Take(request.rows)
                         .Skip(request.rows * (request.page - 1))

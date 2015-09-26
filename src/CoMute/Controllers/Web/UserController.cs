@@ -8,18 +8,8 @@ using CustomAuth;
 namespace CoMute.Web.Controllers.Web
 {
     [BasicAuth]
-    public class HomeController : Controller
+    public class UserController : Controller
     {
-        public ActionResult Index()
-        {
-            return View();
-        }
-
-        public ActionResult Search()
-        {
-            return View();
-        }
-
         public ActionResult MyProfile()
         {
             Models.UserProfile model = AuthHelper<Models.UserProfile>.userProfile;
@@ -32,9 +22,10 @@ namespace CoMute.Web.Controllers.Web
             return View(model);
         }
 
-        public ActionResult About()
+        [HttpPost]
+        public ActionResult EditProfile(Models.UserProfile model)
         {
-            return View("About", masterName: "~/Views/Shared/_Layout.cshtml");
+            return View(model);
         }
     }
 }

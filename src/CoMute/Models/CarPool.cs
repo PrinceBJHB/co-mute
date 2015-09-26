@@ -2,15 +2,18 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using CoMute.Web.Extensions;
+using System.Web.Mvc;
 
 namespace CoMute.Web.Models
 {
     public class CarPool
     {
         [Required]
+        [HiddenInput(DisplayValue = false)]
         public int CarPoolID { get; set; }
 
         [Required]
+        [HiddenInput(DisplayValue = false)]
         public int UserID { get; set; }
 
         [Required]
