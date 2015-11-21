@@ -1,4 +1,4 @@
-﻿; (function (root, $) {
+﻿(function (root, $) {
     $('#login').on('submit', function (ev) {
         ev.preventDefault();
         var email = $('#inputEmail').val();
@@ -11,18 +11,36 @@
             return;
         }
 
-        $.post('/api/Authentication', { email: email, password: pswd }, function (data) {
+        $.post('Home/Login', { email: email, password: pswd }, function (data) {
             // TODO: Navigate away...
-        }).fail(function (data) {
+            var message = data.Message;
+            alert("got back! " + data.Message);
+            if (data.Success == "1") {
+                //direct to the profile page
+                window.location.href = "user/profile";
+
+            } else {
+                var $alert = $("#error");
+                var $p = $alert.find("p");
+                $p.text(message);
+                $alert.removeClass('hidden');
+
+                setTimeout(function () {
+                    $p.text('');
+                    $alert.addClass('hidden');
+                }, 10000);
+            }
+
+        }).fail(function (data,status,err) {
             var $alert = $("#error");
             var $p = $alert.find("p");
-            $p.text('Incorrect email and password combination');
+            $p.text('Incorrect email and password combination '+data.responseText);
             $alert.removeClass('hidden');
 
-            setTimeout(function () {
+            /*setTimeout(function () {
                 $p.text('');
                 $alert.addClass('hidden');
-            }, 3000);
+            }, 10000); */
         });
     });
 })(window, jQuery);
