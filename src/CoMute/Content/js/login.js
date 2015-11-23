@@ -17,7 +17,7 @@
             alert("got back! " + data.Message);
             if (data.Success == "1") {
                 //direct to the profile page
-                window.location.href = "user/profile";
+                window.location.href = "User/profile";
 
             } else {
                 var $alert = $("#error");

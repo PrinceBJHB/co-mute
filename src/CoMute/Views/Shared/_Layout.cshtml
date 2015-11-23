@@ -7,6 +7,7 @@
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
 </head>
+
 <body>
     <div class="navbar navbar-default navbar-fixed-top">
         <div class="container">
@@ -20,11 +21,34 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("My Profile", "Profile", "User")</li>
-                    <li>@Html.ActionLink("Register", "Register", "Home")</li>
-                    <li>@Html.ActionLink("Search", "Index", "Search")</li>
-                    <li>@Html.ActionLink("About", "About", "Home")</li>
+                    @if (Session["logged"] != null)
+                    {                        
+                        <li>@Html.ActionLink("Create CarPool", "CreateCarPool", "User")</li>
+                        <li>@Html.ActionLink("All CarPools", "Register", "Home")</li>
+                        <li>@Html.ActionLink("Joined CarPools", "Index", "Search")</li>
+                        <li>@Html.ActionLink("Created CarPools", "About", "Home")</li>
+                       
+                    }
+                    else
+                    {
+                        <li>@Html.ActionLink("My Profile", "Profile", "User")</li>
+                        <li>@Html.ActionLink("Register", "Register", "Home")</li>
+                        <li>@Html.ActionLink("Search", "Index", "Search")</li>
+                        <li>@Html.ActionLink("About", "About", "Home")</li>
+                    }
                 </ul>
+
+                @if (Session["logged"] != null)
+                {
+                    <ul class="nav navbar-nav"  style="float:right">
+                        <li>
+                            @Html.ActionLink(Session["username"].ToString(), "Profile", "User")
+                        </li>
+                        <li style="margin-right:0px" >
+                            <a href="#" id="logout" >Logout</a>
+                        </li>
+                    </ul>
+                }
             </div>
         </div>
     </div>
@@ -35,6 +59,7 @@
             <p>&copy; @DateTime.Now.Year - Co-Mute</p>
         </footer>
     </div>
+
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")

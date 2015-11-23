@@ -1,5 +1,5 @@
 ﻿(function (root, $) {
-    $('#register').on('submit', function (ev) {
+    $('#update').on('submit', function (ev) {
         ev.preventDefault();
 
         //regular expression to check phone number
@@ -26,30 +26,17 @@
             return;
         }
 
-        var pswd = $('#password').val();
-        if (!pswd) {
+        var oldpswd = $('#old-password').val();
+        if (!oldpswd) {
             return;
         }
 
-        var cpswd = $('#confirm-password').val();
-        if (!cpswd) {
+        var newpswd = $('#new-password').val();
+        if (!newpswd) {
             return;
         }
 
-        if (cpswd != pswd) {
-
-            var $alert = $("#error");
-            var $p = $alert.find("p");
-            $p.text('Password and Confirm password must match');
-            $alert.removeClass('hidden');
-
-            setTimeout(function () {
-                $p.text('');
-                $alert.addClass('hidden');
-            }, 5000);
-
-            return
-        } else if (!reNum.test(phone)) {
+        if (!reNum.test(phone)) {
 
             var $alert = $("#error");
             var $p = $alert.find("p");
@@ -60,6 +47,8 @@
                 $p.text('');
                 $alert.addClass('hidden');
             }, 5000);
+
+            return;
 
         } else if (!reName.test(name) || !reName.test(surname)) {
 
@@ -73,11 +62,12 @@
                 $alert.addClass('hidden');
             }, 5000);
 
+            return;
         }
 
         var parsed;
 
-        $.post('RegisterUser', { name: name, surname: surname, phone: phone, email: email, password: pswd }, function (data) {
+        $.post('Update', { name: name, surname: surname, phone: phone, email: email, oldpassword: oldpswd,newpassword:newpswd }, function (data) {
             // TODO: Navigate away...
             var message = data.Message;
 
@@ -92,26 +82,23 @@
             }, 10000);
 
             alert("got back! " + data.Message);
-            
-            if (data.Success == "1") {
-                document.getElementById("register").reset();
-            }
 
-        }).fail(function (data) {
+
+        }).fail(function (data,status,err) {
             var $alert = $("#error");
             var $p = $alert.find("p");
-            $p.text('Registration failed');
+            $p.text('Update failed '+data.responseText);
             $alert.removeClass('hidden');
 
-            setTimeout(function () {
+            /*setTimeout(function () {
                 $p.text('');
                 $alert.addClass('hidden');
-            }, 10000);
+            }, 10000);*/
             
         });
     });
 
-    $('#logout').on('click', function (ev) {
+    $('#logout').click(function (ev) {
         alert("clicked");
         $.post('Logout', {}, function (data) {
             // TODO: Navigate away...

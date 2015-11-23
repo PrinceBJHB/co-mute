@@ -16,6 +16,11 @@ namespace CoMute.Web.Controllers.Web
             return View();
         }
 
+        public ActionResult Create()
+        {
+            return View();
+        }
+
         public ActionResult About()
         {
             return View();
@@ -89,31 +94,36 @@ namespace CoMute.Web.Controllers.Web
                 var password = Request.Form["password"];
                 var email = Request.Form["email"];
 
-                
                 var user = db.Users.Where(b => b.EmailAddress == email).FirstOrDefault();
-                var pwd = user.Password;
 
-                if (user != null && pwd == password)
+                if (user != null )
                 {
-                    result = new { Success = "1", Message = "Login Successful "};
+                    var pwd = user.Password;
 
-                    var surnames = user.Surname;
+                    if (pwd == password)
+                    {
+                        result = new { Success = "1", Message = "Login Successful " };
 
-                    Session["logged"] = true;
-                    Session["username"] = user.Name;
-                    Session["email"] = email;
-                    Session["phone"] = user.Phone;
-                    Session["surname"] = user.Surname;
+                        var surnames = user.Surname;
+
+                        Session["logged"] = true;
+                        Session["username"] = user.Name;
+                        Session["email"] = email;
+                        Session["phone"] = user.Phone;
+                        Session["surname"] = user.Surname;
+
+                    }
+                    else
+                    {
+                        result = new { Success = "0", Message = "Please enter the correct password and username" };
+                    }
 
                 }
                 else if (user == null)
                 {
                     result = new { Success = "0", Message = "Username does not exist" };
                 }
-                else
-                {
-                    result = new { Success = "0", Message = "Please enter the correct password and username" };
-                }
+              
   
                 // Create a new Client for these details.
             }
@@ -121,5 +131,17 @@ namespace CoMute.Web.Controllers.Web
             return Json(result, JsonRequestBehavior.AllowGet);
 
         }
+
+        public ActionResult Logout()
+        {
+            Session.Remove("logged");
+            Session.Remove("username");
+            Session.Remove("email");
+            Session.Remove("phone");
+            Session.Remove("surname");
+
+            return View("Profile");
+        }
+
     }
 }

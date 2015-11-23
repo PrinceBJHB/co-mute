@@ -1,46 +1,62 @@
 ﻿(function (root, $) {
-    $('#register').on('submit', function (ev) {
+    $('#carpool').on('submit', function (ev) {
         ev.preventDefault();
 
+        //alert("in script");
         //regular expression to check phone number
         var reNum = /^\d+$/;
         var reName = /^\w+$/;
 
-        var name = $('#name').val();
-        if (!name) {
+        var cname = $('#cname').val();
+        if (!cname) {
             return;
         }
 
-        var surname = $('#surname').val();
-        if (!surname) {
+        var dtime = $('#dtime').val();
+        if (!dtime) {
             return;
         }
 
-        var phone = $('#phone').val();
-        if (!phone) {
+        var atime = $('#atime').val();
+        if (!atime) {
             return;
         }
 
-        var email = $('#email').val();
-        if (!email) {
+        var origin = $('#origin').val();
+        if (!origin) {
             return;
         }
 
-        var pswd = $('#password').val();
-        if (!pswd) {
+        var availabled = $('#availabled').val();
+        if (!availabled) {
             return;
         }
 
-        var cpswd = $('#confirm-password').val();
-        if (!cpswd) {
+        var destination = $('#destination').val();
+        if (!destination) {
             return;
         }
 
-        if (cpswd != pswd) {
+        var availables = $('#availables').val();
+        if (!availables) {
+            return;
+        }
+
+        var owner = $('#owner').val();
+        if (!owner) {
+            return;
+        }
+
+        var notes = $('#notes').val();
+        if (!notes) {
+            return;
+        }
+
+        if (!reName.test(cname)) {
 
             var $alert = $("#error");
             var $p = $alert.find("p");
-            $p.text('Password and Confirm password must match');
+            $p.text('Name should contain only Letters and Underscores');
             $alert.removeClass('hidden');
 
             setTimeout(function () {
@@ -48,12 +64,12 @@
                 $alert.addClass('hidden');
             }, 5000);
 
-            return
-        } else if (!reNum.test(phone)) {
+            return;
 
+        }else if (!reNum.test(availables)){
             var $alert = $("#error");
             var $p = $alert.find("p");
-            $p.text('PhoneNumber should contain only digits. Please try again');
+            $p.text('Number of seats should contain only Numbers');
             $alert.removeClass('hidden');
 
             setTimeout(function () {
@@ -61,23 +77,16 @@
                 $alert.addClass('hidden');
             }, 5000);
 
-        } else if (!reName.test(name) || !reName.test(surname)) {
-
-            var $alert = $("#error");
-            var $p = $alert.find("p");
-            $p.text('Username and Surname must contain only letters, numbers and underscores. Please try again');
-            $alert.removeClass('hidden');
-
-            setTimeout(function () {
-                $p.text('');
-                $alert.addClass('hidden');
-            }, 5000);
-
+            return;
         }
+
 
         var parsed;
 
-        $.post('RegisterUser', { name: name, surname: surname, phone: phone, email: email, password: pswd }, function (data) {
+        $.post('RegisterCarPool', {
+            cname:cname,dtime: dtime, atime: atime, origin: origin, availabled: availabled, destination: destination,
+            availables: availables,owner: owner,notes: notes
+        }, function (data) {
             // TODO: Navigate away...
             var message = data.Message;
 
@@ -92,21 +101,18 @@
             }, 10000);
 
             alert("got back! " + data.Message);
-            
-            if (data.Success == "1") {
-                document.getElementById("register").reset();
-            }
 
-        }).fail(function (data) {
+
+        }).fail(function (data,status,err) {
             var $alert = $("#error");
             var $p = $alert.find("p");
-            $p.text('Registration failed');
+            $p.text('Update failed '+data.responseText);
             $alert.removeClass('hidden');
 
-            setTimeout(function () {
+            /*setTimeout(function () {
                 $p.text('');
                 $alert.addClass('hidden');
-            }, 10000);
+            }, 10000);*/
             
         });
     });
