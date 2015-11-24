@@ -11,13 +11,23 @@
                     <p></p>
                 </div>
             </div>
-
-            <h2 class="text-center">Sign In</h2>
-            <input type="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
-            <input type="password" id="inputPassword" class="form-control" placeholder="Password" required>
-            <button class="btn btn-primary btn-block" type="submit" id="sign-in">Sign in</button>
+            @if (Session["logged"] == null)
+            {
+                <h2 class="text-center">Sign In</h2>
+                <input type="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
+                <input type="password" id="inputPassword" class="form-control" placeholder="Password" required>
+                <button class="btn btn-primary btn-block" type="submit" id="sign-in">Sign in</button>
+            }
+  
         </form>
+
+        
     </div>
+
+    @if (Session["logged"] != null)
+    {
+        <h2 style="width:100%;margin-left:30%;">Welcome @Session["username"] To Carpool!!</h2>
+    }
 </div>
 
 <div id="error" class="row row-margin hidden">

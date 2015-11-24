@@ -36,6 +36,7 @@ namespace CoMute.Web.Models
         public string Destination { get; set; }
         public string Seats { get; set; }
         public string Owner { get; set; }
+        public string Members { get; set; }
         public string Notes { get; set; }
 
     }

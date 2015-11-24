@@ -149,7 +149,13 @@
     </Content>
     <Content Include="Content\css\bootstrap.css" />
     <Content Include="Content\css\bootstrap.min.css" />
+    <Content Include="Content\css\jquery-ui.css" />
     <Content Include="Content\css\Site.css" />
+    <Content Include="Content\js\jquery-ui.js" />
+    <Content Include="Content\js\searchcarpools.js" />
+    <Content Include="Content\js\createdcarpools.js" />
+    <Content Include="Content\js\joinedcarpools.js" />
+    <Content Include="Content\js\allcarpools.js" />
     <Content Include="Content\js\global.js" />
     <Content Include="Content\js\login.js" />
     <Content Include="Content\js\carpooling.js" />
@@ -192,6 +198,10 @@
     <Content Include="Views\Home\Edit.cshtml" />
     <Content Include="Views\User\Profile.cshtml" />
     <Content Include="Views\User\CreateCarPool.cshtml" />
+    <Content Include="Views\User\AllCarPools.cshtml" />
+    <Content Include="Views\User\JoinedCarPools.cshtml" />
+    <Content Include="Views\User\CreatedCarPools.cshtml" />
+    <Content Include="Views\User\SearchCarPools.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

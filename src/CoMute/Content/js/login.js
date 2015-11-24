@@ -14,10 +14,10 @@
         $.post('Home/Login', { email: email, password: pswd }, function (data) {
             // TODO: Navigate away...
             var message = data.Message;
-            alert("got back! " + data.Message);
+            //alert("got back! " + data.Message);
             if (data.Success == "1") {
                 //direct to the profile page
-                window.location.href = "User/profile";
+                window.location.href = "Home/Index";
 
             } else {
                 var $alert = $("#error");
@@ -41,6 +41,23 @@
                 $p.text('');
                 $alert.addClass('hidden');
             }, 10000); */
+        });
+    });
+
+    $('#logout').on('click', function (ev) {
+        //alert("clicked");
+        $.post('Home/Logout', {}, function (data) {
+            // TODO: Navigate away...
+
+            window.location.href = "/";
+
+        }).fail(function (data, status, err) {
+            var $alert = $("#error");
+            var $p = $alert.find("p");
+            $p.text('Logout failed ' + data.responseText);
+            $alert.removeClass('hidden');
+
+
         });
     });
 })(window, jQuery);

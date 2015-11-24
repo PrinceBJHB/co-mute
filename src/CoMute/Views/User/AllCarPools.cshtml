@@ -1,0 +1,49 @@
+﻿@{
+    ViewBag.Title = "ViewCarPools";
+}
+
+@if (Session["logged"] != null)
+{
+
+<section id="allcarpools">
+    <h2>All Registered CarPools</h2>
+
+    <div id="myDiv" data-value="@Request.RequestContext.HttpContext.Session["email"]"></div>
+
+    <div id="error" class="row row-margin hidden">
+        <div class="col-md-4 col-md-offset-4 alert alert-danger" style="min-width:50%;">
+            <p></p>
+        </div>
+    </div>
+
+    <div id="carpool-entry" class="carpool-entry row row-margin">
+        <div style="width:25%;float:left;">
+            <h4>Contacts and Notes</h4>
+        </div>
+        <div style="width:20%;float:left"><h4>Trip Origin and Time</h4></div>
+        <div style="width:20%;float:left"><h4>Trip Destination and Time</h4></div>
+        <div style="width:20%;float:left"><h4>Days Available</h4></div>
+        <div style="float:right;width:20%;padding-top:0px;">
+            <label class="btn btn-primary" style="background-color:purple;">Remaining Seats</label>
+            <button class="btn btn-primary" type="button" id="sign-in">+ Join</button>
+        </div>
+
+    </div>
+
+</section>
+
+}
+else
+{
+    <div id="error" class="row row-margin hidden">
+        <div class="col-md-4 col-md-offset-4 alert alert-danger" style="min-width:50%;display:block;">
+            <p> Please Log in to access this page</p>
+        </div>
+    </div>
+}
+
+@section scripts {
+    <script type="text/javascript" src="~/Content/js/profile.js"></script>
+    <script type="text/javascript" src="~/Content/js/allcarpools.js"></script>
+    <script type="text/javascript" src="~/Content/js/global.js"></script>
+}

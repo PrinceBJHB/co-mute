@@ -3,6 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="~/Content/css/jquery-ui.css">
     <title>@ViewBag.Title - Co-Mute</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
@@ -24,10 +25,11 @@
                     @if (Session["logged"] != null)
                     {                        
                         <li>@Html.ActionLink("Create CarPool", "CreateCarPool", "User")</li>
-                        <li>@Html.ActionLink("All CarPools", "Register", "Home")</li>
-                        <li>@Html.ActionLink("Joined CarPools", "Index", "Search")</li>
-                        <li>@Html.ActionLink("Created CarPools", "About", "Home")</li>
-                       
+                        <li>@Html.ActionLink("All CarPools", "AllCarPools", "User")</li>
+                        <li>@Html.ActionLink("Joined CarPools", "JoinedCarPools", "User")</li>
+                        <li>@Html.ActionLink("Created CarPools", "CreatedCarPools", "User")</li>
+                        <li>@Html.ActionLink("Search CarPools", "SearchCarPools", "User")</li>
+
                     }
                     else
                     {

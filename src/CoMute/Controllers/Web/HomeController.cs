@@ -140,7 +140,7 @@ namespace CoMute.Web.Controllers.Web
             Session.Remove("phone");
             Session.Remove("surname");
 
-            return View("Profile");
+            return View("About");
         }
 
     }

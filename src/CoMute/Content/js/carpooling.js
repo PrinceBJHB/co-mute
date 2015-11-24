@@ -100,7 +100,7 @@
                 $alert.addClass('hidden');
             }, 10000);
 
-            alert("got back! " + data.Message);
+            //alert("got back! " + data.Message);
 
 
         }).fail(function (data,status,err) {
@@ -118,7 +118,7 @@
     });
 
     $('#logout').on('click', function (ev) {
-        alert("clicked");
+        //alert("clicked");
         $.post('Logout', {}, function (data) {
             // TODO: Navigate away...
 

@@ -91,7 +91,7 @@
                 $alert.addClass('hidden');
             }, 10000);
 
-            alert("got back! " + data.Message);
+            //alert("got back! " + data.Message);
             
             if (data.Success == "1") {
                 document.getElementById("register").reset();
@@ -112,7 +112,7 @@
     });
 
     $('#logout').on('click', function (ev) {
-        alert("clicked");
+        //alert("clicked");
         $.post('Logout', {}, function (data) {
             // TODO: Navigate away...
 

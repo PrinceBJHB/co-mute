@@ -1,20 +1,71 @@
-﻿(function (root, $) {
-    $('#logout').on('click', function (ev) {
-        ev.preventDefault();
-        
-        alert("clicked");
-        $.post('Logout', {}, function (data) {
-            // TODO: Navigate away...
-           
-            window.location.href = "/";
+﻿function joinCarPool(carpool) {
 
-        }).fail(function (data,status,err) {
-            var $alert = $("#error");
-            var $p = $alert.find("p");
-            $p.text('Logout failed '+data.responseText);
-            $alert.removeClass('hidden');
+    //alert("in joining");
 
-            
-        });
+    $.post('JoinCarPool', { cname:carpool }, function (data) {
+        // TODO: Navigate away...
+        var message = data.Message;
+
+        var $alert = $("#error");
+        var $p = $alert.find("p");
+        $p.text(message);
+        $alert.removeClass('hidden');
+
+        setTimeout(function () {
+            $p.text('');
+            $alert.addClass('hidden');
+        }, 10000);
+
+        //alert("got back! " + data.Message);
+
+
+    }).fail(function (data) {
+        var $alert = $("#error");
+        var $p = $alert.find("p");
+        $p.text('Joining failed');
+        $alert.removeClass('hidden');
+
+        setTimeout(function () {
+            $p.text('');
+            $alert.addClass('hidden');
+        }, 10000);
+
     });
-})(window, jQuery);
+
+}
+
+function leaveCarPool(carpool) {
+
+    //alert("in leaving");
+
+    $.post('LeaveCarPool', { cname: carpool }, function (data) {
+        // TODO: Navigate away...
+        var message = data.Message;
+
+        var $alert = $("#error");
+        var $p = $alert.find("p");
+        $p.text(message);
+        $alert.removeClass('hidden');
+
+        setTimeout(function () {
+            $p.text('');
+            $alert.addClass('hidden');
+        }, 10000);
+
+        //alert("got back! " + data.Message);
+
+
+    }).fail(function (data) {
+        var $alert = $("#error");
+        var $p = $alert.find("p");
+        $p.text('Joining failed');
+        $alert.removeClass('hidden');
+
+        setTimeout(function () {
+            $p.text('');
+            $alert.addClass('hidden');
+        }, 10000);
+
+    });
+
+}

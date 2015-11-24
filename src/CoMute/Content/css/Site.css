@@ -19,3 +19,42 @@
 .row-margin {
     margin-top: 20px;
 }
+
+.carpool-entry{
+    border-bottom:solid;
+    border-color:#333;
+    padding-bottom:5px;
+}
+
+.carpool-detail{
+    width:20%;
+    float:left;
+}
+
+.carpool-join{
+    width:20%;
+    float:right;
+}
+
+.carpool-owner{
+    width:25%;
+    float:left;
+}
+
+.remaining-seats{
+    background-color:purple;
+    margin-right:4px;
+}
+
+.remaining-seats-none{
+    background-color:red;
+    margin-right:4px;
+}
+
+.created-carpool{
+    background-color:darkred;
+}
+
+.leave-carpool{
+    background-color:red;
+}
