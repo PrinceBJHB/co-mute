@@ -11,8 +11,18 @@
             return;
         }
 
-        $.post('/api/Authentication', { email: email, password: pswd }, function (data) {
-            // TODO: Navigate away...
+        $.post('http://localhost:49542/api/login/', { email: email, password: pswd }, function (data) {
+            if(data == true)
+            {
+                
+            }
+            else
+            {
+                var $alert = $("#error");
+                var $p = $alert.find("p");
+                $p.text('Incorrect email and password combination');
+                $alert.removeClass('hidden');
+            }
         }).fail(function (data) {
             var $alert = $("#error");
             var $p = $alert.find("p");

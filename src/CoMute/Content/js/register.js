@@ -32,8 +32,8 @@
             return;
         }
 
-        $.post('/api/user', { name: name, surname: surname, phoneNumber: phone, emailAddress: email, password: pswd }, function (data) {
-            // TODO: Navigate away...
+        $.post('http://localhost:49542/api/user', { name: name, surname: surname, phone: phone, email: email, password: pswd }, function (data) {
+            window.location.href = "/";
         }).fail(function (data) {
             var $alert = $("#error");
             var $p = $alert.find("p");
