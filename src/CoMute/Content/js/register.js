@@ -32,12 +32,12 @@
             return;
         }
 
-        $.post('/api/user', { name: name, surname: surname, phoneNumber: phone, emailAddress: email, password: pswd }, function (data) {
+        $.post('/api/user', { name: name, surname: surname, phoneNumber: phone, emailAddress: email, password: pswd, confirmPassword: cpswd}, function (data) {
             // TODO: Navigate away...
         }).fail(function (data) {
             var $alert = $("#error");
             var $p = $alert.find("p");
-            $p.text('Registration failed');
+            $p.text(data.responseText);
             $alert.removeClass('hidden');
 
             setTimeout(function () {

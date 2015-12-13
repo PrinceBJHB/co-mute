@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace CoMute.Domain.Properties {
+namespace CoMute.Web.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]

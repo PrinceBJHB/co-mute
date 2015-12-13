@@ -1,5 +1,6 @@
 ﻿using CoMute.Domain.Inteface;
 using CoMute.Domain.Repo;
+using CoMute.Model.Models;
 using CoMute.Web.Models;
 using CoMute.Web.Models.Dto;
 using System;
@@ -26,17 +27,20 @@ namespace CoMute.Web.Controllers.API
             if (registrationRequest.Password != registrationRequest.ConfirmPassword)
                 return Request.CreateResponse(HttpStatusCode.PreconditionFailed, "Passwords do not match.");
 
-            if (UserRepo.GetUserByEmail(registrationRequest.EmailAddress) != null)
-                return Request.CreateResponse(HttpStatusCode.Conflict, string.Format("User with email: {0} already exists.", registrationRequest.EmailAddress));
-
-
-
-            var user = new UserDetailViewModel()
+            //Uncomment if unique email is required
+            //if (UserRepo.GetUserByEmail(registrationRequest.EmailAddress) != null)
+            //    return Request.CreateResponse(HttpStatusCode.Conflict, string.Format("User with email: {0} already exists.", registrationRequest.EmailAddress));
+            
+            var user = new User()
             {
                 Name = registrationRequest.Name,
                 Surname = registrationRequest.Surname,
-                EmailAddress = registrationRequest.EmailAddress
+                EmailAddress = registrationRequest.EmailAddress,
+                PhoneNumber = registrationRequest.PhoneNumber,
+                Password = registrationRequest.Password
             };
+
+            user = (User)UserRepo.SaveUser(user);
 
             return Request.CreateResponse(HttpStatusCode.Created, user);
         }

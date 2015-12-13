@@ -9,7 +9,7 @@ namespace CoMute.Domain.Inteface
 {
     public interface IUserRepo
     {
-        List<IUser> GetAllUsers();
+        IEnumerable<IUser> GetAllUsers();
         IUser GetUserByID(long id);
         IUser GetUserByEmail(string email);
         IUser SaveUser(IUser user);
