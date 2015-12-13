@@ -1,9 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.31101.0
+# Visual Studio 14
+VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoMute.Web", "CoMute\CoMute.Web.csproj", "{9E59C0D9-8F90-4EF5-9EC5-484DF075E6B4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoMute.Domain", "CoMute.Domain\CoMute.Domain.csproj", "{B6510228-F9BA-4C63-9935-966F8B8CFFE8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoMute.Model", "CoMute.Model\CoMute.Model.csproj", "{ED766746-31BE-47AA-9043-A4028B03AC10}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +19,14 @@ Global
 		{9E59C0D9-8F90-4EF5-9EC5-484DF075E6B4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9E59C0D9-8F90-4EF5-9EC5-484DF075E6B4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9E59C0D9-8F90-4EF5-9EC5-484DF075E6B4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B6510228-F9BA-4C63-9935-966F8B8CFFE8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B6510228-F9BA-4C63-9935-966F8B8CFFE8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B6510228-F9BA-4C63-9935-966F8B8CFFE8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B6510228-F9BA-4C63-9935-966F8B8CFFE8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ED766746-31BE-47AA-9043-A4028B03AC10}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ED766746-31BE-47AA-9043-A4028B03AC10}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ED766746-31BE-47AA-9043-A4028B03AC10}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ED766746-31BE-47AA-9043-A4028B03AC10}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

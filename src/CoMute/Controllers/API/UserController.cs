@@ -1,4 +1,6 @@
-﻿using CoMute.Web.Models;
+﻿using CoMute.Domain.Inteface;
+using CoMute.Domain.Repo;
+using CoMute.Web.Models;
 using CoMute.Web.Models.Dto;
 using System;
 using System.Collections.Generic;
@@ -11,10 +13,25 @@ namespace CoMute.Web.Controllers.API
 {
     public class UserController : ApiController
     {
-        [Route("user/add")]
+        IUserRepo UserRepo;
+
+        public UserController()
+        {
+            UserRepo = new UserRepo();
+        }
+
         public HttpResponseMessage Post(RegistrationRequest registrationRequest)
         {
-            var user = new User()
+            //check password match
+            if (registrationRequest.Password != registrationRequest.ConfirmPassword)
+                return Request.CreateResponse(HttpStatusCode.PreconditionFailed, "Passwords do not match.");
+
+            if (UserRepo.GetUserByEmail(registrationRequest.EmailAddress) != null)
+                return Request.CreateResponse(HttpStatusCode.Conflict, string.Format("User with email: {0} already exists.", registrationRequest.EmailAddress));
+
+
+
+            var user = new UserDetailViewModel()
             {
                 Name = registrationRequest.Name,
                 Surname = registrationRequest.Surname,

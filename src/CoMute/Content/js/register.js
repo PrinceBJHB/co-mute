@@ -14,7 +14,7 @@
 
         var phone = $('#phone').val();
         if (!phone) {
-            return;
+            phone = '';
         }
 
         var email = $('#email').val();
@@ -38,6 +38,16 @@
             var $alert = $("#error");
             var $p = $alert.find("p");
             $p.text('Registration failed');
+            $alert.removeClass('hidden');
+
+            setTimeout(function () {
+                $p.text('');
+                $alert.addClass('hidden');
+            }, 3000);
+        }).success(function (data) {
+            var $alert = $("#success");
+            var $p = $alert.find("p");
+            $p.text('Success');
             $alert.removeClass('hidden');
 
             setTimeout(function () {
