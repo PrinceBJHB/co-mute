@@ -14,5 +14,6 @@ namespace CoMute.Domain.Inteface
         IUser GetUserByEmail(string email);
         IUser SaveUser(IUser user);
         bool DeleteUser(long id);
+        IUser Login(string email, string password);
     }
 }

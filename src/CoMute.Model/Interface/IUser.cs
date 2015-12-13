@@ -14,5 +14,7 @@ namespace CoMute.Model.Interface
         string EmailAddress { get; set; }
         string PhoneNumber { get; set; }
         string Password { get; set; }
+
+        IEnumerable<ICarPool> 
     }
 }

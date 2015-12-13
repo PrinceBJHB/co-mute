@@ -20,7 +20,6 @@ namespace CoMute.Domain.Repo
             context = new MySqlContext();
         }
 
-
         public bool DeleteUser(long id)
         {
             throw new NotImplementedException();
@@ -46,9 +45,8 @@ namespace CoMute.Domain.Repo
             try
             {
                 string lowerEmail = email.ToLower();
-                User user = (User)context.User.FirstOrDefault(u => u.EmailAddress == lowerEmail);
 
-                return user;
+                return context.User.FirstOrDefault(u => u.EmailAddress == lowerEmail);
             }
             catch (Exception)
             {
@@ -61,9 +59,25 @@ namespace CoMute.Domain.Repo
         {
             try
             {
-                User user = (User)context.User.FirstOrDefault(u => u.Id == id);
+                return context.User.FirstOrDefault(u => u.Id == id);
+            }
+            catch (Exception)
+            {
+                //log exception
+                throw new Exception("An error has occurred. Contact someone for support.");
+            }
+        }
 
-                return user;
+        public IUser Login(string email, string password)
+        {
+            try
+            {
+                var user = GetUserByEmail(email);
+
+                if (user != null && user.Password == password)
+                    return user;
+
+                return null;
             }
             catch (Exception)
             {
