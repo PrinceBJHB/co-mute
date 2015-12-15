@@ -12,8 +12,10 @@ namespace CoMute.Domain.Inteface
         IEnumerable<IUser> GetAllUsers();
         IUser GetUserByID(long id);
         IUser GetUserByEmail(string email);
-        IUser SaveUser(IUser user);
-        bool DeleteUser(long id);
+        long SaveUser(IUser user);
         IUser Login(string email, string password);
+        IEnumerable<ICarPool> GetJoinedCarpools(string name);
+        IEnumerable<ICarPool> GetOwnedCarpools(string name);
+        long CreateCarpool(ICarPool carpool, string email);
     }
 }

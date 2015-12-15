@@ -20,11 +20,6 @@ namespace CoMute.Domain.Repo
             context = new MySqlContext();
         }
 
-        public bool DeleteUser(long id)
-        {
-            throw new NotImplementedException();
-        }
-
         public IEnumerable<IUser> GetAllUsers()
         {
             try
@@ -86,10 +81,13 @@ namespace CoMute.Domain.Repo
             }
         }
 
-        public IUser SaveUser(IUser user)
+        public long SaveUser(IUser user)
         {
             try
             {
+                if (GetUserByEmail(user.EmailAddress) != null)
+                    throw new Exception("emailalreadyexistsexception");//email already exists
+
                 if (user.Id < 1)
                 {
                     context.User.Add((User)user);
@@ -110,7 +108,69 @@ namespace CoMute.Domain.Repo
 
                 context.SaveChanges();
 
-                return GetUserByID(user.Id);
+                return user.Id;
+            }
+            catch (Exception ex)
+            {
+                //log exception
+                throw new Exception("An error has occurred. Contact someone for support.");
+            }
+        }
+
+        public IEnumerable<ICarPool> GetJoinedCarpools(string name)
+        {
+            var user = GetUserByEmail(name);
+            if (user == null)
+                return null;
+
+            var cps = user.JoinedCarpools.Select(c => c.Id);
+            return context.CarPool.Where(c => cps.Contains(c.Id));
+        }
+
+        public IEnumerable<ICarPool> GetOwnedCarpools(string name)
+        {
+            return context.CarPool.Where(c => c.Owner.EmailAddress == name);
+        }
+
+        public long CreateCarpool(ICarPool carpool, string email)
+        {
+            try
+            {
+                //get carpool opportunities created by user.
+                var carpools = GetOwnedCarpools(email);
+
+                //Check time frames
+                if (carpools.Any(cp => cp.DaysAvailable.Any(d => carpool.DaysAvailable.Equals(d))
+                    && carpool.DepartureTime < cp.ExpectedArrivalTime && carpool.ExpectedArrivalTime > cp.DepartureTime))
+                    throw new Exception("timeframeoverlappingexception");//emyou already own a carpool op with overlapping time slots
+
+                if (carpool.Id < 1)
+                {
+                    context.CarPool.Add((CarPool)carpool);
+
+                    context.Entry(carpool).State = EntityState.Added;
+                }
+
+                context.SaveChanges();
+
+                return carpool.Id;
+            }
+            catch (Exception ex)
+            {
+                //log exception
+                throw new Exception("An error has occurred. Contact someone for support.");
+            }
+        }
+
+        public bool JoinCarpool(long userId, long carpoolId)
+        {
+            try
+            {
+                //Check if user has not joined overlapping carpool event.
+                //Check if there are seats available.
+                //join if both checks passes.   
+
+                return false;
             }
             catch (Exception ex)
             {

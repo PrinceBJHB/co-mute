@@ -1,10 +1,8 @@
 ﻿using CoMute.Domain.Inteface;
 using CoMute.Domain.Repo;
 using CoMute.Model.Models;
-using CoMute.Web.Models;
 using CoMute.Web.Models.Dto;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -21,17 +19,14 @@ namespace CoMute.Web.Controllers.API
             UserRepo = new UserRepo();
         }
 
-        public HttpResponseMessage Post(RegistrationRequest registrationRequest)
+        [Route("user/add")]
+        public HttpResponseMessage RegisterUser(RegistrationRequest registrationRequest)
         {
             try
             {
                 //check password match
                 if (registrationRequest.Password != registrationRequest.ConfirmPassword)
                     return Request.CreateResponse(HttpStatusCode.PreconditionFailed, "Passwords do not match.");
-
-                //Uncomment if unique email is required
-                //if (UserRepo.GetUserByEmail(registrationRequest.EmailAddress) != null)
-                //    return Request.CreateResponse(HttpStatusCode.Conflict, string.Format("User with email: {0} already exists.", registrationRequest.EmailAddress));
 
                 var user = new User()
                 {
@@ -41,13 +36,45 @@ namespace CoMute.Web.Controllers.API
                     PhoneNumber = registrationRequest.PhoneNumber,
                     Password = registrationRequest.Password
                 };
-                
-                user = (User)UserRepo.SaveUser(user);
+
+                var id = UserRepo.SaveUser(user);
 
                 return Request.CreateResponse(HttpStatusCode.Created, user);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                if (ex.Message.Contains("emailalreadyexistsexception"))
+                    return Request.CreateResponse(HttpStatusCode.Conflict, string.Format("User with email: {0} already exists.", registrationRequest.EmailAddress));
+                //log exception
+                return Request.CreateResponse(HttpStatusCode.BadRequest, "Error occurred. Please contact someone.");
+            }
+        }
+
+        [Route("user/registerCarpool")]
+        public HttpResponseMessage RegisterCarpool(RegisterCarPoolRequest registerCarPoolRequest)
+        {
+            try
+            {
+                var carpool = new CarPool()
+                {
+                    AvailableSeats = registerCarPoolRequest.AvailableSeats,
+                    //DaysAvailable = registerCarPoolRequest.DaysAvailable,
+                    ExpectedArrivalTime = registerCarPoolRequest.ExpectedArrivalTime,
+                    DepartureTime = registerCarPoolRequest.DepartureTime,
+                    Destination = registerCarPoolRequest.Destination,
+                    Notes = registerCarPoolRequest.Notes,
+                    Origin = registerCarPoolRequest.Origin
+                };
+
+                var id = UserRepo.CreateCarpool(carpool, User.Identity.Name);
+
+                return Request.CreateResponse(HttpStatusCode.Created, carpool);
+            }
+            catch (Exception ex)
+            {
+                if (ex.Message.Contains("timeframeoverlappingexception"))
+                    return Request.CreateResponse(HttpStatusCode.PreconditionFailed, "Overlapping Times.");
+
                 //log exception
                 return Request.CreateResponse(HttpStatusCode.BadRequest, "Error occurred. Please contact someone.");
             }

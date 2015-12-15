@@ -23,6 +23,24 @@
                 $p.text('');
                 $alert.addClass('hidden');
             }, 3000);
+        }).success(function (data) {
+           
+            var $alert = $("#success");
+            var $p = $alert.find("p");
+            $p.text('Success');
+            $alert.removeClass('hidden');
+
+            setTimeout(function () {
+                $p.text('');
+                $alert.addClass('hidden');
+            }, 3000);
+
+            redirect();
         });
     });
+
+    var redirect = function () {
+        window.location.href = "/Home/Index";
+    }
+
 })(window, jQuery);

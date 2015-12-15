@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CoMute.Model.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,6 +16,6 @@ namespace CoMute.Model.Interface
         string PhoneNumber { get; set; }
         string Password { get; set; }
 
-        IEnumerable<ICarPool> 
+        List<CarPool> JoinedCarpools { get; set; }
     }
 }

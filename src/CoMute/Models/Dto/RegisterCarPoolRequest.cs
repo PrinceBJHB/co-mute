@@ -2,13 +2,12 @@
 using System;
 using System.Collections.Generic;
 
-namespace CoMute.Model.Models
+namespace CoMute.Web.Models.Dto
 {
-    public class CarPool : ICarPool
+    public class RegisterCarPoolRequest
     {
-        public long Id { get; set; }
         public int AvailableSeats { get; set; }
-        public List<DayOfWeek> DaysAvailable { get; set; }
+        public DayOfWeek DaysAvailable { get; set; }
         public DateTime DepartureTime { get; set; }
         public string Destination { get; set; }
         public DateTime ExpectedArrivalTime { get; set; }

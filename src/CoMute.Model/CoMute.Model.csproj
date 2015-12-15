@@ -41,6 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Enum\DaysOfWeek.cs" />
     <Compile Include="Interface\ICarPool.cs" />
     <Compile Include="Interface\IUser.cs" />
     <Compile Include="Models\CarPool.cs" />

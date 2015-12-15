@@ -1,16 +1,27 @@
-﻿@{
+﻿@using CoMute.Web.Models
+@model IEnumerable<CarPoolIndexViewModel>
+@{
     ViewBag.Title = "Home";
 }
 
 <div class="row">
-    <div class="col-md-4 col-md-offset-4">
-        <form id="login">
-            <h2 class="text-center">Sign In</h2>
-            <input type="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
-            <input type="password" id="inputPassword" class="form-control" placeholder="Password" required>
-            <button class="btn btn-primary btn-block" type="submit" id="sign-in">Sign in</button>
-        </form>
-    </div>
+    <table>
+        <thead>
+            <tr>Destination</tr>
+            <tr>Origin</tr>
+            <tr>Departure Time</tr>
+            <tr>Date Joined</tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>@Html.DisplayFor(model => item.Destination)</tr>
+                <tr>@Html.DisplayFor(model => item.Origin)</tr>
+                <tr>@Html.DisplayFor(model => item.DepartureTime)</tr>
+                <tr>@Html.DisplayFor(model => item.DateJoined)</tr>
+            }
+        </tbody>
+    </table>
 </div>
 
 <div id="error" class="row row-margin hidden">
@@ -18,7 +29,3 @@
         <p></p>
     </div>
 </div>
-
-@section scripts {
-    <script type="text/javascript" src="~/Content/js/login.js"></script>
-}

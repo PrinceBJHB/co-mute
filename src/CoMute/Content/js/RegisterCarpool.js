@@ -2,37 +2,42 @@
     $('#register').on('submit', function (ev) {
         ev.preventDefault();
 
-        var name = $('#name').val();
-        if (!name) {
+        availableSeats = $('#availableSeats').val();
+        if (!availableSeats) {
             return;
         }
 
-        var surname = $('#surname').val();
-        if (!surname) {
+        daysAvailable = $('#daysAvailable').val();
+        if (!daysAvailable) {
             return;
         }
 
-        var phone = $('#phone').val();
-        if (!phone) {
-            phone = '';
-        }
-
-        var email = $('#email').val();
-        if (!email) {
+        expectedArrivalTime = $('#expectedArrivalTime').val();
+        if (!expectedArrivalTime) {
             return;
         }
 
-        var pswd = $('#password').val();
-        if (!pswd) {
+        departureTime = $('#departureTime').val();
+        if (!departureTime) {
             return;
         }
 
-        var cpswd = $('#confirm-password').val();
-        if (!email) {
+        destination = $('#destination').val();
+        if (!destination) {
             return;
         }
 
-        $.post('/api/user/add', { name: name, surname: surname, phoneNumber: phone, emailAddress: email, password: pswd, confirmPassword: cpswd }, function (data) {
+        notes = $('#notes').val();
+        if (!notes) {
+            notes = '';
+        }
+
+        Origin = $('#Origin').val();
+        if (!Origin) {
+            return;
+        }
+
+        $.post('/api/user/registerCarpool', { availableSeats: availableSeats, daysAvailable: daysAvailable, expectedArrivalTime: expectedArrivalTime, departureTime: departureTime, destination: destination, notes: notes, Origin: Origin }, function (data) {
         }).fail(function (data) {
             var $alert = $("#error");
             var $p = $alert.find("p");

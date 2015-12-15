@@ -2,10 +2,13 @@
 using CoMute.Domain.Repo;
 using CoMute.Web.Models.Dto;
 using System;
-using System.Web;
 using System.Net;
 using System.Net.Http;
+using System.Security.Principal;
+using System.Threading;
+using System.Web;
 using System.Web.Http;
+using System.Web.Security;
 
 namespace CoMute.Web.Controllers.API
 {
@@ -31,8 +34,7 @@ namespace CoMute.Web.Controllers.API
 
                 if (user != null)
                 {
-                    HttpContext.Current.Session["CoMute_User"] = user.Id;
-                    HttpContext.Current.Session["CoMute_LogedIn"] = true;
+                    FormsAuthentication.RedirectFromLoginPage(user.EmailAddress, false);
 
                     return Request.CreateResponse(HttpStatusCode.Accepted);
                 }

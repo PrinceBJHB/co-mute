@@ -16,6 +16,7 @@ namespace CoMute.Domain.Context
         }
 
         public virtual DbSet<User> User { get; set; }
+        public virtual DbSet<CarPool> CarPool { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -23,6 +24,16 @@ namespace CoMute.Domain.Context
 
             modelBuilder.Entity<User>().HasKey(u => u.Id);
             modelBuilder.Entity<User>().ToTable("User");
+
+            modelBuilder.Entity<CarPool>().HasKey(u => u.Id);
+            modelBuilder.Entity<CarPool>().ToTable("CarPool");
+
+            modelBuilder.Entity<User>().HasMany(u => u.JoinedCarpools).WithMany().Map(m =>
+            {
+                m.MapLeftKey("UserId")
+                .MapRightKey("CarPoolId")
+                .ToTable("User_Carpool");
+            });
         }
     }
 }

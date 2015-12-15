@@ -56,6 +56,14 @@
     <Compile Include="Migrations\201512132142462_first.Designer.cs">
       <DependentUpon>201512132142462_first.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201512141343048_carpool.cs" />
+    <Compile Include="Migrations\201512141343048_carpool.Designer.cs">
+      <DependentUpon>201512141343048_carpool.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201512141347113_daysofweek.cs" />
+    <Compile Include="Migrations\201512141347113_daysofweek.Designer.cs">
+      <DependentUpon>201512141347113_daysofweek.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
@@ -84,6 +92,12 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201512132142462_first.resx">
       <DependentUpon>201512132142462_first.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201512141343048_carpool.resx">
+      <DependentUpon>201512141343048_carpool.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201512141347113_daysofweek.resx">
+      <DependentUpon>201512141347113_daysofweek.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
