@@ -1,0 +1,11 @@
+diff a/src/CoMute/Web.config b/src/CoMute/Web.config	(rejected hunks)
+@@ -11,9 +11,6 @@
+     <!-- For more information on Entity Framework configuration, visit http://go.microsoft.com/fwlink/?LinkID=237468 -->
+   </configSections>
+   <connectionStrings>
+-    <add name="ComuteConnection"
+-          providerName="System.Data.SqlClient"
+-          connectionString="Server=tcp:leftofhere.database.windows.net,1433;Database=CoMute;User ID=LeftOfHere@leftofhere;Password=;Encrypt=True;TrustServerCertificate=False;Persist Security Info=True;Connection Timeout=30;"/>
+     <add name="ComuteConnection" providerName="System.Data.SqlClient" connectionString="Server=tcp:leftofhere.database.windows.net,1433;Database=CoMute;User ID=LeftOfHere@leftofhere;Password=FenderGibson^6;Encrypt=True;TrustServerCertificate=False;Persist Security Info=True;Connection Timeout=30;" />
+   </connectionStrings>
+   <appSettings>
