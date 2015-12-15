@@ -28,7 +28,7 @@
         }
 
         var cpswd = $('#confirm-password').val();
-        if (!email) {
+        if (!cpswd) {
             return;
         }
 

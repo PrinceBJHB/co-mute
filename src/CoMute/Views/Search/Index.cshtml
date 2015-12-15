@@ -1,0 +1,31 @@
+﻿@{
+    ViewBag.Title = "Search";
+}
+
+
+<form id="search">
+    <h2>Search</h2>
+
+    <div id="error" class="row row-margin hidden">
+        <div class="col-md-4 col-md-offset-4 alert alert-danger">
+            <p></p>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="name">Search</label>
+        <input type="text" id="searchText" class="form-control" placeholder="Search" autofocus>
+    </div>
+
+    <div>
+        @*Table Results*@
+    </div>
+
+    <div class="form-group">
+        <button class="btn btn-primary" type="submit" id="sign-in">Search</button>
+    </div>
+</form>
+
+@section scripts {
+    <script type="text/javascript" src="~/Content/js/search.js"></script>
+}

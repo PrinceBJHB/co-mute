@@ -58,6 +58,7 @@ namespace CoMute.Web.Controllers.API
         }
 
         [Route("user/edit")]
+        [HttpPost]
         public HttpResponseMessage EditUser(EditRequest editRequest)
         {
             try
@@ -159,6 +160,7 @@ namespace CoMute.Web.Controllers.API
         }
 
         [Route("user/viewJoined")]
+        [HttpGet]
         public HttpResponseMessage viewJoined()
         {
             try
@@ -176,6 +178,7 @@ namespace CoMute.Web.Controllers.API
         }
 
         [Route("user/leaveJoined")]
+        [HttpPost]
         public HttpResponseMessage leaveJoined(long carpoolId)
         {
             try
@@ -192,12 +195,13 @@ namespace CoMute.Web.Controllers.API
             }
         }
 
-        [Route("user/search")]
-        public HttpResponseMessage searchCarpools(string search)
+        [Route("user/search/{searchString}")]
+        [HttpGet]
+        public HttpResponseMessage searchCarpools(string searchString)
         {
             try
             {
-                return Request.CreateResponse(HttpStatusCode.OK, UserRepo.SearchCarpool(search));
+                return Request.CreateResponse(HttpStatusCode.OK, UserRepo.SearchCarpool(searchString));
             }
             catch (Exception ex)
             {

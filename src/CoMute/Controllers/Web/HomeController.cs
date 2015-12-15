@@ -41,7 +41,6 @@ namespace CoMute.Web.Controllers.Web
             return View();
         }
 
-        [AllowAnonymous]
         public ActionResult RegisterCarpool()
         {
             return View();

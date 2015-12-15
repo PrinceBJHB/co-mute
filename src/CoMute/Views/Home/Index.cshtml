@@ -13,12 +13,15 @@
             <tr>Date Joined</tr>
         </thead>
         <tbody>
-            @foreach (var item in Model)
+            @if (Model != null)
             {
-                <tr>@Html.DisplayFor(model => item.Destination)</tr>
-                <tr>@Html.DisplayFor(model => item.Origin)</tr>
-                <tr>@Html.DisplayFor(model => item.DepartureTime)</tr>
-                <tr>@Html.DisplayFor(model => item.DateJoined)</tr>
+                foreach (var item in Model)
+                {
+                    <tr>@Html.DisplayFor(model => item.Destination)</tr>
+                    <tr>@Html.DisplayFor(model => item.Origin)</tr>
+                    <tr>@Html.DisplayFor(model => item.DepartureTime)</tr>
+                    <tr>@Html.DisplayFor(model => item.DateJoined)</tr>
+                }
             }
         </tbody>
     </table>

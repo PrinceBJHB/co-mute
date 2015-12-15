@@ -133,6 +133,7 @@
     <Compile Include="Controllers\API\AuthenticationController.cs" />
     <Compile Include="Controllers\API\UserController.cs" />
     <Compile Include="Controllers\Web\HomeController.cs" />
+    <Compile Include="Controllers\Web\SearchController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -155,9 +156,11 @@
     <Content Include="Content\css\bootstrap.css" />
     <Content Include="Content\css\bootstrap.min.css" />
     <Content Include="Content\css\Site.css" />
+    <Content Include="Content\js\editUser.js" />
     <Content Include="Content\js\login.js" />
     <Content Include="Content\js\register.js" />
-    <Content Include="Content\js\RegisterCarpool.js" />
+    <Content Include="Content\js\registerCarpool.js" />
+    <Content Include="Content\js\search.js" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Scripts\bootstrap.js" />
@@ -199,6 +202,7 @@
     <Content Include="Views\Home\Register.cshtml" />
     <Content Include="Views\Home\Login.cshtml" />
     <Content Include="Views\Home\RegisterCarpool.cshtml" />
+    <Content Include="Views\Search\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

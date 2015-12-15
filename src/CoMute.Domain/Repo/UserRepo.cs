@@ -120,7 +120,7 @@ namespace CoMute.Domain.Repo
         public IEnumerable<ICarPool> GetJoinedCarpools(string name)
         {
             var user = GetUserByEmail(name);
-            if (user == null)
+            if (user == null || user.JoinedCarpools == null)
                 return null;
 
             var cps = user.JoinedCarpools.Select(c => c.Id);
