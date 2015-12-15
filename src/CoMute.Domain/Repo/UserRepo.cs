@@ -179,13 +179,11 @@ namespace CoMute.Domain.Repo
             }
         }
 
-
         public bool JoinCarpool(long carpoolId, string email)
         {
             //Join the carpool
             return true;
         }
-
 
         public IEnumerable<ICarPool> SearchCarpool(string search)
         {

@@ -193,7 +193,7 @@ namespace CoMute.Web.Controllers.API
         }
 
         [Route("user/search")]
-        public HttpResponseMessage leaveJoined(string search)
+        public HttpResponseMessage searchCarpools(string search)
         {
             try
             {

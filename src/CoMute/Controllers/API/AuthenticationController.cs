@@ -39,7 +39,7 @@ namespace CoMute.Web.Controllers.API
                     return Request.CreateResponse(HttpStatusCode.Accepted);
                 }
 
-                return Request.CreateResponse(HttpStatusCode.NotFound);
+                return Request.CreateResponse(HttpStatusCode.NotFound, "Incorrect email or password");
             }
             catch (Exception)
             {
