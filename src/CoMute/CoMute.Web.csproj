@@ -137,6 +137,8 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\CarPoolViewModels.cs" />
+    <Compile Include="Models\Dto\EditRequest.cs" />
+    <Compile Include="Models\Dto\JoinCarpoolRequest.cs" />
     <Compile Include="Models\Dto\LoginRequest.cs" />
     <Compile Include="Models\Dto\RegisterCarPoolRequest.cs" />
     <Compile Include="Models\Dto\RegistrationRequest.cs" />

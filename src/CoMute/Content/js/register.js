@@ -32,7 +32,7 @@
             return;
         }
 
-        $.post('/api/user/add', { name: name, surname: surname, phoneNumber: phone, emailAddress: email, password: pswd, confirmPassword: cpswd }, function (data) {
+        $.post('/user/add', { name: name, surname: surname, phoneNumber: phone, emailAddress: email, password: pswd, confirmPassword: cpswd }, function (data) {
         }).fail(function (data) {
             var $alert = $("#error");
             var $p = $alert.find("p");

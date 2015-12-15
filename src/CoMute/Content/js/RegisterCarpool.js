@@ -37,7 +37,7 @@
             return;
         }
 
-        $.post('/api/user/registerCarpool', { availableSeats: availableSeats, daysAvailable: daysAvailable, expectedArrivalTime: expectedArrivalTime, departureTime: departureTime, destination: destination, notes: notes, Origin: Origin }, function (data) {
+        $.post('/user/registerCarpool', { availableSeats: availableSeats, daysAvailable: daysAvailable, expectedArrivalTime: expectedArrivalTime, departureTime: departureTime, destination: destination, notes: notes, Origin: Origin }, function (data) {
         }).fail(function (data) {
             var $alert = $("#error");
             var $p = $alert.find("p");

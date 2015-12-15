@@ -142,7 +142,7 @@ namespace CoMute.Domain.Repo
                 //Check time frames
                 if (carpools.Any(cp => cp.DaysAvailable.Any(d => carpool.DaysAvailable.Equals(d))
                     && carpool.DepartureTime < cp.ExpectedArrivalTime && carpool.ExpectedArrivalTime > cp.DepartureTime))
-                    throw new Exception("timeframeoverlappingexception");//emyou already own a carpool op with overlapping time slots
+                    throw new Exception("timeframeoverlappingexception");//you already joined a carpool within tis time slot.
 
                 if (carpool.Id < 1)
                 {
@@ -177,6 +177,20 @@ namespace CoMute.Domain.Repo
                 //log exception
                 throw new Exception("An error has occurred. Contact someone for support.");
             }
+        }
+
+
+        public bool JoinCarpool(long carpoolId, string email)
+        {
+            //Join the carpool
+            return true;
+        }
+
+
+        public IEnumerable<ICarPool> SearchCarpool(string search)
+        {
+            //search on origin and destination and departure time and expected arrival time.
+            return new List<CarPool>();
         }
     }
 }
