@@ -6,22 +6,21 @@ using System.Threading.Tasks;
 using System.Data.Entity;
 using System.Data.Entity.ModelConfiguration.Conventions;
 using CoMute.Models;
-using System.Data.Entity.Infrastructure;
 
 namespace CoMute.DAL
 {
-    public class UserContext : DbContext
+    public class LocationContext : DbContext
     {
-        public DbSet<User> Users { get; set; } 
+        public DbSet<Location> Locations { get; set; }
 
-        public UserContext() : base("dbCoMute")
+        public LocationContext() : base("dbCoMute")
         {
+
         }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
         }
-
     }
 }

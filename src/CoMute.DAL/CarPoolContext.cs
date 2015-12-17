@@ -1,20 +1,19 @@
-﻿using System;
+﻿using CoMute.Models;
+using System;
 using System.Collections.Generic;
+using System.Data.Entity;
+using System.Data.Entity.ModelConfiguration.Conventions;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Data.Entity;
-using System.Data.Entity.ModelConfiguration.Conventions;
-using CoMute.Models;
-using System.Data.Entity.Infrastructure;
 
 namespace CoMute.DAL
 {
-    public class UserContext : DbContext
+    public class CarPoolContext : DbContext
     {
-        public DbSet<User> Users { get; set; } 
+        public DbSet<CarPool> CarPools { get; set; }
 
-        public UserContext() : base("dbCoMute")
+        public CarPoolContext() : base("dbCoMute")
         {
         }
 
@@ -22,6 +21,5 @@ namespace CoMute.DAL
         {
             modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
         }
-
     }
 }
