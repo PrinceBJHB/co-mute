@@ -1,5 +1,9 @@
 # co-mute
 
+### Time Spent
+
+±7h
+
 ### TODO
 
 •	Day of Week checkbox selector
