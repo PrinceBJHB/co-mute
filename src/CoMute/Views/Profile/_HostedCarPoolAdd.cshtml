@@ -1,0 +1,279 @@
+﻿@using CoMute.Web.Models
+@model HostedCarPool
+<div class="form-horizontal">
+    <section id="HostedCarPoolAdd">
+        <hr />
+        <h4>Create a new car pool</h4>
+        <hr />
+        @using (Ajax.BeginForm(
+            actionName: "AddHostedCarPool",
+            controllerName: "Profile",
+            routeValues: Model,
+            ajaxOptions: new AjaxOptions { UpdateTargetId = "formCarPoolDetails", HttpMethod = "POST", OnSuccess = "UpdateViewSection(data, '#formCarPoolDetails', 'HostedCarPools')" },
+            htmlAttributes: new { Class = "form-horizontal" }))
+        {
+            <div class="form-group">
+                @Html.LabelFor(model => model.Depart, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Depart, new { htmlAttributes = new { @class = "form-control", placeholder = "00:00" } })
+                    @Html.ValidationMessageFor(model => model.Depart, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Arrive, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Arrive, new { htmlAttributes = new { @class = "form-control", placeholder = "00:00" } })
+                    @Html.ValidationMessageFor(model => model.Arrive, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Origin, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Origin, new { htmlAttributes = new { @class = "form-control", onclick = "formUnhide('HostOriginMapSec'); initHostOriginMap()", @readonly = "readonly" } })
+                    @Html.HiddenFor(model => model.OriginLat)
+                    @Html.HiddenFor(model => model.OriginLon)
+                    @Html.ValidationMessageFor(model => model.Origin, "", new { @class = "text-danger" })
+                </div>
+                <section id="HostOriginMapSec" class="col-md-offset-2 col-md-10" style="visibility:hidden; display:none">
+                    <div id="HostOriginMapDiv" class="col-xs-12" style="height:400px"></div>
+                    <input type="button" value="Close" class="btn btn-primary" onclick="formHide('HostOriginMapSec')" />
+                </section>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Destination, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Destination, new { htmlAttributes = new { @class = "form-control", onclick = "formUnhide('HostDestinationMapSec'); initHostDestinationMap()", @readonly = "readonly" } })
+                    @Html.HiddenFor(model => model.DestinationLat)
+                    @Html.HiddenFor(model => model.DestinationLon)
+                    @Html.ValidationMessageFor(model => model.Destination, "", new { @class = "text-danger" })
+                </div>
+                <section id="HostDestinationMapSec" class="col-md-offset-2 col-md-10" style="visibility:hidden; display:none">
+                    <div id="HostDestinationMapDiv" class="col-xs-12" style="height:400px"></div>
+                    <input type="button" value="Close" class="btn btn-primary" onclick="formHide('HostDestinationMapSec')" />
+                </section>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.DaysAvailable, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.HiddenFor(model => model.DaysAvailable)
+                    <div class="col-xs-1" style="width:13.9%">
+                        <label class="col-xs-12" style="display:block; text-align:center">Mon</label>
+                        <input id="hostMon" type="checkbox" value="1" class="col-xs-12" onclick="dayClick(this)">
+                    </div>
+                    <div class="col-xs-1" style="width:13.9%">
+                        <label class="col-xs-12" style="display:block; text-align:center">Tues</label>
+                        <input id="hostTues" type="checkbox" value="2" class="col-xs-12" onclick="dayClick(this)">
+                    </div>
+                    <div class="col-xs-1" style="width:13.9%">
+                        <label class="col-xs-12" style="display:block; text-align:center">Wed</label>
+                        <input id="hostWed" type="checkbox" value="4" class="col-xs-12" onclick="dayClick(this)">
+                    </div>
+                    <div class="col-xs-1" style="width:13.9%">
+                        <label class="col-xs-12" style="display:block; text-align:center">Thurs</label>
+                        <input id="hostThurs" type="checkbox" value="8" class="col-xs-12" onclick="dayClick(this)">
+                    </div>
+                    <div class="col-xs-1" style="width:13.9%">
+                        <label class="col-xs-12" style="display:block; text-align:center">Fri</label>
+                        <input id="hostFri" type="checkbox" value="16" class="col-xs-12" onclick="dayClick(this)">
+                    </div>
+                    <div class="col-xs-1" style="width:13.9%">
+                        <label class="col-xs-12" style="display:block; text-align:center">Sat</label>
+                        <input id="hostSat" type="checkbox" value="32" class="col-xs-12" onclick="dayClick(this)">
+                    </div>
+                    <div class="col-xs-1" style="width:13.9%">
+                        <label class="col-xs-12" style="display:block; text-align:center">Sun</label>
+                        <input id="hostSun" type="checkbox" value="64" class="col-xs-12" onclick="dayClick(this)">
+                    </div>
+                    <script type="text/javascript">
+                        function dayClick(t) {
+                            if (t.checked) {
+                                document.getElementById('DaysAvailable').value = parseInt(document.getElementById('DaysAvailable').value) + parseInt(t.value);
+                            }
+                            else {
+                                document.getElementById('DaysAvailable').value = parseInt(document.getElementById('DaysAvailable').value) - parseInt(t.value);
+                            }
+                        }
+
+                        $(document).ready(function () {
+
+                            if (isNaN(parseInt(document.getElementById('DaysAvailable').value))) {
+                                document.getElementById('DaysAvailable').value = 0
+                            }
+                            else {
+                                d = parseInt(document.getElementById('DaysAvailable').value);
+                                i = 0;
+                                while (i < 7) {
+                                    p = Math.pow(2, i);
+                                    if ((d & p) == p) {
+                                        switch (i) {
+                                            case 0:
+                                                document.getElementById('hostMon').checked = true;
+                                                break;
+                                            case 1:
+                                                document.getElementById('hostTues').checked = true;
+                                                break;
+                                            case 2:
+                                                document.getElementById('hostWed').checked = true;
+                                                break;
+                                            case 3:
+                                                document.getElementById('hostThurs').checked = true;
+                                                break;
+                                            case 4:
+                                                document.getElementById('hostFri').checked = true;
+                                                break;
+                                            case 5:
+                                                document.getElementById('hostSat').checked = true;
+                                                break;
+                                            case 6:
+                                                document.getElementById('hostSun').checked = true;
+                                                break;
+                                        }
+                                    }
+                                    i++;;
+                                }
+                            }
+                        });
+                    </script>
+                    @Html.ValidationMessageFor(model => model.DaysAvailable, "", new { @class = "text-danger col-xs-12", style = "padding:0px" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Seats, htmlAttributes: new { @class = "control-label col-md-2", placeholder = "Excluding your own" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Seats, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Seats, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Notes, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Notes, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Notes, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                @Html.ValidationSummary(true, "", new { @class = "text-danger col-md-offset-1 col-md-11" })
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Create" class="btn btn-primary" />
+                    <input id="btnFormCancel" type="button" value="Cancel" class="btn btn-primary" />
+                </div>
+            </div>
+        }
+    </section>
+</div>
+<script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBckoDWq3Jp4FixOCMzAAI-wiBmV-vWqk0">
+</script>
+<script type="text/javascript"> //Origin map scripts
+    var hostOriginMap;
+    var hostOriginMarker;
+    function initHostOriginMap() {
+        if (hostOriginMap == null) {
+            if (hostDestinationMarker) {
+                hostOriginMap = new google.maps.Map(document.getElementById('HostOriginMapDiv'), {
+                    center: { lat: hostDestinationMarker.position.lat(), lng: hostDestinationMarker.position.lng() },
+                    zoom: 11
+                });
+            }
+            else {
+                hostOriginMap = new google.maps.Map(document.getElementById('HostOriginMapDiv'), {
+                    center: { lat: -28.8, lng: 24.4 },
+                    zoom: 5
+                });
+            }
+            google.maps.event.addListener(hostOriginMap, 'click', function (event) {
+                placeHostOriginMarker(event.latLng);
+            });
+        }
+    }
+    function placeHostOriginMarker(location) {
+        if (hostOriginMarker) {
+            hostOriginMarker.setPosition(location);
+        }
+        else {
+            hostOriginMarker = new google.maps.Marker({
+                position: location,
+                map: hostOriginMap
+            });
+        }
+        document.getElementById('OriginLat').value = location.lat();
+        document.getElementById('OriginLon').value = location.lng();
+        reverseGeocodeOrigin(location.lat(), location.lng())
+    }
+
+    function reverseGeocodeOrigin(lat, lng) {
+        var latlng = new google.maps.LatLng(lat, lng);
+        var geocoder = new google.maps.Geocoder();
+        geocoder.geocode({ 'latLng': latlng }, function (results, status) {
+            if (status !== google.maps.GeocoderStatus.OK) {
+                alert(status);
+            }
+            if (status == google.maps.GeocoderStatus.OK) {
+                console.log(results);
+                document.getElementById('Origin').value = (results[0].formatted_address);
+            }
+            else {
+                document.getElementById('Origin').value = (lat + ":" + lng);
+            }
+        });
+    }
+</script>
+<script type="text/javascript"> //Destination map scripts
+    var hostDestinationMap;
+    var hostDestinationMarker;
+    function initHostDestinationMap() {
+        if (hostDestinationMap == null) {
+            if (hostOriginMarker) {
+                hostDestinationMap = new google.maps.Map(document.getElementById('HostDestinationMapDiv'), {
+                    center: { lat: hostOriginMarker.position.lat(), lng: hostOriginMarker.position.lng() },
+                    zoom: 11
+                });
+            }
+            else {
+                hostDestinationMap = new google.maps.Map(document.getElementById('HostDestinationMapDiv'), {
+                    center: { lat: -28.8, lng: 24.4 },
+                    zoom: 5
+                });
+            }
+            google.maps.event.addListener(hostDestinationMap, 'click', function (event) {
+                placeHostDestinationMarker(event.latLng);
+            });
+        }
+    }
+    function placeHostDestinationMarker(location) {
+        if (hostDestinationMarker) {
+            hostDestinationMarker.setPosition(location);
+        }
+        else {
+            hostDestinationMarker = new google.maps.Marker({
+                position: location,
+                map: hostDestinationMap
+            });
+        }
+        document.getElementById('DestinationLat').value = location.lat();
+        document.getElementById('DestinationLon').value = location.lng();
+        reverseGeocodeDestination(location.lat(), location.lng())
+    }
+
+    function reverseGeocodeDestination(lat, lng) {
+        var latlng = new google.maps.LatLng(lat, lng);
+        var geocoder = new google.maps.Geocoder();
+        geocoder.geocode({ 'latLng': latlng }, function (results, status) {
+            if (status !== google.maps.GeocoderStatus.OK) {
+                alert(status);
+            }
+            if (status == google.maps.GeocoderStatus.OK) {
+                console.log(results);
+                document.getElementById('Destination').value = (results[0].formatted_address);
+            }
+            else {
+                document.getElementById('Destination').value = (lat + ":" + lng);
+            }
+        });
+    }
+</script>

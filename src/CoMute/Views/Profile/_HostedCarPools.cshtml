@@ -1,0 +1,115 @@
+﻿@using CoMute.Web.Models
+@model List<HostedCarPool>
+
+<h4>Car pools I host</h4>
+<hr />
+
+
+<section id="HostedCarPools">
+    <div class="table-responsive col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        @if (Model.Count == 0)
+        {
+            <div style="padding-bottom:10px">
+                @Html.Raw("You currently host no car pools.")
+            </div>
+            }
+            else
+            {
+            <table class="table">
+                <tr>
+                    <th class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
+                        @Html.DisplayNameFor(model => model.FirstOrDefault().Id)
+                    </th>
+                    <th class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                        @Html.DisplayNameFor(model => model.FirstOrDefault().Depart)
+                    </th>
+                    <th class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                        @Html.DisplayNameFor(model => model.FirstOrDefault().Arrive)
+                    </th>
+                    <th class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                        @Html.DisplayNameFor(model => model.FirstOrDefault().Origin)
+                    </th>
+                    <th class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                        @Html.DisplayNameFor(model => model.FirstOrDefault().Destination)
+                    </th>
+                    <th class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                        @Html.DisplayNameFor(model => model.FirstOrDefault().DaysAvailable)
+                    </th>
+
+                </tr>
+
+                @foreach (var item in Model)
+                {
+                    <tr class="row-select" onclick="this.children[0].children[0].click();">
+                        <td class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                            @Ajax.ActionLink(
+                            linkText: "x",
+                            actionName: "HostedCarPoolDetails",
+                            controllerName: "Profile",
+                            routeValues: item,
+                            ajaxOptions: new AjaxOptions { UpdateTargetId = "formCarPoolDetails", InsertionMode = InsertionMode.Replace, OnSuccess = "formSlideDown('#HostedCarPoolDetails')" },
+                            htmlAttributes: new { style = "display:none;" }
+                        )
+                            @Html.DisplayFor(modelItem => item.Id)
+                        </td>
+                        <td class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                            @Html.DisplayFor(modelItem => item.Depart)
+                        </td>
+                        <td class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                            @Html.DisplayFor(modelItem => item.Arrive)
+                        </td>
+                        <td class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                            @Html.DisplayFor(modelItem => item.Origin)
+                        </td>
+                        <td class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                            @Html.DisplayFor(modelItem => item.Destination)
+                        </td>
+                        <td class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                            <div style=" display:flex">
+                                @{string color;}
+                                @{color = (item.DaysAvailable & 1) == 1 ? "color:black" : "color:grey";}
+                                <div class="col-xs-1" style="padding-left:0px; padding-right:25px; @color">M</div>
+                                @{color = (item.DaysAvailable & 2) == 2 ? "color:black" : "color:grey";}
+                                <div class="col-xs-1" style="padding-left:0px; padding-right:25px; @color">T</div>
+                                @{color = (item.DaysAvailable & 4) == 4 ? "color:black" : "color:grey";}
+                                <div class="col-xs-1" style="padding-left:0px; padding-right:25px; @color">W</div>
+                                @{color = (item.DaysAvailable & 8) == 8 ? "color:black" : "color:grey";}
+                                <div class="col-xs-1" style="padding-left:0px; padding-right:25px; @color">T</div>
+                                @{color = (item.DaysAvailable & 16) == 16 ? "color:black" : "color:grey";}
+                                <div class="col-xs-1" style="padding-left:0px; padding-right:25px; @color">F</div>
+                                @{color = (item.DaysAvailable & 32) == 32 ? "color:black" : "color:grey";}
+                                <div class="col-xs-1" style="padding-left:0px; padding-right:25px; @color">S</div>
+                                @{color = (item.DaysAvailable & 64) == 64 ? "color:black" : "color:grey";}
+                                <div class="col-xs-1" style="padding-left:0px; padding-right:25px; @color">S</div>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </table>
+            <script type="text/javascript">
+                function colourDay(i, t, daysAvail) {
+                    debugger;
+                    if (i & int.Parse(daysAvail) == i) {
+                        t.style.color = "black"
+                    }
+                }
+            </script>
+            }
+        </div>
+
+    <div class="form-group row">
+        <div class="col-lg-1 col-md-1 col-sm-1 col-xs-12">
+            @Ajax.ActionLink(
+              linkText: "Add",
+              actionName: "AddHostedCarPool",
+              controllerName: "Profile",
+              routeValues: new { },
+              ajaxOptions: new AjaxOptions { UpdateTargetId = "formCarPoolDetails", InsertionMode = InsertionMode.Replace, OnSuccess = "formSlideDown('#HostedCarPoolAdd')" },
+              htmlAttributes: new { Class = "btn btn-primary" }
+            )
+        </div>
+    </div>
+
+    <div id="formCarPoolDetails"></div>
+</section>
+

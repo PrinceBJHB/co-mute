@@ -1,0 +1,100 @@
+﻿@using CoMute.Web.Models
+@model List<SearchResult>
+<hr />
+<h4>Search results</h4>
+<hr />
+<section id="SearchResults">
+    <div class="table-responsive col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        @if (Model.Count == 0)
+        {
+            <div style="padding-bottom:10px">
+                @Html.Raw("No car pools match your search criteria.")
+            </div>
+        }
+        else
+        {
+            <table class="table">
+                <tr>
+                    <th class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
+                        @Html.DisplayNameFor(model => model.FirstOrDefault().CarPoolId)
+                    </th>
+                    <th class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                        @Html.DisplayNameFor(model => model.FirstOrDefault().CarPoolDepart)
+                    </th>
+                    <th class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                        @Html.DisplayNameFor(model => model.FirstOrDefault().CarPoolArrive)
+                    </th>
+                    <th class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                        @Html.DisplayNameFor(model => model.FirstOrDefault().CarPoolOrigin)
+                    </th>
+                    <th class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                        @Html.DisplayNameFor(model => model.FirstOrDefault().CarPoolDestination)
+                    </th>
+                    <th class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                        @Html.DisplayNameFor(model => model.FirstOrDefault().CarPoolDaysAvailable)
+                    </th>
+
+                </tr>
+
+                @foreach (var item in Model)
+                {
+                    <tr class="row-select" onclick="this.children[0].children[0].click();">
+                        <td class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                            @Html.ActionLink(
+                            linkText:"x",
+                            actionName: "SearchResultDetails",
+                            controllerName: "Search",
+                            routeValues: item,
+                            htmlAttributes: new { target="blank", style = "display:none"}
+                            )
+                            @Html.DisplayFor(modelItem => item.CarPoolId)
+                        </td>
+                        <td class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                            @Html.DisplayFor(modelItem => item.CarPoolDepart)
+                        </td>
+                        <td class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                            @Html.DisplayFor(modelItem => item.CarPoolArrive)
+                        </td>
+                        <td class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                            @Html.DisplayFor(modelItem => item.CarPoolOrigin)
+                        </td>
+                        <td class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                            @Html.DisplayFor(modelItem => item.CarPoolDestination)
+                        </td>
+                        <td class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                            <div style=" display:flex">
+                                @{string color;}
+                                @{color = (item.DaysWithSeats & 1) == 1 ? "color:black" : "color:grey";}
+                                <div class="col-xs-1" style="padding-left:0px; padding-right:25px; @color">M</div>
+                                @{color = (item.DaysWithSeats & 2) == 2 ? "color:black" : "color:grey";}
+                                <div class="col-xs-1" style="padding-left:0px; padding-right:25px; @color">T</div>
+                                @{color = (item.DaysWithSeats & 4) == 4 ? "color:black" : "color:grey";}
+                                <div class="col-xs-1" style="padding-left:0px; padding-right:25px; @color">W</div>
+                                @{color = (item.DaysWithSeats & 8) == 8 ? "color:black" : "color:grey";}
+                                <div class="col-xs-1" style="padding-left:0px; padding-right:25px; @color">T</div>
+                                @{color = (item.DaysWithSeats & 16) == 16 ? "color:black" : "color:grey";}
+                                <div class="col-xs-1" style="padding-left:0px; padding-right:25px; @color">F</div>
+                                @{color = (item.DaysWithSeats & 32) == 32 ? "color:black" : "color:grey";}
+                                <div class="col-xs-1" style="padding-left:0px; padding-right:25px; @color">S</div>
+                                @{color = (item.DaysWithSeats & 64) == 64 ? "color:black" : "color:grey";}
+                                <div class="col-xs-1" style="padding-left:0px; padding-right:25px; @color">S</div>
+                            </div>
+                        </td>
+                    </tr>
+
+                }
+            </table>
+            <script type="text/javascript">
+                function colourDay(i, t, daysAvail) {
+                    debugger;
+                    if (i & int.Parse(daysAvail) == i) {
+                        t.style.color = "black"
+                    }
+                }
+            </script>
+        }
+    </div>
+    <hr />
+</section>
+
+

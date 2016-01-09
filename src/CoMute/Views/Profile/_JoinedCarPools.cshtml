@@ -1,0 +1,98 @@
+﻿@using CoMute.Web.Models
+@model List<JoinedCarPool>
+
+<h4>Car pools I have joined</h4>
+<hr />
+
+<section id="JoinedCarPools">
+    <div class="table-responsive col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        @if (Model.Count == 0)
+        {
+            <div style="padding-bottom:10px">
+                @Html.Raw("You have currently joined no car pools.")
+            </div>     
+        }
+        else
+        {
+            <table class="table">
+                <tr>
+                    <th class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                        @Html.DisplayNameFor(model => model.FirstOrDefault().CarPoolId)
+                    </th>
+                    <th class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                        @Html.DisplayNameFor(model => model.FirstOrDefault().CarPoolDepart)
+                    </th>
+                    <th class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                        @Html.DisplayNameFor(model => model.FirstOrDefault().CarPoolArrive)
+                    </th>
+                    <th class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                        @Html.DisplayNameFor(model => model.FirstOrDefault().CarPoolOrigin)
+                    </th>
+                    <th class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                        @Html.DisplayNameFor(model => model.FirstOrDefault().CarPoolDestination)
+                    </th>
+                    <th class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                        @Html.DisplayNameFor(model => model.FirstOrDefault().CarPoolDaysAvailable)
+                    </th>
+
+                </tr>
+
+                @foreach (var item in Model)
+                {
+                    <tr class="row-select" onclick="this.children[0].children[0].click();">
+                        <td class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                            @Ajax.ActionLink(
+                                linkText: "x",
+                                actionName: "JoinedCarPoolDetails",
+                                controllerName: "Profile",
+                                routeValues: item,
+                                ajaxOptions: new AjaxOptions { UpdateTargetId = "formJoinedCarPoolDetails", InsertionMode = InsertionMode.Replace, OnSuccess = "formSlideDown('#JoinedCarPoolDetails')" },
+                                htmlAttributes: new { style = "display:none;" }
+                            )
+                            @Html.DisplayFor(modelItem => item.CarPoolId)
+                        </td>
+                        <td class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                            @Html.DisplayFor(modelItem => item.CarPoolDepart)
+                        </td>
+                        <td class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                            @Html.DisplayFor(modelItem => item.CarPoolArrive)
+                        </td>
+                        <td class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                            @Html.DisplayFor(modelItem => item.CarPoolOrigin)
+                        </td>
+                        <td class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                            @Html.DisplayFor(modelItem => item.CarPoolDestination)
+                        </td>
+                        <td class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                            <div style=" display:flex">
+                                @{string color;}
+                                @{color = (item.DaysAvailable & 1) == 1 ? "color:black" : "color:grey";}
+                                <div class="col-xs-1" style="padding-left:0px; padding-right:25px; @color">M</div>
+                                @{color = (item.DaysAvailable & 2) == 2 ? "color:black" : "color:grey";}
+                                <div class="col-xs-1" style="padding-left:0px; padding-right:25px; @color">T</div>
+                                @{color = (item.DaysAvailable & 4) == 4 ? "color:black" : "color:grey";}
+                                <div class="col-xs-1" style="padding-left:0px; padding-right:25px; @color">W</div>
+                                @{color = (item.DaysAvailable & 8) == 8 ? "color:black" : "color:grey";}
+                                <div class="col-xs-1" style="padding-left:0px; padding-right:25px; @color">T</div>
+                                @{color = (item.DaysAvailable & 16) == 16 ? "color:black" : "color:grey";}
+                                <div class="col-xs-1" style="padding-left:0px; padding-right:25px; @color">F</div>
+                                @{color = (item.DaysAvailable & 32) == 32 ? "color:black" : "color:grey";}
+                                <div class="col-xs-1" style="padding-left:0px; padding-right:25px; @color">S</div>
+                                @{color = (item.DaysAvailable & 64) == 64 ? "color:black" : "color:grey";}
+                                <div class="col-xs-1" style="padding-left:0px; padding-right:25px; @color">S</div>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </table>
+        }
+    </div>
+
+    <div class="form-group row">
+        <div class="col-lg-1 col-md-1 col-sm-1 col-xs-12">
+            @Html.ActionLink("Find a car pool", "Search", "Search", new { }, new { @class = "btn btn-primary" })
+        </div>
+    </div>
+
+    <div id="formJoinedCarPoolDetails"></div>
+</section>

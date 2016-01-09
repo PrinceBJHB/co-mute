@@ -1,0 +1,110 @@
+﻿@using CoMute.Web.Models
+@model JoinedCarPool
+<div class="form-horizontal">
+    <section id="JoinedCarPoolDetails">
+        <hr />
+        <h4>Car pool details</h4>
+        <hr />
+        @using (Ajax.BeginForm(
+          actionName: "LeaveJoinedCarPool",
+          controllerName: "Profile",
+          routeValues: Model,
+          ajaxOptions: new AjaxOptions { UpdateTargetId = "formJoinedCarPoolDetails", HttpMethod = "POST", OnSuccess = "UpdateViewSection(data, '#formJoinedCarPoolDetails', 'JoinedCarPools')" },
+          htmlAttributes: new { Class = "form-horizontal" }))
+        {
+            @Html.HiddenFor(model => model.CarPoolCDate)
+            @Html.HiddenFor(model => model.DaysAvailable)
+            <div class="form-group">
+                @Html.LabelFor(model => model.CarPoolId, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="form-control-static col-md-10">
+                    @Html.DisplayFor(model => model.CarPoolId, new { htmlAttributes = new { @class = "form-control" } })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.CarPoolDepart, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="form-control-static col-md-10">
+                    @Html.DisplayFor(model => model.CarPoolDepart, new { htmlAttributes = new { @class = "form-control" } })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.CarPoolArrive, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="form-control-static col-md-10">
+                    @Html.DisplayFor(model => model.CarPoolArrive, new { htmlAttributes = new { @class = "form-control" } })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.CarPoolOrigin, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="form-control-static col-md-10">
+                    @Html.DisplayFor(model => model.CarPoolOrigin, new { htmlAttributes = new { @class = "form-control" } })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.CarPoolDestination, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="form-control-static col-md-10">
+                    @Html.DisplayFor(model => model.CarPoolDestination, new { htmlAttributes = new { @class = "form-control" } })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.Label("Selected days", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="form-control-static col-md-10">
+                    <div style=" display:flex">
+
+                        @{string color;}
+                        @{color = (Model.DaysAvailable & 1) == 1 ? "color:black" : "color:grey";}
+                        <div class="col-xs-1" style="padding-left:0px; padding-right:25px; @color">M</div>
+                        @{color = (Model.DaysAvailable & 2) == 2 ? "color:black" : "color:grey";}
+                        <div class="col-xs-1" style="padding-left:0px; padding-right:25px; @color">T</div>
+                        @{color = (Model.DaysAvailable & 4) == 4 ? "color:black" : "color:grey";}
+                        <div class="col-xs-1" style="padding-left:0px; padding-right:25px; @color">W</div>
+                        @{color = (Model.DaysAvailable & 8) == 8 ? "color:black" : "color:grey";}
+                        <div class="col-xs-1" style="padding-left:0px; padding-right:25px; @color">T</div>
+                        @{color = (Model.DaysAvailable & 16) == 16 ? "color:black" : "color:grey";}
+                        <div class="col-xs-1" style="padding-left:0px; padding-right:25px; @color">F</div>
+                        @{color = (Model.DaysAvailable & 32) == 32 ? "color:black" : "color:grey";}
+                        <div class="col-xs-1" style="padding-left:0px; padding-right:25px; @color">S</div>
+                        @{color = (Model.DaysAvailable & 64) == 64 ? "color:black" : "color:grey";}
+                        <div class="col-xs-1" style="padding-left:0px; padding-right:25px; @color">S</div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.Label("Host's name", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="form-control-static col-md-10">
+                    @Html.DisplayFor(model => model.CarPoolHostUserName, new { htmlAttributes = new { @class = "form-control" } })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.Label("Host's surname", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="form-control-static col-md-10">
+                    @Html.DisplayFor(model => model.CarPoolHostUserSurname, new { htmlAttributes = new { @class = "form-control" } })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.Label("Host's phone", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="form-control-static col-md-10">
+                    @Html.DisplayFor(model => model.CarPoolHostUserPhone, new { htmlAttributes = new { @class = "form-control" } })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.Label("Host's email", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="form-control-static col-md-10">
+                    @Html.DisplayFor(model => model.CarPoolHostUserEmailAddress, new { htmlAttributes = new { @class = "form-control" } })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.CarPoolNotes, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="form-control-static col-md-10">
+                    @Html.DisplayFor(model => model.CarPoolNotes, new { htmlAttributes = new { @class = "form-control" } })
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <button type="submit" class="btn btn-primary" onclick="return confirm('Are you sure you wish to leave this car pool?')">Leave</button>
+                    <input id="btnFormCancel" type="button" value="Close" class="btn btn-primary" />
+                </div>
+            </div>
+        }
+    </section>
+</div>

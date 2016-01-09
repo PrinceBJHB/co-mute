@@ -8,6 +8,7 @@
     @Scripts.Render("~/bundles/modernizr")
 </head>
 <body>
+    @using CoMute.Web.StaticValues
     <div class="navbar navbar-default navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
@@ -20,10 +21,19 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("My Profile", "Profile", "User")</li>
-                    <li>@Html.ActionLink("Register", "Register", "Home")</li>
-                    <li>@Html.ActionLink("Search", "Index", "Search")</li>
-                    <li>@Html.ActionLink("About", "About", "Home")</li>
+                    @if (StaticValues.CurrentUser == null)
+                    {
+                        <li>@Html.ActionLink("Sign In", "Login", "Home")</li>
+                        <li>@Html.ActionLink("Register", "Register", "Home")</li>
+                        <li>@Html.ActionLink("About", "About", "Home")</li>
+                    }
+                    else
+                    {
+                        <li>@Html.ActionLink("My Profile", "Profile", "Profile")</li>
+                        <li>@Html.ActionLink("Search", "Search", "Search")</li>
+                        <li>@Html.ActionLink("About", "About", "Home")</li>
+                        <li>@Html.ActionLink("Logout", "Logout", "Home")</li>
+                    }              
                 </ul>
             </div>
         </div>
@@ -31,7 +41,7 @@
     <div class="container body-content">
         @RenderBody()
         <hr />
-        <footer class="container">
+        <footer class="container" style="clear:both">
             <p>&copy; @DateTime.Now.Year - Co-Mute</p>
         </footer>
     </div>

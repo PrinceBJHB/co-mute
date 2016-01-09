@@ -1,0 +1,18 @@
+﻿@using CoMute.Web.Models
+@model LoginRequest
+@using (Html.BeginForm("Login", "Home", new { }, FormMethod.Post, new { @class = "form-horizontal", @autocomplete = "off" }))
+{ 
+    <div class="row">
+        <div class="col-md-4 col-md-offset-4 form-group">
+            <form id="login">
+                <h2 class="text-center">Sign In</h2>
+                @Html.EditorFor(model => model.Email, new { htmlAttributes = new { type = "text", @class = "form-control", placeholder = "Email address", autofocus = "autofocus" } })
+                @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.Password, new { htmlAttributes = new { type = "password", @class = "form-control", placeholder = "Password" } })
+                @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+                <button class="btn btn-primary btn-block" type="submit" id="sign-in">Sign in</button>
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            </form>
+        </div>
+    </div>
+}

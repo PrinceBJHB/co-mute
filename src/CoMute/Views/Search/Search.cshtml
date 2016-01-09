@@ -1,0 +1,274 @@
+﻿@using CoMute.Web.Models
+@model SearchFilter
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/jqueryval")
+@Scripts.Render("~/bundles/general")
+<div class="form-horizontal">
+    <section id="SearchCriteria">
+        <hr />
+        <h4>Find a new car pool</h4>
+        <hr />
+        @using (Ajax.BeginForm(
+            actionName: "SearchCarPools",
+            controllerName: "Search",
+            routeValues: Model,
+            ajaxOptions: new AjaxOptions { HttpMethod = "POST", OnSuccess = "UpdateViewNoSlide(data, '#formSearchResults','#SearchCriteria')" },
+            htmlAttributes: new { Class = "form-horizontal" }))
+        {
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Depart, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Depart, new { htmlAttributes = new { @class = "form-control", placeholder = "00:00" } })
+                    @Html.ValidationMessageFor(model => model.Depart, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Arrive, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Arrive, new { htmlAttributes = new { @class = "form-control", placeholder = "00:00" } })
+                    @Html.ValidationMessageFor(model => model.Arrive, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Origin, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Origin, new { htmlAttributes = new { @class = "form-control", onclick = "formUnhide('SearchOriginMapSec'); initSearchOriginMap()", @readonly = "readonly" } })
+                    @Html.HiddenFor(model => model.OriginLat)
+                    @Html.HiddenFor(model => model.OriginLon)
+                    @Html.ValidationMessageFor(model => model.Origin, "", new { @class = "text-danger" })
+                </div>
+                <section id="SearchOriginMapSec" class="col-md-offset-2 col-md-10" style="visibility:hidden; display:none">
+                    <div id="SearchOriginMapDiv" class="col-xs-12" style="height:400px"></div>
+                    <input type="button" value="Close" class="btn btn-primary" onclick="formHide('SearchOriginMapSec')" />
+                </section>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Destination, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Destination, new { htmlAttributes = new { @class = "form-control", onclick = "formUnhide('SearchDestinationMapSec'); initSearchDestinationMap()", @readonly = "readonly" } })
+                    @Html.HiddenFor(model => model.DestinationLat)
+                    @Html.HiddenFor(model => model.DestinationLon)
+                    @Html.ValidationMessageFor(model => model.Destination, "", new { @class = "text-danger" })
+                </div>
+                <section id="SearchDestinationMapSec" class="col-md-offset-2 col-md-10" style="visibility:hidden; display:none">
+                    <div id="SearchDestinationMapDiv" class="col-xs-12" style="height:400px"></div>
+                    <input type="button" value="Close" class="btn btn-primary" onclick="formHide('SearchDestinationMapSec')" />
+                </section>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.DaysAvailable, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.HiddenFor(model => model.DaysAvailable)
+                    <div class="col-xs-1" style="width:13.9%">
+                        <label class="col-xs-12" style="display:block; text-align:center">Mon</label>
+                        <input id="searchMon" type="checkbox" value="1" class="col-xs-12" onclick="dayClick(this)">
+                    </div>
+                    <div class="col-xs-1" style="width:13.9%">
+                        <label class="col-xs-12" style="display:block; text-align:center">Tues</label>
+                        <input id="searchTues" type="checkbox" value="2" class="col-xs-12" onclick="dayClick(this)">
+                    </div>
+                    <div class="col-xs-1" style="width:13.9%">
+                        <label class="col-xs-12" style="display:block; text-align:center">Wed</label>
+                        <input id="searchWed" type="checkbox" value="4" class="col-xs-12" onclick="dayClick(this)">
+                    </div>
+                    <div class="col-xs-1" style="width:13.9%">
+                        <label class="col-xs-12" style="display:block; text-align:center">Thurs</label>
+                        <input id="searchThurs" type="checkbox" value="8" class="col-xs-12" onclick="dayClick(this)">
+                    </div>
+                    <div class="col-xs-1" style="width:13.9%">
+                        <label class="col-xs-12" style="display:block; text-align:center">Fri</label>
+                        <input id="searchFri" type="checkbox" value="16" class="col-xs-12" onclick="dayClick(this)">
+                    </div>
+                    <div class="col-xs-1" style="width:13.9%">
+                        <label class="col-xs-12" style="display:block; text-align:center">Sat</label>
+                        <input id="searchSat" type="checkbox" value="32" class="col-xs-12" onclick="dayClick(this)">
+                    </div>
+                    <div class="col-xs-1" style="width:13.9%">
+                        <label class="col-xs-12" style="display:block; text-align:center">Sun</label>
+                        <input id="searchSun" type="checkbox" value="64" class="col-xs-12" onclick="dayClick(this)">
+                    </div>
+                    <script type="text/javascript">
+                        function dayClick(t) {
+                            if (t.checked) {
+                                document.getElementById('DaysAvailable').value = parseInt(document.getElementById('DaysAvailable').value) + parseInt(t.value);
+                            }
+                            else {
+                                document.getElementById('DaysAvailable').value = parseInt(document.getElementById('DaysAvailable').value) - parseInt(t.value);
+                            }
+                        }
+
+                        $(document).ready(function () {
+
+                            if (isNaN(parseInt(document.getElementById('DaysAvailable').value))) {
+                                document.getElementById('DaysAvailable').value = 0
+                            }
+                            else {
+                                d = parseInt(document.getElementById('DaysAvailable').value);
+                                i = 0;
+                                while (i < 7) {
+                                    p = Math.pow(2, i);
+                                    if ((d & p) == p) {
+                                        switch (i) {
+                                            case 0:
+                                                document.getElementById('searchMon').checked = true;
+                                                break;
+                                            case 1:
+                                                document.getElementById('searchTues').checked = true;
+                                                break;
+                                            case 2:
+                                                document.getElementById('searchWed').checked = true;
+                                                break;
+                                            case 3:
+                                                document.getElementById('searchThurs').checked = true;
+                                                break;
+                                            case 4:
+                                                document.getElementById('searchFri').checked = true;
+                                                break;
+                                            case 5:
+                                                document.getElementById('searchSat').checked = true;
+                                                break;
+                                            case 6:
+                                                document.getElementById('searchSun').checked = true;
+                                                break;
+                                        }
+                                    }
+                                    i++;;
+                                }
+                            }
+                        });
+                    </script>
+                    @Html.ValidationMessageFor(model => model.DaysAvailable, "", new { @class = "text-danger col-xs-12", style = "padding:0px" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.ValidationSummary(true, "", new { @class = "text-danger col-md-offset-1 col-md-11" })
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Search" class="btn btn-primary" />
+                </div>
+            </div>
+
+        }
+
+        <div id="formSearchResults" class="col-xs-12"></div>
+    </section>
+</div>
+<script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBckoDWq3Jp4FixOCMzAAI-wiBmV-vWqk0">
+</script>
+<script type="text/javascript">
+ //Origin map scripts
+    var searchOriginMap;
+    var searchOriginMarker;
+    function initSearchOriginMap() {
+        if (searchOriginMap == null) {
+            if (searchDestinationMarker) {
+                searchOriginMap = new google.maps.Map(document.getElementById('SearchOriginMapDiv'), {
+                    center: { lat: searchDestinationMarker.position.lat(), lng: searchDestinationMarker.position.lng() },
+                    zoom: 11
+                });
+            }
+            else {
+                searchOriginMap = new google.maps.Map(document.getElementById('SearchOriginMapDiv'), {
+                    center: { lat: -28.8, lng: 24.4 },
+                    zoom: 5
+                });
+            }
+            google.maps.event.addListener(searchOriginMap, 'click', function (event) {
+                placeSearchOriginMarker(event.latLng);
+            });
+        }
+    }
+    function placeSearchOriginMarker(location) {
+        if (searchOriginMarker) {
+            searchOriginMarker.setPosition(location);
+        }
+        else {
+            searchOriginMarker = new google.maps.Marker({
+                position: location,
+                map: searchOriginMap
+            });
+        }
+        document.getElementById('OriginLat').value = location.lat();
+        document.getElementById('OriginLon').value = location.lng();
+        reverseGeocodeSearchOrigin(location.lat(), location.lng())
+    }
+
+    function reverseGeocodeSearchOrigin(lat, lng) {
+        var latlng = new google.maps.LatLng(lat, lng);
+        var geocoder = new google.maps.Geocoder();
+        geocoder.geocode({ 'latLng': latlng }, function (results, status) {
+            if (status !== google.maps.GeocoderStatus.OK) {
+                alert(status);
+            }
+            if (status == google.maps.GeocoderStatus.OK) {
+                console.log(results);
+                document.getElementById('Origin').value = (results[0].formatted_address);
+            }
+            else {
+                document.getElementById('Origin').value = (lat + ":" + lng);
+            }
+        });
+    }
+</script>
+<script type="text/javascript">
+ //Destination map scripts
+    var searchDestinationMap;
+    var searchDestinationMarker;
+    function initSearchDestinationMap() {
+        if (searchDestinationMap == null) {
+            if (searchOriginMarker) {
+                searchDestinationMap = new google.maps.Map(document.getElementById('SearchDestinationMapDiv'), {
+                    center: { lat: searchOriginMarker.position.lat(), lng: searchOriginMarker.position.lng() },
+                    zoom: 11
+                });
+            }
+            else {
+                searchDestinationMap = new google.maps.Map(document.getElementById('SearchDestinationMapDiv'), {
+                    center: { lat: -28.8, lng: 24.4 },
+                    zoom: 5
+                });
+            }
+            
+            google.maps.event.addListener(searchDestinationMap, 'click', function (event) {
+                placeSearchDestinationMarker(event.latLng);
+            });
+        }
+    }
+    function placeSearchDestinationMarker(location) {
+        if (searchDestinationMarker) {
+            searchDestinationMarker.setPosition(location);
+        }
+        else {
+            searchDestinationMarker = new google.maps.Marker({
+                position: location,
+                map: searchDestinationMap
+            });
+        }
+        document.getElementById('DestinationLat').value = location.lat();
+        document.getElementById('DestinationLon').value = location.lng();
+        reverseGeocodeSearchDestination(location.lat(), location.lng())
+    }
+
+    function reverseGeocodeSearchDestination(lat, lng) {
+        var latlng = new google.maps.LatLng(lat, lng);
+        var geocoder = new google.maps.Geocoder();
+        geocoder.geocode({ 'latLng': latlng }, function (results, status) {
+            if (status !== google.maps.GeocoderStatus.OK) {
+                alert(status);
+            }
+            if (status == google.maps.GeocoderStatus.OK) {
+                console.log(results);
+                document.getElementById('Destination').value = (results[0].formatted_address);
+            }
+            else {
+                document.getElementById('Destination').value = (lat + ":" + lng);
+            }
+        });
+    }
+</script>
+

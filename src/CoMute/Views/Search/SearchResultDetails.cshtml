@@ -1,0 +1,196 @@
+﻿@using CoMute.Web.Models
+@model JoinCarPoolRequest
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/jqueryval")
+@Scripts.Render("~/bundles/general")
+<div class="form-horizontal">
+    @using (Html.BeginForm(
+                actionName: "JoinCarPool",
+                controllerName: "Search",
+                routeValues: Model
+    ))
+    {
+        <hr />
+        <h4>Car pool details</h4>
+        <hr />
+        <div class="form-group">
+            @Html.LabelFor(model => model.CarPoolDepart, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="form-control-static col-md-10">
+                @Html.DisplayFor(model => model.CarPoolDepart, new { htmlAttributes = new { @class = "form-control" } })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.CarPoolArrive, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="form-control-static col-md-10">
+                @Html.DisplayFor(model => model.CarPoolArrive, new { htmlAttributes = new { @class = "form-control" } })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.CarPoolOrigin, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="form-control-static col-md-10">
+                @Html.DisplayFor(model => model.CarPoolOrigin, new { htmlAttributes = new { @class = "form-control" } })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.CarPoolDestination, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="form-control-static col-md-10">
+                @Html.DisplayFor(model => model.CarPoolDestination, new { htmlAttributes = new { @class = "form-control" } })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.SelectedDays, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.HiddenFor(model => model.SelectedDays)
+            @Html.HiddenFor(model => model.DaysWithSeats)
+            <div class="form-control-static col-md-10">
+                <div class="col-md-10">
+                    <div class="col-xs-1" style="width:13.9%">
+                        <label class="col-xs-12" style="display:block; text-align:center">Mon</label>
+                        <input id="hostMon" type="checkbox" value="1" class="col-xs-12" onclick="dayClick(this)">
+                    </div>
+                    <div class="col-xs-1" style="width:13.9%">
+                        <label class="col-xs-12" style="display:block; text-align:center">Tues</label>
+                        <input id="hostTues" type="checkbox" value="2" class="col-xs-12" onclick="dayClick(this)">
+                    </div>
+                    <div class="col-xs-1" style="width:13.9%">
+                        <label class="col-xs-12" style="display:block; text-align:center">Wed</label>
+                        <input id="hostWed" type="checkbox" value="4" class="col-xs-12" onclick="dayClick(this)">
+                    </div>
+                    <div class="col-xs-1" style="width:13.9%">
+                        <label class="col-xs-12" style="display:block; text-align:center">Thurs</label>
+                        <input id="hostThurs" type="checkbox" value="8" class="col-xs-12" onclick="dayClick(this)">
+                    </div>
+                    <div class="col-xs-1" style="width:13.9%">
+                        <label class="col-xs-12" style="display:block; text-align:center">Fri</label>
+                        <input id="hostFri" type="checkbox" value="16" class="col-xs-12" onclick="dayClick(this)">
+                    </div>
+                    <div class="col-xs-1" style="width:13.9%">
+                        <label class="col-xs-12" style="display:block; text-align:center">Sat</label>
+                        <input id="hostSat" type="checkbox" value="32" class="col-xs-12" onclick="dayClick(this)">
+                    </div>
+                    <div class="col-xs-1" style="width:13.9%">
+                        <label class="col-xs-12" style="display:block; text-align:center">Sun</label>
+                        <input id="hostSun" type="checkbox" value="64" class="col-xs-12" onclick="dayClick(this)">
+                    </div>
+                    <script type="text/javascript">
+                        function dayClick(t) {
+                            if (t.checked) {
+                                document.getElementById('SelectedDays').value = parseInt(document.getElementById('SelectedDays').value) + parseInt(t.value);
+                            }
+                            else {
+                                document.getElementById('SelectedDays').value = parseInt(document.getElementById('SelectedDays').value) - parseInt(t.value);
+                            }
+                        }
+
+                        $(document).ready(function () {
+                            if (isNaN(parseInt(document.getElementById('SelectedDays').value))) {
+                                document.getElementById('SelectedDays').value = 0
+                            }
+                            else {
+                                d = parseInt(document.getElementById('SelectedDays').value);
+                                hd = parseInt(document.getElementById('DaysWithSeats').value);
+                                i = 0;
+                                while (i < 7) {
+                                    p = Math.pow(2, i);
+                                    if ((d & p) == p) {
+                                        switch (i) {
+                                            case 0:
+                                                document.getElementById('hostMon').checked = true;
+                                                break;
+                                            case 1:
+                                                document.getElementById('hostTues').checked = true;
+                                                break;
+                                            case 2:
+                                                document.getElementById('hostWed').checked = true;
+                                                break;
+                                            case 3:
+                                                document.getElementById('hostThurs').checked = true;
+                                                break;
+                                            case 4:
+                                                document.getElementById('hostFri').checked = true;
+                                                break;
+                                            case 5:
+                                                document.getElementById('hostSat').checked = true;
+                                                break;
+                                            case 6:
+                                                document.getElementById('hostSun').checked = true;
+                                                break;
+                                        }
+                                    }
+                                    if ((hd & p) != p) {
+                                        switch (i) {
+                                            case 0:
+                                                document.getElementById('hostMon').disabled = "disabled";
+                                                break;
+                                            case 1:
+                                                document.getElementById('hostTues').disabled = "disabled";
+                                                break;
+                                            case 2:
+                                                document.getElementById('hostWed').disabled = "disabled";
+                                                break;
+                                            case 3:
+                                                document.getElementById('hostThurs').disabled = "disabled";
+                                                break;
+                                            case 4:
+                                                document.getElementById('hostFri').disabled = "disabled";
+                                                break;
+                                            case 5:
+                                                document.getElementById('hostSat').disabled = "disabled";
+                                                break;
+                                            case 6:
+                                                document.getElementById('hostSun').disabled = "disabled";
+                                                break;
+                                        }
+                                    }                
+                                    i++;;
+                                }
+                            }
+                        });
+                    </script>
+                    @Html.ValidationMessage("SelectedDays", "", new { @class = "text-danger col-xs-12", style = "padding:0px" })
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.Label("Host's name", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="form-control-static col-md-10">
+                @Html.DisplayFor(model => model.CarPoolHostUserName, new { htmlAttributes = new { @class = "form-control" } })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.Label("Host's surname", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="form-control-static col-md-10">
+                @Html.DisplayFor(model => model.CarPoolHostUserSurname, new { htmlAttributes = new { @class = "form-control" } })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.Label("Host's phone", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="form-control-static col-md-10">
+                @Html.DisplayFor(model => model.CarPoolHostUserPhone, new { htmlAttributes = new { @class = "form-control" } })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.Label("Host's email", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="form-control-static col-md-10">
+                @Html.DisplayFor(model => model.CarPoolHostUserEmailAddress, new { htmlAttributes = new { @class = "form-control" } })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.CarPoolNotes, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="form-control-static col-md-10">
+                @Html.DisplayFor(model => model.CarPoolNotes, new { htmlAttributes = new { @class = "form-control" } })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.ValidationSummary(true, "", new { @class = "text-danger col-md-offset-1 col-md-11" })
+        </div>
+
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <button type="submit" class="btn btn-primary" onclick="return confirm('Are you sure you wish to join this car pool?')">Join this car pool</button>
+            </div>
+        </div>
+    }
+</div>
+
+

@@ -1,0 +1,617 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="CarPools">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Depart" Type="time" Precision="7" Nullable="false" />
+          <Property Name="Arrive" Type="time" Precision="7" Nullable="false" />
+          <Property Name="Origin" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="Destination" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="DaysAvailable" Type="int" Nullable="false" />
+          <Property Name="Seats" Type="int" Nullable="false" />
+          <Property Name="HostUserId" Type="int" Nullable="false" />
+          <Property Name="Notes" Type="varchar" MaxLength="1000" />
+          <Property Name="Active" Type="bit" Nullable="false" />
+          <Property Name="CDate" Type="datetime" Nullable="false" />
+          <Property Name="OriginCoords" Type="geography" Nullable="false" />
+          <Property Name="DestinationCoords" Type="geography" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Participants">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserId" Type="int" Nullable="false" />
+          <Property Name="CarPoolId" Type="int" Nullable="false" />
+          <Property Name="DaysAvailable" Type="int" Nullable="false" />
+          <Property Name="Active" Type="bit" Nullable="false" />
+          <Property Name="CDate" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Surname" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Phone" Type="varchar" MaxLength="20" />
+          <Property Name="Email" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Password" Type="varchar" MaxLength="32" Nullable="false" />
+        </EntityType>
+        <Association Name="fk_CarPoolId">
+          <End Role="CarPools" Type="Self.CarPools" Multiplicity="1" />
+          <End Role="Participants" Type="Self.Participants" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CarPools">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Participants">
+              <PropertyRef Name="CarPoolId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_HostUserId">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="CarPools" Type="Self.CarPools" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CarPools">
+              <PropertyRef Name="HostUserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_UserId">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="Participants" Type="Self.Participants" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Participants">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="CancelCarPool" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="CarPoolId" Type="int" Mode="In" />
+          <Parameter Name="Output" Type="varchar" Mode="InOut" />
+        </Function>
+        <Function Name="CreateCarPool" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="HostUserId" Type="int" Mode="In" />
+          <Parameter Name="Departure" Type="time" Mode="In" />
+          <Parameter Name="Arrival" Type="time" Mode="In" />
+          <Parameter Name="Origin" Type="varchar" Mode="In" />
+          <Parameter Name="OriginLat" Type="float" Mode="In" />
+          <Parameter Name="OriginLon" Type="float" Mode="In" />
+          <Parameter Name="Destination" Type="varchar" Mode="In" />
+          <Parameter Name="DestinationLat" Type="float" Mode="In" />
+          <Parameter Name="DestinationLon" Type="float" Mode="In" />
+          <Parameter Name="DaysAvailable" Type="int" Mode="In" />
+          <Parameter Name="Seats" Type="int" Mode="In" />
+          <Parameter Name="Notes" Type="varchar" Mode="In" />
+          <Parameter Name="Output" Type="varchar" Mode="InOut" />
+        </Function>
+        <Function Name="GetHostedCarPools" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="HostUserId" Type="int" Mode="In" />
+          <Parameter Name="Output" Type="varchar" Mode="InOut" />
+        </Function>
+        <Function Name="GetJoinedCarPools" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="UserId" Type="int" Mode="In" />
+          <Parameter Name="Output" Type="varchar" Mode="InOut" />
+        </Function>
+        <Function Name="GetUser" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Id" Type="int" Mode="In" />
+          <Parameter Name="Output" Type="varchar" Mode="InOut" />
+        </Function>
+        <Function Name="JoinCarPool" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="UserId" Type="int" Mode="In" />
+          <Parameter Name="CarPoolId" Type="int" Mode="In" />
+          <Parameter Name="DaysAvailable" Type="int" Mode="In" />
+          <Parameter Name="Output" Type="varchar" Mode="InOut" />
+        </Function>
+        <Function Name="LeaveCarPool" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="CarPoolId" Type="int" Mode="In" />
+          <Parameter Name="UserId" Type="int" Mode="In" />
+          <Parameter Name="Output" Type="varchar" Mode="InOut" />
+        </Function>
+        <Function Name="RegisterUser" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Name" Type="varchar" Mode="In" />
+          <Parameter Name="Surname" Type="varchar" Mode="In" />
+          <Parameter Name="Phone" Type="varchar" Mode="In" />
+          <Parameter Name="Email" Type="varchar" Mode="In" />
+          <Parameter Name="Password" Type="varchar" Mode="In" />
+          <Parameter Name="Output" Type="varchar" Mode="InOut" />
+        </Function>
+        <Function Name="SearchCarPools" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Depart" Type="time" Mode="In" />
+          <Parameter Name="Arrive" Type="time" Mode="In" />
+          <Parameter Name="OriginLat" Type="float" Mode="In" />
+          <Parameter Name="OriginLon" Type="float" Mode="In" />
+          <Parameter Name="DestinationLat" Type="float" Mode="In" />
+          <Parameter Name="DestinationLon" Type="float" Mode="In" />
+          <Parameter Name="DaysAvailable" Type="int" Mode="In" />
+          <Parameter Name="Output" Type="varchar" Mode="InOut" />
+        </Function>
+        <Function Name="UpdatePassword" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Id" Type="int" Mode="In" />
+          <Parameter Name="Password" Type="varchar" Mode="In" />
+          <Parameter Name="Output" Type="varchar" Mode="InOut" />
+        </Function>
+        <Function Name="UpdateProfile" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Id" Type="int" Mode="In" />
+          <Parameter Name="Name" Type="varchar" Mode="In" />
+          <Parameter Name="Surname" Type="varchar" Mode="In" />
+          <Parameter Name="Phone" Type="varchar" Mode="In" />
+          <Parameter Name="Email" Type="varchar" Mode="In" />
+          <Parameter Name="Output" Type="varchar" Mode="InOut" />
+        </Function>
+        <Function Name="UserLogin" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Email" Type="varchar" Mode="In" />
+          <Parameter Name="Password" Type="varchar" Mode="In" />
+          <Parameter Name="Output" Type="varchar" Mode="InOut" />
+        </Function>
+        <EntityContainer Name="ModelStoreContainer">
+          <EntitySet Name="CarPools" EntityType="Self.CarPools" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Participants" EntityType="Self.Participants" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="fk_CarPoolId" Association="Self.fk_CarPoolId">
+            <End Role="CarPools" EntitySet="CarPools" />
+            <End Role="Participants" EntitySet="Participants" />
+          </AssociationSet>
+          <AssociationSet Name="fk_HostUserId" Association="Self.fk_HostUserId">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="CarPools" EntitySet="CarPools" />
+          </AssociationSet>
+          <AssociationSet Name="fk_UserId" Association="Self.fk_UserId">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Participants" EntitySet="Participants" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Participant">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+          <Property Name="CarPoolId" Type="Int32" Nullable="false" />
+          <Property Name="DaysAvailable" Type="Int32" Nullable="false" />
+          <Property Name="Active" Type="Boolean" Nullable="false" />
+          <Property Name="CDate" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="User" Relationship="Self.fk_UserId" FromRole="Participants" ToRole="Users" />
+          <NavigationProperty Name="CarPool" Relationship="Model.fk_CarPoolId" FromRole="Participant" ToRole="CarPool" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Surname" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Phone" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Password" Type="String" MaxLength="32" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Participants" Relationship="Self.fk_UserId" FromRole="Users" ToRole="Participants" />
+          <NavigationProperty Name="CarPools" Relationship="Model.fk_HostUserId" FromRole="User" ToRole="CarPool" />
+        </EntityType>
+        <Association Name="fk_UserId">
+          <End Role="Users" Type="Self.User" Multiplicity="1" />
+          <End Role="Participants" Type="Self.Participant" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Participants">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Entities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Participants" EntityType="Self.Participant" />
+          <EntitySet Name="Users" EntityType="Self.User" />
+          <AssociationSet Name="fk_UserId" Association="Self.fk_UserId">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Participants" EntitySet="Participants" />
+          </AssociationSet>
+          <FunctionImport Name="CancelCarPool">
+            <Parameter Name="CarPoolId" Mode="In" Type="Int32" />
+            <Parameter Name="Output" Mode="InOut" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="JoinCarPool">
+            <Parameter Name="UserId" Mode="In" Type="Int32" />
+            <Parameter Name="CarPoolId" Mode="In" Type="Int32" />
+            <Parameter Name="DaysAvailable" Mode="In" Type="Int32" />
+            <Parameter Name="Output" Mode="InOut" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="LeaveCarPool">
+            <Parameter Name="CarPoolId" Mode="In" Type="Int32" />
+            <Parameter Name="UserId" Mode="In" Type="Int32" />
+            <Parameter Name="Output" Mode="InOut" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="RegisterUser">
+            <Parameter Name="Name" Mode="In" Type="String" />
+            <Parameter Name="Surname" Mode="In" Type="String" />
+            <Parameter Name="Phone" Mode="In" Type="String" />
+            <Parameter Name="Email" Mode="In" Type="String" />
+            <Parameter Name="Password" Mode="In" Type="String" />
+            <Parameter Name="Output" Mode="InOut" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="UserLogin" ReturnType="Collection(Model.UserLogin_Result)">
+            <Parameter Name="Email" Mode="In" Type="String" />
+            <Parameter Name="Password" Mode="In" Type="String" />
+            <Parameter Name="Output" Mode="InOut" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="GetUser" ReturnType="Collection(Model.GetUser_Result)">
+            <Parameter Name="Id" Mode="In" Type="Int32" />
+            <Parameter Name="Output" Mode="InOut" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="UpdatePassword">
+            <Parameter Name="Id" Mode="In" Type="Int32" />
+            <Parameter Name="Password" Mode="In" Type="String" />
+            <Parameter Name="Output" Mode="InOut" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="UpdateProfile">
+            <Parameter Name="Id" Mode="In" Type="Int32" />
+            <Parameter Name="Name" Mode="In" Type="String" />
+            <Parameter Name="Surname" Mode="In" Type="String" />
+            <Parameter Name="Phone" Mode="In" Type="String" />
+            <Parameter Name="Email" Mode="In" Type="String" />
+            <Parameter Name="Output" Mode="InOut" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="GetHostedCarPools" ReturnType="Collection(Model.GetHostedCarPools_Result)">
+            <Parameter Name="HostUserId" Mode="In" Type="Int32" />
+            <Parameter Name="Output" Mode="InOut" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="GetJoinedCarPools" ReturnType="Collection(Model.GetJoinedCarPools_Result)">
+            <Parameter Name="UserId" Mode="In" Type="Int32" />
+            <Parameter Name="Output" Mode="InOut" Type="String" />
+          </FunctionImport>
+          <EntitySet Name="CarPools" EntityType="Model.CarPool" />
+          <AssociationSet Name="fk_CarPoolId" Association="Model.fk_CarPoolId">
+            <End Role="CarPool" EntitySet="CarPools" />
+            <End Role="Participant" EntitySet="Participants" />
+          </AssociationSet>
+          <AssociationSet Name="fk_HostUserId" Association="Model.fk_HostUserId">
+            <End Role="User" EntitySet="Users" />
+            <End Role="CarPool" EntitySet="CarPools" />
+          </AssociationSet>
+          <FunctionImport Name="CreateCarPool">
+            <Parameter Name="HostUserId" Mode="In" Type="Int32" />
+            <Parameter Name="Departure" Mode="In" Type="Time" />
+            <Parameter Name="Arrival" Mode="In" Type="Time" />
+            <Parameter Name="Origin" Mode="In" Type="String" />
+            <Parameter Name="OriginLat" Mode="In" Type="Double" />
+            <Parameter Name="OriginLon" Mode="In" Type="Double" />
+            <Parameter Name="Destination" Mode="In" Type="String" />
+            <Parameter Name="DestinationLat" Mode="In" Type="Double" />
+            <Parameter Name="DestinationLon" Mode="In" Type="Double" />
+            <Parameter Name="DaysAvailable" Mode="In" Type="Int32" />
+            <Parameter Name="Seats" Mode="In" Type="Int32" />
+            <Parameter Name="Notes" Mode="In" Type="String" />
+            <Parameter Name="Output" Mode="InOut" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SearchCarPools" ReturnType="Collection(Model.SearchCarPools_Result)">
+            <Parameter Name="Depart" Mode="In" Type="Time" />
+            <Parameter Name="Arrive" Mode="In" Type="Time" />
+            <Parameter Name="OriginLat" Mode="In" Type="Double" />
+            <Parameter Name="OriginLon" Mode="In" Type="Double" />
+            <Parameter Name="DestinationLat" Mode="In" Type="Double" />
+            <Parameter Name="DestinationLon" Mode="In" Type="Double" />
+            <Parameter Name="DaysAvailable" Mode="In" Type="Int32" />
+            <Parameter Name="Output" Mode="InOut" Type="String" />
+          </FunctionImport>
+        </EntityContainer>
+        <ComplexType Name="UserLogin_Result">
+          <Property Type="Int32" Name="Id" Nullable="false" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Surname" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Phone" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="Email" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Password" Nullable="false" MaxLength="32" />
+        </ComplexType>
+        <ComplexType Name="GetUser_Result">
+          <Property Type="Int32" Name="Id" Nullable="false" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Surname" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Phone" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="Email" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Password" Nullable="false" MaxLength="32" />
+        </ComplexType>
+        <ComplexType Name="GetHostedCarPools_Result">
+          <Property Type="Int32" Name="Id" Nullable="false" />
+          <Property Type="Time" Name="Depart" Nullable="false" />
+          <Property Type="Time" Name="Arrive" Nullable="false" />
+          <Property Type="String" Name="Origin" Nullable="false" MaxLength="200" />
+          <Property Type="Double" Name="OriginLat" Nullable="true" />
+          <Property Type="Double" Name="OriginLon" Nullable="true" />
+          <Property Type="String" Name="Destination" Nullable="false" MaxLength="200" />
+          <Property Type="Double" Name="DestinationLat" Nullable="true" />
+          <Property Type="Double" Name="DestinationLon" Nullable="true" />
+          <Property Type="Int32" Name="DaysAvailable" Nullable="false" />
+          <Property Type="Int32" Name="Seats" Nullable="false" />
+          <Property Type="String" Name="Notes" Nullable="true" MaxLength="1000" />
+          <Property Type="DateTime" Name="CDate" Nullable="false" Precision="23" />
+          <Property Type="Int32" Name="HostUserId" Nullable="false" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Surname" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Phone" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="Email" Nullable="false" MaxLength="50" />
+        </ComplexType>
+        <ComplexType Name="GetJoinedCarPools_Result">
+          <Property Type="Int32" Name="CarPoolId" Nullable="false" />
+          <Property Type="Time" Name="Depart" Nullable="false" />
+          <Property Type="Time" Name="Arrive" Nullable="false" />
+          <Property Type="String" Name="Origin" Nullable="false" MaxLength="200" />
+          <Property Type="Double" Name="OriginLat" Nullable="true" />
+          <Property Type="Double" Name="OriginLon" Nullable="true" />
+          <Property Type="String" Name="Destination" Nullable="false" MaxLength="200" />
+          <Property Type="Double" Name="DestinationLat" Nullable="true" />
+          <Property Type="Double" Name="DestinationLon" Nullable="true" />
+          <Property Type="Int32" Name="CarPoolDaysAvailable" Nullable="false" />
+          <Property Type="Int32" Name="Seats" Nullable="false" />
+          <Property Type="String" Name="Notes" Nullable="true" MaxLength="1000" />
+          <Property Type="DateTime" Name="CarPoolCDate" Nullable="false" Precision="23" />
+          <Property Type="Int32" Name="JoinedDaysAvailable" Nullable="false" />
+          <Property Type="DateTime" Name="JoinedCDate" Nullable="false" Precision="23" />
+          <Property Type="Int32" Name="HostUserId" Nullable="false" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Surname" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Phone" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="Email" Nullable="false" MaxLength="50" />
+        </ComplexType>
+        <EntityType Name="CarPool">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Depart" Type="Time" Nullable="false" Precision="7" />
+          <Property Name="Arrive" Type="Time" Nullable="false" Precision="7" />
+          <Property Name="Origin" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="Destination" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="DaysAvailable" Type="Int32" Nullable="false" />
+          <Property Name="Seats" Type="Int32" Nullable="false" />
+          <Property Name="HostUserId" Type="Int32" Nullable="false" />
+          <Property Name="Notes" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Name="Active" Type="Boolean" Nullable="false" />
+          <Property Name="CDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="OriginCoords" Type="Geography" Nullable="false" />
+          <Property Name="DestinationCoords" Type="Geography" Nullable="false" />
+          <NavigationProperty Name="Participants" Relationship="Model.fk_CarPoolId" FromRole="CarPool" ToRole="Participant" />
+          <NavigationProperty Name="User" Relationship="Model.fk_HostUserId" FromRole="CarPool" ToRole="User" />
+        </EntityType>
+        <Association Name="fk_CarPoolId">
+          <End Type="Model.CarPool" Role="CarPool" Multiplicity="1" />
+          <End Type="Model.Participant" Role="Participant" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CarPool">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Participant">
+              <PropertyRef Name="CarPoolId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_HostUserId">
+          <End Type="Model.User" Role="User" Multiplicity="1" />
+          <End Type="Model.CarPool" Role="CarPool" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CarPool">
+              <PropertyRef Name="HostUserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <ComplexType Name="SearchCarPools_Result">
+          <Property Type="Int32" Name="Id" Nullable="false" />
+          <Property Type="Time" Name="Depart" Nullable="false" />
+          <Property Type="Time" Name="Arrive" Nullable="false" />
+          <Property Type="String" Name="Origin" Nullable="false" MaxLength="200" />
+          <Property Type="Double" Name="OriginLat" Nullable="true" />
+          <Property Type="Double" Name="OriginLon" Nullable="true" />
+          <Property Type="String" Name="Destination" Nullable="false" MaxLength="200" />
+          <Property Type="Double" Name="DestinationLat" Nullable="true" />
+          <Property Type="Double" Name="DestinationLon" Nullable="true" />
+          <Property Type="Int32" Name="DaysAvailable" Nullable="false" />
+          <Property Type="Int32" Name="Seats" Nullable="false" />
+          <Property Type="String" Name="Notes" Nullable="true" MaxLength="1000" />
+          <Property Type="DateTime" Name="CDate" Nullable="false" Precision="23" />
+          <Property Type="Int32" Name="HostUserId" Nullable="false" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Surname" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Phone" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="Email" Nullable="false" MaxLength="50" />
+          <Property Type="Int32" Name="DaysWithSeats" Nullable="false" />
+        </ComplexType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ModelStoreContainer" CdmEntityContainer="Entities">
+          <EntitySetMapping Name="Participants">
+            <EntityTypeMapping TypeName="Model.Participant">
+              <MappingFragment StoreEntitySet="Participants">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="CarPoolId" ColumnName="CarPoolId" />
+                <ScalarProperty Name="DaysAvailable" ColumnName="DaysAvailable" />
+                <ScalarProperty Name="Active" ColumnName="Active" />
+                <ScalarProperty Name="CDate" ColumnName="CDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="Model.User">
+              <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Surname" ColumnName="Surname" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="CancelCarPool" FunctionName="Model.Store.CancelCarPool" />
+          <FunctionImportMapping FunctionImportName="JoinCarPool" FunctionName="Model.Store.JoinCarPool" />
+          <FunctionImportMapping FunctionImportName="LeaveCarPool" FunctionName="Model.Store.LeaveCarPool" />
+          <FunctionImportMapping FunctionImportName="RegisterUser" FunctionName="Model.Store.RegisterUser" />
+          <FunctionImportMapping FunctionImportName="UserLogin" FunctionName="Model.Store.UserLogin">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="Model.UserLogin_Result">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Surname" ColumnName="Surname" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetUser" FunctionName="Model.Store.GetUser">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="Model.GetUser_Result">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Surname" ColumnName="Surname" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="UpdatePassword" FunctionName="Model.Store.UpdatePassword" />
+          <FunctionImportMapping FunctionImportName="UpdateProfile" FunctionName="Model.Store.UpdateProfile" />
+          <FunctionImportMapping FunctionImportName="GetHostedCarPools" FunctionName="Model.Store.GetHostedCarPools">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="Model.GetHostedCarPools_Result">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Depart" ColumnName="Depart" />
+                <ScalarProperty Name="Arrive" ColumnName="Arrive" />
+                <ScalarProperty Name="Origin" ColumnName="Origin" />
+                <ScalarProperty Name="OriginLat" ColumnName="OriginLat" />
+                <ScalarProperty Name="OriginLon" ColumnName="OriginLon" />
+                <ScalarProperty Name="Destination" ColumnName="Destination" />
+                <ScalarProperty Name="DestinationLat" ColumnName="DestinationLat" />
+                <ScalarProperty Name="DestinationLon" ColumnName="DestinationLon" />
+                <ScalarProperty Name="DaysAvailable" ColumnName="DaysAvailable" />
+                <ScalarProperty Name="Seats" ColumnName="Seats" />
+                <ScalarProperty Name="Notes" ColumnName="Notes" />
+                <ScalarProperty Name="CDate" ColumnName="CDate" />
+                <ScalarProperty Name="HostUserId" ColumnName="HostUserId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Surname" ColumnName="Surname" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetJoinedCarPools" FunctionName="Model.Store.GetJoinedCarPools">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="Model.GetJoinedCarPools_Result">
+                <ScalarProperty Name="CarPoolId" ColumnName="CarPoolId" />
+                <ScalarProperty Name="Depart" ColumnName="Depart" />
+                <ScalarProperty Name="Arrive" ColumnName="Arrive" />
+                <ScalarProperty Name="Origin" ColumnName="Origin" />
+                <ScalarProperty Name="OriginLat" ColumnName="OriginLat" />
+                <ScalarProperty Name="OriginLon" ColumnName="OriginLon" />
+                <ScalarProperty Name="Destination" ColumnName="Destination" />
+                <ScalarProperty Name="DestinationLat" ColumnName="DestinationLat" />
+                <ScalarProperty Name="DestinationLon" ColumnName="DestinationLon" />
+                <ScalarProperty Name="CarPoolDaysAvailable" ColumnName="CarPoolDaysAvailable" />
+                <ScalarProperty Name="Seats" ColumnName="Seats" />
+                <ScalarProperty Name="Notes" ColumnName="Notes" />
+                <ScalarProperty Name="CarPoolCDate" ColumnName="CarPoolCDate" />
+                <ScalarProperty Name="JoinedDaysAvailable" ColumnName="JoinedDaysAvailable" />
+                <ScalarProperty Name="JoinedCDate" ColumnName="JoinedCDate" />
+                <ScalarProperty Name="HostUserId" ColumnName="HostUserId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Surname" ColumnName="Surname" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="CarPools">
+            <EntityTypeMapping TypeName="Model.CarPool">
+              <MappingFragment StoreEntitySet="CarPools">
+                <ScalarProperty Name="DestinationCoords" ColumnName="DestinationCoords" />
+                <ScalarProperty Name="OriginCoords" ColumnName="OriginCoords" />
+                <ScalarProperty Name="CDate" ColumnName="CDate" />
+                <ScalarProperty Name="Active" ColumnName="Active" />
+                <ScalarProperty Name="Notes" ColumnName="Notes" />
+                <ScalarProperty Name="HostUserId" ColumnName="HostUserId" />
+                <ScalarProperty Name="Seats" ColumnName="Seats" />
+                <ScalarProperty Name="DaysAvailable" ColumnName="DaysAvailable" />
+                <ScalarProperty Name="Destination" ColumnName="Destination" />
+                <ScalarProperty Name="Origin" ColumnName="Origin" />
+                <ScalarProperty Name="Arrive" ColumnName="Arrive" />
+                <ScalarProperty Name="Depart" ColumnName="Depart" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="CreateCarPool" FunctionName="Model.Store.CreateCarPool" />
+          <FunctionImportMapping FunctionImportName="SearchCarPools" FunctionName="Model.Store.SearchCarPools">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="Model.SearchCarPools_Result">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Depart" ColumnName="Depart" />
+                <ScalarProperty Name="Arrive" ColumnName="Arrive" />
+                <ScalarProperty Name="Origin" ColumnName="Origin" />
+                <ScalarProperty Name="OriginLat" ColumnName="OriginLat" />
+                <ScalarProperty Name="OriginLon" ColumnName="OriginLon" />
+                <ScalarProperty Name="Destination" ColumnName="Destination" />
+                <ScalarProperty Name="DestinationLat" ColumnName="DestinationLat" />
+                <ScalarProperty Name="DestinationLon" ColumnName="DestinationLon" />
+                <ScalarProperty Name="DaysAvailable" ColumnName="DaysAvailable" />
+                <ScalarProperty Name="Seats" ColumnName="Seats" />
+                <ScalarProperty Name="Notes" ColumnName="Notes" />
+                <ScalarProperty Name="CDate" ColumnName="CDate" />
+                <ScalarProperty Name="HostUserId" ColumnName="HostUserId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Surname" ColumnName="Surname" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="DaysWithSeats" ColumnName="DaysWithSeats" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

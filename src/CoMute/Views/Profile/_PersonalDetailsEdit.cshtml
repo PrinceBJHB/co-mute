@@ -1,0 +1,63 @@
+﻿@using CoMute.Web.Models
+@model User
+<div class="form-horizontal">
+    <section id="personalDetailsEdit">
+
+        <h4>Edit personal details</h4>
+        <hr />
+        @using (Ajax.BeginForm(
+              actionName: "UpdatePersonalDetails",
+              controllerName: "Profile",
+              routeValues: new { },
+              ajaxOptions: new AjaxOptions { UpdateTargetId = "PersonalDetails", HttpMethod = "POST", OnSuccess = "sectionFadeIn('#personalDetailsView')" },
+              htmlAttributes: new { Class = "form-horizontal" }))
+            {
+                @Html.HiddenFor(model => model.Id)
+                @Html.HiddenFor(model => model.Password)
+                @Html.HiddenFor(model => model.ConfirmPassword)
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-sm-4 col-md-2" })
+                    <div class="col-sm-8 col-md-10">
+                        @Html.EditorFor(model => model.Name, new { htmlAttributes = new { id = "name", @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Surname, htmlAttributes: new { @class = "control-label col-sm-4 col-md-2" })
+                    <div class="col-sm-8 col-md-10">
+                        @Html.EditorFor(model => model.Surname, new { htmlAttributes = new { id = "surname", @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Surname, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Phone, htmlAttributes: new { @class = "control-label col-sm-4 col-md-2" })
+                    <div class="col-sm-8 col-md-10">
+                        @Html.EditorFor(model => model.Phone, new { htmlAttributes = new { id = "phone", @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Phone, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.EmailAddress, htmlAttributes: new { @class = "control-label col-sm-4 col-md-2" })
+                    <div class="col-sm-8 col-md-10">
+                        @Html.EditorFor(model => model.EmailAddress, new { htmlAttributes = new { type = "text", id = "email", @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.EmailAddress, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-sm-offset-4 col-md-offset-2 col-sm-8 col-md-10">
+                        <input id="btnSavePersonalDetails" type="submit" value="Save" class="btn btn-primary" />
+                        @Ajax.ActionLink(
+                        linkText: "Cancel",
+                        actionName: "ViewPersonalDetails",
+                        controllerName: "Profile",
+                        routeValues: new { },
+                        ajaxOptions: new AjaxOptions { UpdateTargetId = "PersonalDetails", InsertionMode = InsertionMode.Replace, OnSuccess = "sectionFadeIn('#personalDetailsView')" },
+                        htmlAttributes: new { Class = "btn btn-primary" }
+                      )
+                    </div>
+                </div>
+            }
+    </section>
+</div>
+

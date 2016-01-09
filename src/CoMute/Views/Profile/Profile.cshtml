@@ -1,0 +1,49 @@
+﻿@{
+    ViewBag.Title = "Profile";
+}
+<h2>My Profile</h2>
+<div id="content">
+    <ul id="tabs" class="nav nav-tabs" data-tabs="tabs">
+        <li class="active">
+            <a href="#JoinedCarPoolsTab" data-toggle="tab" class="btn-primary ">Joined Car Pools</a>
+        </li>
+        <li>
+            <a href="#HostedCarPoolsTab" data-toggle="tab" class="btn-primary">Hosted Car Pools</a>
+        </li>
+        <li>
+            <a href="#PersonalDetailsTab" data-toggle="tab" class="btn-primary">Personal Details</a>
+        </li>
+        <li>
+            <a href="#UpdatePasswordTab" data-toggle="tab" class="btn-primary">Update Password</a>
+        </li>
+    </ul>
+
+    <div id="my-tab-content" class="tab-content">
+        <div class="tab-pane fade in active" id="JoinedCarPoolsTab">
+            <div id="JoinedCarPools">
+                @{ Html.RenderAction("ViewJoinedCarPools");}
+            </div>
+        </div>
+
+        <div class="tab-pane fade" id="HostedCarPoolsTab">
+            <div id="HostedCarPools">
+                @{ Html.RenderAction("ViewHostedCarPools"); }
+            </div>
+        </div>
+
+        <div class="tab-pane fade" id="PersonalDetailsTab">
+            <div id="PersonalDetails">
+                @{ Html.RenderAction("ViewPersonalDetails"); }s
+            </div>
+        </div>
+        <div class="tab-pane fade" id="UpdatePasswordTab">
+            <div id="UpdatePassword">
+                @{ Html.RenderAction("UpdatePassword"); }
+            </div>
+        </div>
+    </div>
+</div>
+
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/jqueryval")
+@Scripts.Render("~/bundles/general")
