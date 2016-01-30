@@ -22,5 +22,15 @@ namespace CoMute.Web.Controllers.Web
         {
             return View();
         }
+
+        public ActionResult Profile()
+        {
+            return  View();
+        }
+
+        public ActionResult Search()
+        {
+            return View();
+        }
     }
 }

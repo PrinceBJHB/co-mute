@@ -1,0 +1,33 @@
+﻿@model CoMute.Web.Models.Dto.UserProfile
+
+@{
+    ViewBag.Title = "Profile";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<form id="register">
+    <h2>Profile Information</h2>
+
+    <div id="error" class="row row-margin hidden">
+        <div class="col-md-4 col-md-offset-4 alert alert-danger">
+            <p></p>
+        </div>
+    </div>
+
+    <div class="form-group">    
+        <label for="name" id="proName">Name</label>
+    </div>
+
+    <div class="form-group">
+        <label for="surname" id="proSurname">Surname</label>
+    </div>
+
+    <div class="form-group">
+        <label for="phone" id="proNumber">Phone</label>
+    </div>
+
+    <div class="form-group">
+        <label for="email" id="proEmail">Email</label>
+    </div>
+
+</form>

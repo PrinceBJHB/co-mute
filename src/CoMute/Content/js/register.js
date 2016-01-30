@@ -28,12 +28,16 @@
         }
 
         var cpswd = $('#confirm-password').val();
-        if (!email) {
+        if (cpswd != pswd) {
+            alert("Passwords do not match");
             return;
         }
 
         $.post('/api/user', { name: name, surname: surname, phoneNumber: phone, emailAddress: email, password: pswd }, function (data) {
             // TODO: Navigate away...
+            alert("Registration Successful, You may go sign in to your new profile!");
+            window.location = '/';
+
         }).fail(function (data) {
             var $alert = $("#error");
             var $p = $alert.find("p");
@@ -46,4 +50,6 @@
             }, 3000);
         });
     });
+
+
 })(window, jQuery);

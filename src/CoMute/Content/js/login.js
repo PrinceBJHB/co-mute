@@ -11,9 +11,29 @@
             return;
         }
 
-        $.post('/api/Authentication', { email: email, password: pswd }, function (data) {
+        $.post('/api/Authentication', { email: email, password: pswd }, function(data) {
             // TODO: Navigate away...
-        }).fail(function (data) {
+            $.post('/api/user/profile/',
+                { email: email },
+                function (data) {
+
+                    sessionStorage['email'] = email;
+                    window.alert('viewing profile' + data["Name"]);
+                    window.location = '/home/profile'
+
+                    var $list = text.find("#proName");
+                    list.append(data["Name"]);
+
+                    $("proName").html(data["Name"]);
+
+
+                }).fail(
+                    function (data) {
+                        window.alert('cannot view profile');
+                    }
+                );
+
+    }).fail(function (data) {
             var $alert = $("#error");
             var $p = $alert.find("p");
             $p.text('Incorrect email and password combination');
